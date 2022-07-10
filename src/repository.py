@@ -115,11 +115,11 @@ class Repository:
 if __name__ == '__main__':
     repo = Repository()
 
-    user_list = []
-    for i in range(10, 15):
-        user_list += [User('Inbal_' + str(rnd(0, 99)), str(rnd(111111, 999999)), 'ILOVELeg' + str(i) + '@gmail.com', 1)]
+    # user_list = []
+    # for i in range(10, 15):
+    #     user_list += [User('Inbal_' + str(rnd(0, 99)), str(rnd(111111, 999999)), 'ILOVELeg' + str(i) + '@gmail.com', 1)]
     #     repo.add(user_list[0])
-    repo.add_all(user_list)
+    # repo.add_all(user_list)
     # print(repo.get_all(Repository))
 
     # inbal1 = repo.get_by_id(User, '0')
