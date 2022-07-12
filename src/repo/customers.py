@@ -9,7 +9,6 @@ class Customer(base):
     last_name = Column(String(30), nullable=False)
     address = Column(String(80))
     phone_no = Column(String(25))
-    # credit_card_no = Column(Integer, nullable=False)
     user_id = Column(Integer, nullable=False, unique=True)
 
     def __init__(self,
@@ -20,7 +19,6 @@ class Customer(base):
         self.last_name = last_name
         self.address = address
         self.phone_no = phone_no
-        # self.credit_card_no = credit_card_no
         self.user_id = user_id
 
 

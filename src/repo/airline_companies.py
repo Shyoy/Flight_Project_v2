@@ -8,15 +8,15 @@ class AirlineCompany(base):
     name = Column(String(50), nullable=False)
     country = Column(String(80), nullable=False)
     user_id = Column(Integer, nullable=False, unique=True)
-    user_role = Column(Integer, nullable=False)
 
-    def __init__(self, name: str, country: str, user_id: int, user_role: int):
+    def __init__(self, name: str, country: str, user_id: int):
         self.name = name
         self.country = country
         self.user_id = user_id
-        self.user_role = user_role
         # self.flights = []
 
 
 if __name__ == '__main__':
-    base.metadata.create_all(engine)
+
+    # base.metadata.create_all(engine)
+    pass

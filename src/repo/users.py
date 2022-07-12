@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from src.my_config import engine, base
-from hashlib import sha256
+from src.my_config import engine, base, sha256
 
 
 class User(base):
@@ -9,7 +8,7 @@ class User(base):
     username = Column(String(20), nullable=False, unique=True)
     password = Column(String(80), nullable=False)
     email = Column(String(50), nullable=False, unique=True)
-    user_role = Column(Integer, nullable=False)
+    user_role = Column(String, nullable=False)
 
     def __init__(self, username: str, password: str, email: str, user_role: int):
 

@@ -1,0 +1,10 @@
+<2022-07-12 19:13:34,463--sqlalchemy.engine.Engine--INFO>:
+_begin_impl ->BEGIN (implicit)
+<2022-07-12 19:13:34,465--sqlalchemy.engine.Engine--INFO>:
+_execute_context ->SELECT "Airline_Companies".airline_id AS "Airline_Companies_airline_id", "Airline_Companies".name AS "Airline_Companies_name", "Airline_Companies".country AS "Airline_Companies_country", "Airline_Companies".user_id AS "Airline_Companies_user_id" 
+FROM "Airline_Companies" 
+WHERE lower("Airline_Companies".country) LIKE lower(?)
+<2022-07-12 19:13:34,465--sqlalchemy.engine.Engine--INFO>:
+_execute_context ->[generated in 0.00017s] ('%sdadsa22%',)
+<2022-07-12 19:13:34,466--root--INFO>:
+get_airlines_by_country ->get_airlines_by_country() -> Found 0 airlines in sdadsa22
