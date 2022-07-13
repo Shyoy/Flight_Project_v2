@@ -64,7 +64,9 @@ def add_flights(flights_per_airline: int, airlines_id: list):
             new_flight = Flight(airline_obj._id, countrys[0], countrys[1], depart_time, land_time)
 
             repo.add(new_flight)
-    pass
+
+def add_Tickets():
+    repo = Repository()
 
 
 def fill_country_table():

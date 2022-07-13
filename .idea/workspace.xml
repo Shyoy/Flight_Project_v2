@@ -2,18 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="47d690f9-ed21-4673-a545-c1f5142b6833" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DBFlight.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/DBFlight.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/create_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/create_db.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/insert.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/insert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/my_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/my_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repo/administrators.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repo/administrators.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/repo/airline_companies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repo/airline_companies.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repo/countries.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repo/countries.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/repo/customers.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repo/customers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/repo/flights.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repo/flights.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repo/repo.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repo/tickets.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repo/tickets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

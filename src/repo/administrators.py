@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 from src.my_config import engine, base
 
 
@@ -7,7 +7,7 @@ class Administrator(base):
     _id = Column('admin_id', Integer, primary_key=True)
     first_name = Column(String(30), nullable=False)
     last_name = Column(String(30), nullable=False)
-    user_id = Column(Integer, nullable=False, unique=True)
+    user_id = Column(Integer, ForeignKey("Customers.customer_id"), nullable=False, unique=True)
 
     def __init__(self, first_name: str, last_name: str, user_id: int):
         self.first_name = first_name

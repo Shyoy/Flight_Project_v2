@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, UniqueConstraint
+from sqlalchemy import Column, Integer, String, DateTime, UniqueConstraint, ForeignKey
 from src.my_config import engine, base
 from datetime import datetime
 
@@ -6,9 +6,9 @@ from datetime import datetime
 class Flight(base):
     __tablename__ = 'Flights'
     _id = Column('flight_id', Integer, primary_key=True)
-    airline_company_id = Column(Integer, nullable=False)  #FK
-    origin_country = Column(Integer, nullable=False)  #FK
-    destination_country = Column(Integer, nullable=False) #FK
+    airline_company_id = Column(Integer, ForeignKey("Airline_Companies.airline_id"), nullable=False)
+    origin_country = Column(Integer, ForeignKey("Countries.country_id"), nullable=False)
+    destination_country = Column(Integer, ForeignKey("Countries.country_id"), nullable=False)
     departure_time = Column(DateTime, nullable=False)
     landing_time = Column(DateTime, nullable=False)
     remaining_tickets = Column(Integer, default=150)
