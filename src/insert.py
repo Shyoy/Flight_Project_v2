@@ -2,7 +2,8 @@ from src.repository import *
 from faker import Faker
 import json
 import base64
-from random import choice
+from random import choice, randint, shuffle
+from datetime import datetime, timedelta
 
 
 def add_users(n: int): ##TODO connect to customer User
@@ -47,8 +48,22 @@ def add_airlines(n: int):
         repo.add(new_airline)
 
 
-def add_flights(airline_obj: object):
+def add_flights(flights_per_airline: int, airlines_id: list):
+    repo = Repository()
+    fake = Faker()
+    for _id in airlines_id:
+        airline_obj = repo.get_by_id('Airline_Companies', _id)
+        for i in range(flights_per_airline):
+            country_a = repo.get_by_id('Countries', randint(1, 245)).country
+            countrys = [airline_obj.country, country_a]
+            shuffle(countrys)
+            depart_time = fake.date_time_this_year(before_now=False, after_now=True)
+            land_time = depart_time + timedelta(hours=randint(3, 12))
+            print(depart_time)
+            print(land_time)
+            new_flight = Flight(airline_obj._id, countrys[0], countrys[1], depart_time, land_time)
 
+            repo.add(new_flight)
     pass
 
 
@@ -86,11 +101,14 @@ if __name__ == '__main__':
     # add_users(4)
     # add_airlines(6)
 
-    blue_jet = repo.get_by_id('Airline_Companies', 8)
-    print(blue_jet.name)
-    # add_flights(blue_jet)
+
+    # print(blue_jet.name)
+    add_flights(5, list(range(1, 18)))
+    range(1, 18)
+
+
     # update_all()
-    # delete_row('Users', list(range(2, 15)))
+    # delete_row('Countries', list([167]))
 
 
     pass

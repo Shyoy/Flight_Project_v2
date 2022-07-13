@@ -5,7 +5,7 @@ from src.my_config import engine, base
 class Country(base):
     __tablename__ = 'Countries'
     _id = Column('country_id', Integer, primary_key=True)
-    country = Column(String(80), nullable=False)
+    country = Column(String(80), nullable=False, unique=True)
     pic_base64 = Column(String(1000))
 
     def __init__(self, country: str, pic_base64: str):

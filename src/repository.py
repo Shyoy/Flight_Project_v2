@@ -5,8 +5,9 @@ from src.repo.flights import Flight
 from src.repo.tickets import Ticket
 from src.repo.airline_companies import AirlineCompany
 from src.repo.countries import Country
-from src.my_config import log, engine, Session
+from src.my_config import log, engine, Session, func
 from random import randint as rnd
+from datetime import datetime, timedelta
 
 
 class Repository:
@@ -30,38 +31,36 @@ class Repository:
             table = self.tables_d[table_name]
             obj = self.session.query(table).get(_id)
             if obj:
-                log.info(f"get_by_id() -> Finds object in {table_name} table")
+                log.info(f"Finds object in {table_name} table")
                 return obj
             else:
-                log.info(f"get_by_id() -> cant find id: {_id} in {table_name} table")
+                log.info(f"cant find id: {_id} in {table_name} table")
         else:
-            log.info(f"get_by_id() -> Failed, make sure: {table_name} is an existing table.")
+            log.info(f"Failed, make sure: {table_name} is an existing table.")
 
     def get_all(self, kind: object) -> list:  ##TODO fix kind to table name
         """get all rows of a selected table into a list of obj"""
         try:
             table = self.session.query(kind).all()
-            log.info(f"get_all() -> created a list of all {kind.__name__}")
+            log.info(f"created a list of all {kind.__name__}")
             return table
         except Exception as e:
-            log.info(f"get_all() -> Failed and didn't find the table: {kind}")
-            log.error(f"get_all() -> {e}")
+            log.info(f"Failed and didn't find the table: {kind}")
+            log.error(f"{e}")
 
     def add(self, kind: object):  ##TODO fix kind to table name
         """Add an object to a selected table"""
         try:
             self.session.add(kind)
             self.session.commit()
-            log.info(f"add() -> Added a {kind}")
+            log.info(f"Added a {kind}")
         except Exception as e:
-            log.info(f"add() -> failed to add: {kind}")
-            log.error(f"add() -> {e}")
+            log.info(f"failed to add: {kind}")
+            log.error(f"{e}")
 
-    def update(self, col: str, obj: object, val: str):  ## TODO after add
+    def update(self, col: str, obj: object, val: str):
         if type(obj) not in self.tables_d.values():
-            # print(type(obj))
-            # print(self.tables_d["Users"])
-            log.info(f"update() -> Make sure ur parameters are as it should be")
+            log.info(f"Make sure ur parameters are as it should be")
             return None
 
         attr = list(obj.__dict__.keys())[1:]
@@ -69,13 +68,13 @@ class Repository:
             try:
                 setattr(obj, col, val)
                 self.session.commit()
-                log.info(f"update() -> updated {obj.__tablename__} in column {col} id:{obj._id} ")
+                log.info(f"updated {obj.__tablename__} in column {col} id:{obj._id} ")
             except Exception as e:
-                log.info(f"update() -> failed to update to: {val} \n\
+                log.info(f"failed to update to: {val} \n\
                 make sure you know the constraints of this table")
-                log.error(f"update() -> {e}")
+                log.error(f"{e}")
         else:
-            log.info(f"update() -> Failed make sure that the column exist in table")
+            log.info(f"Failed make sure that the column exist in table")
 
         # no use for update because it's not a real database for now
 
@@ -88,86 +87,114 @@ class Repository:
                 self.session.commit()
                 count += 1
             except Exception as e:
-                log.info(f"add_all() -> failed to add: {obj} objects to the database")
-                log.error(f"add_all() -> {e}")
+                log.info(f"failed to add: {obj} objects to the database")
+                log.error(f"{e}")
             finally:
                 self.session.close()
-        log.info(f"add_all() -> added {count} objects to the database")
+        log.info(f"added {count} objects to the database")
 
     def remove(self, obj: object):
         """Removes an object from our dictionary"""
         if obj:
             try:
                 self.session.delete(obj)
-                log.info("remove() -> object deleted")
+                log.info("Object deleted")
                 self.session.commit()
             except Exception as e:
-                log.info(f"remove() -> Failed this object doesn't exist in database \n{e}")
-                log.error(f"remove() -> {e}")
+                log.info(f"Failed this object doesn't exist in database \n{e}")
+                log.error(f"{e}")
         else:
-            log.info(f"remove() -> Failed 'obj' Must be a table object ")
+            log.info(f"Failed 'obj' Must be a table object ")
 
     def get_airlines_by_country(self, country: str) -> list:
-        airlines = self.session.query(AirlineCompany).\
-                filter(AirlineCompany.country.ilike(f"%{country}%"))
+        """ search Airline_Companies table for country parm """
+
+        # Check for country in table and return a list
+        airlines = self.session.query(AirlineCompany). \
+            filter(AirlineCompany.country.ilike(f"%{country}%")).all()
+
+        # Check if airlines list is None
         if airlines:
-            log.info(f"get_airlines_by_country() -> Found {len(list(airlines))} airlines in {country}")
+            log.info(f"Found {len(airlines)} airlines in {country}")
             return airlines
+        # Return None
         else:
-            log.info(f"get_airlines_by_country() -> Failed this 'country' parm doesnt exist in the database")
+            log.info(f"Failed '{country}' country doesnt exist in the database")
 
-    def get_flights_by_origin_country_id(self, country_id):
-        pass
+    def get_flights_by_origin_country(self, country: str) -> list:
+        """ search Flights table for country parm in origin col """
 
-    def get_flights_by_destination_country_id(self, country_id):
-        pass
+        # Check for country in table and return a list
+        flights = self.session.query(Flight). \
+            filter(Flight.origin_country.ilike(f"%{country}%")).all()
 
-    def get_flights_by_departure_date(self, date):
-        pass
+        # Check if flights list is None
+        if flights:
+            log.info(f"Found {len(flights)} flights from {country}")
+            return flights
+        # Return None
+        else:
+            log.info(f"Failed '{country}' country doesnt exist in the database")
 
-    def get_flights_by_landing_date(self, country_id):
-        pass
+    def get_flights_by_destination_country(self, country: str) -> list:
+        """ search Flights table for country parm in destination col """
 
+        # Check for country in table and return a list
+        flights = self.session.query(Flight). \
+            filter(Flight.destination_country.ilike(f"%{country}%")).all()
 
-# if __name__ == '__main__':
-#     # logging
-#     user = Users('Shy', "32144661", 'shy@gmail.com', 1)
-#     repo.add(Users('Wizz', "3213215", 'Wizz@gmail.com', 2))
-#     repo.add(Countries('Greece'))
-#     # repo.add(AirlineCompanies('Wizz', "Greece", repo.get_all()[Users][-1].user_id))
-#     wizz = repo.get_by_id(AirlineCompanies, 11111)
-#     # if wizz:
-#     #     print(wizz.name)
-#     # repo.remove(wizz)
-#     # # repo.remove(user)
-#     #
-#     # wizz = repo.get_by_id(AirlineCompanies, 11111)
-#
-#     print("\n", repo.get_all())
+        # Check if flights list is None
+        if flights:
+            log.info(f"Found {len(flights)} flights to {country}")
+            return flights
+        # Return None
+        else:
+            log.info(f"Failed '{country}' country doesnt exist in the database")
+
+    def get_flights_by_departure_date(self, date: datetime) -> list:
+        """ search Flights table for date parm in departure_date col """
+        depart_day = date.date()
+
+        # Check for date in table and return a list
+        flights = self.session.query(Flight). \
+            filter(func.date(Flight.departure_time) == depart_day).all()
+
+        # Check if flights list is None
+        if flights:
+            log.info(f"Found {len(flights)} departing flights at {depart_day}")
+            return flights
+        # Return None
+        else:
+            log.info(f"Failed this date: '{depart_day}' doesnt exist in the database")
+
+    def get_flights_by_landing_date(self, date: datetime) -> list:
+        """ search Flights table for date parm in landing_date col """
+        lan_day = date.date()
+
+        # Check for date in table and return a list
+        flights = self.session.query(Flight). \
+            filter(func.date(Flight.landing_time) == lan_day).all()
+
+        # Check if flights list is None
+        if flights:
+            log.info(f"Found {len(flights)} incoming flights at {lan_day}")
+            return flights
+        # Return None
+        else:
+            log.info(f"Failed this date: '{lan_day}' doesnt exist in the database")
+
 
 if __name__ == '__main__':
     repo = Repository()
-    repo.get_airlines_by_country("sdadsa22")
-    # user_list = []
-    # for i in range(10, 15):
-    #     user_list += [User('Inbal_' + str(rnd(0, 99)), str(rnd(111111, 999999)), 'ILOVELeg' + str(i) + '@gmail.com', 1)]
-    #     repo.add(user_list[0])
-    # repo.add_all(user_list)
-    # print(repo.get_all(Repository))
+    dat = datetime(year=2022, month=9, day=22)
+    repo.get_airlines_by_country("United States")
+    # repo.get_flights_by_origin_country('France')
+    # repo.get_flights_by_destination_country('France')
 
-    # inbal1 = repo.get_by_id(User, '0')
-    # print(inbal1)
-    # print(f"{inbal1._id}: {inbal1.username}: {inbal1.email}")
-    # inbal1.email = "ILoveArk15@gmail.com"
-    # inbal1.username = "ARkbal"
-    # print(f"{inbal1.username}: {inbal1.email}")
-    # repo.add(inbal1)
-    # print(user_list[0])
-    # print(inbal6)
+    # flt = repo.get_flights_by_departure_date(dat)
+    # flt = repo.get_flights_by_landing_date(dat)
 
-    # repo.remove(inbal6)
-    # user_table = repo.get_all(Users)
-    # print(user_table[0].username)
-    # print(new_user.id)
+
+    # print(f"FLights: {str(flt[0].departure_time)[:4]}")
 
     pass

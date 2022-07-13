@@ -8,7 +8,7 @@ class Customer(base):
     first_name = Column(String(30), nullable=False)
     last_name = Column(String(30), nullable=False)
     address = Column(String(80))
-    phone_no = Column(String(25))
+    phone_no = Column(String(25), unique=True)
     user_id = Column(Integer, nullable=False, unique=True)
 
     def __init__(self,

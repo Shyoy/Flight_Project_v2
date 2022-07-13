@@ -9,5 +9,5 @@ from src.my_config import engine, base
 
 
 if __name__ == '__main__':
-    # AirlineCompany.__table__.drop(engine)
+    # Ticket.__table__.drop(engine)
     base.metadata.create_all(engine)
