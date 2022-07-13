@@ -13,7 +13,9 @@ from datetime import datetime, timedelta
 class Repository:
 
     def __init__(self):
+        # Open session so we can edit database
         self.session = Session()
+        # Dictionary with table names as keys and class name as value
         self.tables_d = {
             User.__tablename__: User,
             Administrator.__tablename__: Administrator,
@@ -26,7 +28,11 @@ class Repository:
 
     def get_by_id(self, table_name: str, _id: int) -> object:
         """Finds the id given ,in a table."""
+
+        # format table name
         table_name = '_'.join([w.capitalize() for w in table_name.split("_")])
+
+        # Makes sure given table is in the database 
         if table_name in self.tables_d.keys():
             table = self.tables_d[table_name]
             obj = self.session.query(table).get(_id)

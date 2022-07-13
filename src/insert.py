@@ -75,7 +75,6 @@ def fill_country_table():
     with open("data/countries_flag.json") as f:
         countries_flags = json.load(f)
     for c in countries_flags:
-        # print()
         countrys += [Country(c["country"], c["flag_base64"])]
 
     repo.add_all(countrys)
