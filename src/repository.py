@@ -34,13 +34,19 @@ class Repository:
 
         # Makes sure given table is in the database 
         if table_name in self.tables_d.keys():
-            table = self.tables_d[table_name]
-            obj = self.session.query(table).get(_id)
+            table_class = self.tables_d[table_name]
+
+            # Gets row as object in the given table by id
+            obj = self.session.query(table_class).get(_id)
+            # Checks if he finds the id in the table
             if obj:
                 log.info(f"Finds object in {table_name} table")
                 return obj
+            # Didn't and returns None
             else:
                 log.info(f"cant find id: {_id} in {table_name} table")
+
+        # When given table not in database return None
         else:
             log.info(f"Failed, make sure: {table_name} is an existing table.")
 
@@ -82,33 +88,38 @@ class Repository:
         else:
             log.info(f"Failed make sure that the column exist in table")
 
-        # no use for update because it's not a real database for now
-
     def add_all(self, object_list: object):
-        """ Uses add() func on a list of objects."""
+        """ Adds a list of objects into the database"""
         count = 0
+        # loops all objects and try to commit them
         for obj in object_list:
             try:
                 self.session.add(obj)
                 self.session.commit()
                 count += 1
+            # some can fail because of database constrains ,log the error
             except Exception as e:
                 log.info(f"failed to add: {obj} objects to the database")
                 log.error(f"{e}")
+            # close session even if it failed so the next commit will not fail
             finally:
                 self.session.close()
         log.info(f"added {count} objects to the database")
 
     def remove(self, obj: object):
         """Removes an object from our dictionary"""
-        if obj:
+        # check that obj is one of the tables object
+        if type(obj) in self.tables_d.values():
+            # Deletes it and try to commit it
             try:
                 self.session.delete(obj)
                 log.info("Object deleted")
                 self.session.commit()
+            # if table object already gone and not in database yet
             except Exception as e:
                 log.info(f"Failed this object doesn't exist in database \n{e}")
                 log.error(f"{e}")
+        # When obj is not a table object
         else:
             log.info(f"Failed 'obj' Must be a table object ")
 
@@ -190,16 +201,18 @@ class Repository:
             log.info(f"Failed this date: '{lan_day}' doesnt exist in the database")
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  ## TODO foreignkey in data base and uniqe constraint and on delete
     repo = Repository()
     dat = datetime(year=2022, month=9, day=22)
-    repo.get_airlines_by_country("United States")
+    # repo.get_airlines_by_country("United States")
     # repo.get_flights_by_origin_country('France')
     # repo.get_flights_by_destination_country('France')
 
+    # repo.get_by_id('Flights', 20)
+    repo.remove(repo.get_by_id('Flights', 20))
+
     # flt = repo.get_flights_by_departure_date(dat)
     # flt = repo.get_flights_by_landing_date(dat)
-
 
     # print(f"FLights: {str(flt[0].departure_time)[:4]}")
 
