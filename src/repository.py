@@ -5,7 +5,8 @@ from src.repo.flights import Flight
 from src.repo.tickets import Ticket
 from src.repo.airline_companies import AirlineCompany
 from src.repo.countries import Country
-from src.my_config import log, engine, Session, func
+from src.my_config import log, engine, Session, func, inspect, database
+# from create_db import validate_db
 from random import randint as rnd
 from datetime import datetime, timedelta
 
@@ -13,9 +14,7 @@ from datetime import datetime, timedelta
 class Repository:
 
     def __init__(self):
-        # Open session so we can edit database
-        self.session = Session()
-        # Dictionary with table names as keys and class name as value
+        # Dictionary with table names as keys and table class name as value
         self.tables_d = {
             User.__tablename__: User,
             Administrator.__tablename__: Administrator,
@@ -25,6 +24,11 @@ class Repository:
             AirlineCompany.__tablename__: AirlineCompany,
             Country.__tablename__: Country
         }
+        # makes sure all wanted tables exist in database
+        # validate_db(list(self.tables_d.keys()))
+
+        # Open session so we can edit database
+        self.session = Session()
 
     def get_by_id(self, table_name: str, _id: int) -> object:
         """Finds the id given ,in a table."""
@@ -50,15 +54,25 @@ class Repository:
         else:
             log.info(f"Failed, make sure: {table_name} is an existing table.")
 
-    def get_all(self, kind: object) -> list:  ##TODO fix kind to table name
-        """get all rows of a selected table into a list of obj"""
-        try:
-            table = self.session.query(kind).all()
-            log.info(f"created a list of all {kind.__name__}")
-            return table
-        except Exception as e:
-            log.info(f"Failed and didn't find the table: {kind}")
-            log.error(f"{e}")
+    def get_all(self, table_name: object) -> list:
+        """get all rows of a selected table into a list of obj, empty or wrong returns None"""
+        # format table name
+        table_name = '_'.join([w.capitalize() for w in table_name.split("_")])
+
+        # Makes sure given table is in the database
+        if table_name not in self.tables_d.keys():
+            log.info(f"Failed make sure 'obj' parm he is one of our tables object")
+            return None
+
+        # search the database for the table and returns it
+        table_class = self.tables_d[table_name]
+        table_objs = self.session.query(table_class).all()
+        if table_objs:
+            log.info(f"created a list of all {table_name}")
+            return table_objs
+        # if table is empty
+        else:
+            log.info(f"Failed {table_name} is an empty table")
 
     def add(self, kind: object):  ##TODO fix kind to table name
         """Add an object to a selected table"""
@@ -72,7 +86,7 @@ class Repository:
 
     def update(self, col: str, obj: object, val: str):
         if type(obj) not in self.tables_d.values():
-            log.info(f"Make sure ur parameters are as it should be")
+            log.info(f" Failed make sure ur parameters are as it should be")
             return None
 
         attr = list(obj.__dict__.keys())[1:]
@@ -88,9 +102,15 @@ class Repository:
         else:
             log.info(f"Failed make sure that the column exist in table")
 
-    def add_all(self, object_list: object):
+    def add_all(self, object_list: list):
         """ Adds a list of objects into the database"""
         count = 0
+
+        # making sure all params in 'object_list' are param object
+        if all(map(lambda x: type(x)not in self.tables_d.values() or x._id, object_list)):
+            log.info(f"Failed make sure 'object_list' is a list filled with new table_objs")
+            return None
+
         # loops all objects and try to commit them
         for obj in object_list:
             try:
@@ -99,12 +119,12 @@ class Repository:
                 count += 1
             # some can fail because of database constrains ,log the error
             except Exception as e:
-                log.info(f"failed to add: {obj} objects to the database")
+                log.info(f"failed to add: {obj} object to the database")
                 log.error(f"{e}")
             # close session even if it failed so the next commit will not fail
             finally:
                 self.session.close()
-        log.info(f"added {count} objects to the database")
+        log.info(f"added {count} objects out of {len(object_list)} to the database")
 
     def remove(self, obj: object):
         """Removes an object from our dictionary"""
@@ -203,13 +223,20 @@ class Repository:
 
 if __name__ == '__main__':  ## TODO foreignkey in data base and uniqe constraint and on delete
     repo = Repository()
-    dat = datetime(year=2022, month=9, day=22)
+    # print(repo.session)
+    # dat = datetime(year=2022, month=9, day=22)
     # repo.get_airlines_by_country("United States")
     # repo.get_flights_by_origin_country('France')
     # repo.get_flights_by_destination_country('France')
 
-    # repo.get_by_id('Flights', 20)
-    repo.remove(repo.get_by_id('Flights', 20))
+    # flight = repo.get_by_id('Flights', 22)
+    # repo.remove(repo.get_by_id('Flights', 22))
+    ticket1 = Ticket(3232, 212)
+    # ticket2 = Ticket(666, 321)
+    # ticket3 = Ticket(121, 545)
+    # ticket4 = Ticket(1, 3)
+
+    repo.add_all([ticket1])
 
     # flt = repo.get_flights_by_departure_date(dat)
     # flt = repo.get_flights_by_landing_date(dat)

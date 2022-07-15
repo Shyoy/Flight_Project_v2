@@ -3,7 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="47d690f9-ed21-4673-a545-c1f5142b6833" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DBFlight.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/DBFlight.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DBFlight.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/create_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/create_db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/insert.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/insert.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/my_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/my_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repo/customers.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repo/customers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repo/flights.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repo/flights.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repo/tickets.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repo/tickets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repo/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repo/users.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,27 +45,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.repository">
-    <configuration name="airline_companies" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Flight_Project_v2" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/repo" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/repo/airline_companies.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="create_db" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Flight_Project_v2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -72,6 +58,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/create_db.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="flights" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Flight_Project_v2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/repo" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/repo/flights.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -146,10 +153,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.repository" />
-        <item itemvalue="Python.create_db" />
         <item itemvalue="Python.insert" />
+        <item itemvalue="Python.flights" />
+        <item itemvalue="Python.create_db" />
         <item itemvalue="Python.my_config" />
-        <item itemvalue="Python.airline_companies" />
       </list>
     </recent_temporary>
   </component>

@@ -5,7 +5,7 @@ from src.my_config import engine, base
 class Ticket(base):
     __tablename__ = 'Tickets'
     _id = Column('ticket_id', Integer, primary_key=True)
-    flight_id = Column(Integer, nullable=False)
+    flight_id = Column(Integer, ForeignKey("Flights.flight_id"),  nullable=False)
     customer_id = Column(Integer, ForeignKey("Customers.customer_id"), nullable=False)
     __table_args__ = (
         UniqueConstraint('customer_id', 'flight_id', name='_customer_flight'),

@@ -6,7 +6,7 @@ from random import choice, randint, shuffle
 from datetime import datetime, timedelta
 
 
-def add_users(n: int): ##TODO connect to customer User
+def add_customers(n: int): ##TODO connect to customer User
     repo = Repository()
     fake = Faker()
     for i in range(n):
@@ -99,13 +99,13 @@ def delete_row(table_name: str, rows_id: list):
 if __name__ == '__main__':
     repo = Repository()
     # fill_country_table()
-    # add_users(4)
+    # add_customers(4)
     # add_airlines(6)
 
 
     # print(blue_jet.name)
     add_flights(5, list(range(1, 18)))
-    range(1, 18)
+    # range(1, 18)
 
 
     # update_all()

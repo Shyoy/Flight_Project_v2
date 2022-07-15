@@ -1,4 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
+
 from src.my_config import engine, base
 
 
@@ -9,7 +11,8 @@ class Customer(base):
     last_name = Column(String(30), nullable=False)
     address = Column(String(80))
     phone_no = Column(String(25), unique=True)
-    user_id = Column(Integer, ForeignKey("Customers.customer_id"), nullable=False, unique=True)
+    user_id = Column(Integer, ForeignKey("Users.user_id"), nullable=False, unique=True)
+    children = relationship("Ticket")
 
     def __init__(self,
                  first_name: str, last_name: str, address: str,

@@ -1,6 +1,7 @@
 import logging
-from sqlalchemy import create_engine , func
+from sqlalchemy import create_engine, func, inspect
 from sqlalchemy.ext.declarative import declarative_base
+# from sqlalchemy_utils import database_exists
 from sqlalchemy.orm import sessionmaker
 from hashlib import sha256
 
@@ -18,12 +19,17 @@ log.addHandler(handler)
 
 
 # Create engine and place it in the same folder
-engine = create_engine('sqlite:///DBFlight.db', echo=True)
+database = 'sqlite:///DBFlight.db'
+engine = create_engine(database, echo=True)
 base = declarative_base()
+
 
 # Create a Session to then be used to edit the data on the database
 Session = sessionmaker(bind=engine)
 
 if __name__ == '__main__':
-    print(file_name)
+    # print(base.metadata.tables.keys())
+    print()
+    # print(database_exists(database))
+    # Inspector.get_table_names()
     pass
