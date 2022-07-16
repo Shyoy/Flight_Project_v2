@@ -11,7 +11,7 @@ class User(base):
     password = Column(String(80), nullable=False)
     email = Column(String(50), nullable=False, unique=True)
     user_role = Column(String, nullable=False)
-    children = relationship("Customer")
+    # children = relationship("Customer")
 
     def __init__(self, username: str, password: str, email: str, user_role: int):
 

@@ -2,16 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="47d690f9-ed21-4673-a545-c1f5142b6833" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DBFlight.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DBFlight.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/DBFlight.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/create_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/create_db.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/insert.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/insert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/my_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/my_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repo/DBFlight.db" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/repo/customers.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repo/customers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/repo/flights.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repo/flights.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repo/tickets.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repo/tickets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/repo/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repo/users.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/squel.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/squel.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +36,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/data" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -44,7 +46,7 @@
       <recent name="C:\Users\shay\PycharmProjects\Flight_Project_v2\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.repository">
+  <component name="RunManager" selected="Python.create_db">
     <configuration name="create_db" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Flight_Project_v2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -152,10 +154,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.create_db" />
         <item itemvalue="Python.repository" />
         <item itemvalue="Python.insert" />
         <item itemvalue="Python.flights" />
-        <item itemvalue="Python.create_db" />
         <item itemvalue="Python.my_config" />
       </list>
     </recent_temporary>

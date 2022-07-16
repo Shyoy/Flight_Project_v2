@@ -29,7 +29,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="6d1d7891-206e-44c1-b34c-91b60910935b">
-      <console name="DBFlight" type="STANDARD" schema="main" session="Main" />
+      <console name="DBFlight" type="STANDARD" schema="main" session="Main"><![CDATA[CREATE Procedure]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

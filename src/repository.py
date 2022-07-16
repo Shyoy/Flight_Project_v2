@@ -1,14 +1,11 @@
-from src.repo.users import User
-from src.repo.administrators import Administrator
-from src.repo.customers import Customer
-from src.repo.flights import Flight
-from src.repo.tickets import Ticket
-from src.repo.airline_companies import AirlineCompany
-from src.repo.countries import Country
+from src.create_db import (User, Administrator, Customer,
+                           Flight, Ticket, AirlineCompany, Country)
 from src.my_config import log, engine, Session, func, inspect, database
-# from create_db import validate_db
-from random import randint as rnd
+from create_db import validate_db
+# from random import randint as rnd
 from datetime import datetime, timedelta
+import stored_procedures as s_p
+from sqlalchemy import  select, join, func
 
 
 class Repository:
@@ -25,7 +22,7 @@ class Repository:
             Country.__tablename__: Country
         }
         # makes sure all wanted tables exist in database
-        # validate_db(list(self.tables_d.keys()))
+        validate_db(list(self.tables_d.keys()))
 
         # Open session so we can edit database
         self.session = Session()
@@ -220,23 +217,133 @@ class Repository:
         else:
             log.info(f"Failed this date: '{lan_day}' doesnt exist in the database")
 
+    # def executor(self, stmt):
+    #     result = self.session.execute(stmt)
+    #     for user_obj in result.scalars().all():
+    #         row_d = {}
+    #         attrs = list(user_obj.__dict__.keys())[1:]
+    #         attrs.remove('_id')
+    #         row_d['_id'] = getattr(user_obj, '_id')
+    #         for col in attrs:
+    #             if col == "password":
+    #                 continue
+    #             row_d[col] = getattr(user_obj, col)
+    #         print(row_d)
+
+    def get_airline_by_username(self, username: str) -> list:
+        """ search Airline by username from the Users and returns the airline"""
+
+        # Check for Airline username in Users table and return an object
+        result = self.session.query(AirlineCompany).\
+            filter(AirlineCompany.user_id == User._id).\
+            filter(User.username == username).first()
+        # Check if result not None
+        if result:
+            log.info(f"Found {result.name} airline with the username:{username}")
+            return result
+        # Return None
+        else:
+            log.info(f"Failed '{username}' username doesnt exist in the database")
+
+    def get_customer_by_username(self, username: str) -> object:
+        """ search Customers by username from the Users and returns the customer"""
+
+        # Check for Customer username in Users table and return an object
+        result = self.session.query(Customer). \
+            filter(Customer.user_id == User._id). \
+            filter(User.username == username).first()
+        # Check if result not None
+        if result:
+            log.info(f"Found {result.first_name} customer with the username:{username}")
+            return result
+        # Return None
+        else:
+            log.info(f"Failed '{username}' username doesnt exist in the database")
+
+    def get_user_by_username(self, username: str) -> object:
+        """ search User by username in User table and return the user"""
+
+        # Check for Customer username in Users table and return an object
+        result = self.session.query(User). \
+            filter(User.username == username).first()
+
+        # Check if result not None
+        if result:
+            log.info(f"Found {username} User ")
+            return result
+        # Return None
+        else:
+            log.info(f"Failed '{username}' username doesnt exist in the database")
+
+    def get_flights_by_parameters(self, origin_country: str, destination_country: str, date: datetime) -> list:
+        """ search flights by parameters in flights table and return them"""
+        # Check for flight parameters in table and return a list of flights
+        depart_day = date.date()
+        result = self.session.query(Flight). \
+            filter(Flight.origin_country.ilike(f"%{origin_country}%")).\
+            filter(Flight.destination_country.ilike(f"%{destination_country}%")).\
+            filter(func.date(Flight.departure_time) == depart_day).all()
+
+        # Check if result list is None
+        if result:
+            log.info(f"Found {len(result)} departing flights at {depart_day}")
+            return result
+        # Return None
+        else:
+            log.info(f"Failed the flight you ask doesn't exist in the database")
+
+    def get_flights_by_airline_id(self, airline_id: int) -> list:
+        """ search flights by airline id  in flights table and return them"""
+        # Check for flights with the given airline_company_id
+        result = self.session.query(Flight). \
+            filter(Flight.airline_company_id == airline_id).all()
+
+        # Check if result list is None
+        if result:
+            log.info(f"Found {len(result)} flights with airline_id: {airline_id}.")
+            return result
+        # Return None
+        else:
+            log.info(f"Failed there are no flights with airline_id: {airline_id} in the database")
+
+    def get_tickets_by_customer(self, customer_id: int) -> list:
+        pass
+
 
 if __name__ == '__main__':  ## TODO foreignkey in data base and uniqe constraint and on delete
     repo = Repository()
     # print(repo.session)
     # dat = datetime(year=2022, month=9, day=22)
     # repo.get_airlines_by_country("United States")
-    # repo.get_flights_by_origin_country('France')
+    y = repo.get_flights_by_origin_country('Portugal')
+    x = repo.get_arrival_flights('Portugal')
     # repo.get_flights_by_destination_country('France')
 
-    # flight = repo.get_by_id('Flights', 22)
+    # flight = repo.get_by_id('Flights', 12)
+    # customer = repo.get_by_id('Customers', 2)
+    # ticket1 = repo.get_by_id('Tickets', 2)
     # repo.remove(repo.get_by_id('Flights', 22))
-    ticket1 = Ticket(3232, 212)
+    # ticket1 = Ticket(flight=flight, customer=customer)
+    # print(ticket1.flight_id)
+    # print(ticket1.customer_id)
+    # print(ticket1._id)
+    # print(ticket1.customer)
+    # print(ticket1.flight)
     # ticket2 = Ticket(666, 321)
     # ticket3 = Ticket(121, 545)
     # ticket4 = Ticket(1, 3)
 
-    repo.add_all([ticket1])
+    # repo.get_airline_by_username("Digital_Equipment_Corporation")
+    # repo.get_customer_by_username("scosdatt56")
+    # x = repo.get_flights_by_parameters("Canada", "Lesotho", datetime(2022, 7, 21))
+    # x = repo.get_flights_by_airline_id(3)
+    print(y)
+    print(x)
+    # stmt_airlines = s_p.get_airline_by_username('Orbit_Atlantic_Airways')
+    # print(stmt_airlines)
+    # repo.executor(stmt_airlines)
+
+
 
     # flt = repo.get_flights_by_departure_date(dat)
     # flt = repo.get_flights_by_landing_date(dat)

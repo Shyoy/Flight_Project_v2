@@ -90,6 +90,7 @@ def update_all():
 
 
 def delete_row(table_name: str, rows_id: list):
+    """delete rows from a given table"""
     repo = Repository()
     for _id in rows_id:
         row_obj = repo.get_by_id(table_name, _id)
@@ -97,15 +98,15 @@ def delete_row(table_name: str, rows_id: list):
 
 
 if __name__ == '__main__':
-    repo = Repository()
-    # fill_country_table()
-    # add_customers(4)
-    # add_airlines(6)
+    # repo = Repository()
+    fill_country_table()
+    add_customers(10)
+    add_airlines(10)
+    add_flights(10, list(range(1, 10)))
 
 
     # print(blue_jet.name)
-    add_flights(5, list(range(1, 18)))
-    # range(1, 18)
+
 
 
     # update_all()

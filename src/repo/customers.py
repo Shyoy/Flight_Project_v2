@@ -12,7 +12,7 @@ class Customer(base):
     address = Column(String(80))
     phone_no = Column(String(25), unique=True)
     user_id = Column(Integer, ForeignKey("Users.user_id"), nullable=False, unique=True)
-    children = relationship("Ticket")
+    # Tickets = relationship("Ticket", backref='customer')
 
     def __init__(self,
                  first_name: str, last_name: str, address: str,

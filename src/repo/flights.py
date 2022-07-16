@@ -14,7 +14,7 @@ class Flight(base):
     departure_time = Column(DateTime, nullable=False)
     landing_time = Column(DateTime, nullable=False)
     remaining_tickets = Column(Integer, default=150)
-    children = relationship("Ticket")
+    # Tickets = relationship("Ticket", backref='flight')
 
     def __init__(self,
                  airline_company_id: int, origin_country: int, destination_country: int,

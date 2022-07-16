@@ -9,15 +9,21 @@ from src.my_config import engine, base, inspect, database
 
 
 def create_db():
+    """ creates the database in src  folder"""
     base.metadata.create_all(engine)
 
 
 def restart_table(table_class: object):
+    """drop and load a given table class"""
     table_class.__table__.drop(engine)
     base.metadata.create_all(engine)
 
 
 def validate_db(tables: list):
+    """
+    this func should be used in init repo ,
+    to make sure Database exist and with all the wanted table inside
+    """
     inspector = inspect(engine)
     db_tables = sorted(inspector.get_table_names())
     needed_tables = sorted(tables)
@@ -28,5 +34,5 @@ def validate_db(tables: list):
 
 
 if __name__ == '__main__':
-    # restart_table(Ticket)
+    # Run to create a database in src folder in not created yet
     create_db()
