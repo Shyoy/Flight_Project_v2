@@ -4,8 +4,7 @@ from src.my_config import log, engine, Session, func, inspect, database
 from create_db import validate_db
 # from random import randint as rnd
 from datetime import datetime, timedelta
-import stored_procedures as s_p
-from sqlalchemy import  select, join, func
+from sqlalchemy import select, join, func
 
 
 class Repository:
@@ -38,7 +37,10 @@ class Repository:
             table_class = self.tables_d[table_name]
 
             # Gets row as object in the given table by id
-            obj = self.session.query(table_class).get(_id)
+            obj = self.session.query(table_class).\
+                filter(table_class._id == _id).first()
+            self.session.close()
+
             # Checks if he finds the id in the table
             if obj:
                 log.info(f"Finds object in {table_name} table")
@@ -51,7 +53,7 @@ class Repository:
         else:
             log.info(f"Failed, make sure: {table_name} is an existing table.")
 
-    def get_all(self, table_name: object) -> list:
+    def get_all(self, table_name: str) -> list:
         """get all rows of a selected table into a list of obj, empty or wrong returns None"""
         # format table name
         table_name = '_'.join([w.capitalize() for w in table_name.split("_")])
@@ -64,6 +66,7 @@ class Repository:
         # search the database for the table and returns it
         table_class = self.tables_d[table_name]
         table_objs = self.session.query(table_class).all()
+        self.session.close()
         if table_objs:
             log.info(f"created a list of all {table_name}")
             return table_objs
@@ -71,15 +74,26 @@ class Repository:
         else:
             log.info(f"Failed {table_name} is an empty table")
 
-    def add(self, kind: object):  ##TODO fix kind to table name
+    def add(self, obj: object):
         """Add an object to a selected table"""
-        try:
-            self.session.add(kind)
-            self.session.commit()
-            log.info(f"Added a {kind}")
-        except Exception as e:
-            log.info(f"failed to add: {kind}")
-            log.error(f"{e}")
+        # check that obj is one of the tables object
+        if type(obj) in self.tables_d.values():
+            # try to commit the object, can fail because of database constrains
+
+            try:
+                self.session.add(obj)
+                self.session.commit()
+                log.info(f"Added a {obj}")
+
+            # Log the exception from the database
+            except Exception as e:
+                log.info(f"failed to add: {obj}")
+                log.error(f"{e}")
+            finally:
+                self.session.close()
+        # When obj is not a table object
+        else:
+            log.info(f"Failed 'obj' Must be a table object ")
 
     def update(self, col: str, obj: object, val: str):
         if type(obj) not in self.tables_d.values():
@@ -96,6 +110,8 @@ class Repository:
                 log.info(f"failed to update to: {val} \n\
                 make sure you know the constraints of this table")
                 log.error(f"{e}")
+            finally:
+                self.session.close()
         else:
             log.info(f"Failed make sure that the column exist in table")
 
@@ -132,6 +148,7 @@ class Repository:
                 self.session.delete(obj)
                 log.info("Object deleted")
                 self.session.commit()
+                self.session.close()
             # if table object already gone and not in database yet
             except Exception as e:
                 log.info(f"Failed this object doesn't exist in database \n{e}")
@@ -146,6 +163,7 @@ class Repository:
         # Check for country in table and return a list
         airlines = self.session.query(AirlineCompany). \
             filter(AirlineCompany.country.ilike(f"%{country}%")).all()
+        self.session.close()
 
         # Check if airlines list is None
         if airlines:
@@ -161,6 +179,7 @@ class Repository:
         # Check for country in table and return a list
         flights = self.session.query(Flight). \
             filter(Flight.origin_country.ilike(f"%{country}%")).all()
+        self.session.close()
 
         # Check if flights list is None
         if flights:
@@ -176,6 +195,7 @@ class Repository:
         # Check for country in table and return a list
         flights = self.session.query(Flight). \
             filter(Flight.destination_country.ilike(f"%{country}%")).all()
+        self.session.close()
 
         # Check if flights list is None
         if flights:
@@ -192,6 +212,7 @@ class Repository:
         # Check for date in table and return a list
         flights = self.session.query(Flight). \
             filter(func.date(Flight.departure_time) == depart_day).all()
+        self.session.close()
 
         # Check if flights list is None
         if flights:
@@ -208,6 +229,7 @@ class Repository:
         # Check for date in table and return a list
         flights = self.session.query(Flight). \
             filter(func.date(Flight.landing_time) == lan_day).all()
+        self.session.close()
 
         # Check if flights list is None
         if flights:
@@ -217,26 +239,15 @@ class Repository:
         else:
             log.info(f"Failed this date: '{lan_day}' doesnt exist in the database")
 
-    # def executor(self, stmt):
-    #     result = self.session.execute(stmt)
-    #     for user_obj in result.scalars().all():
-    #         row_d = {}
-    #         attrs = list(user_obj.__dict__.keys())[1:]
-    #         attrs.remove('_id')
-    #         row_d['_id'] = getattr(user_obj, '_id')
-    #         for col in attrs:
-    #             if col == "password":
-    #                 continue
-    #             row_d[col] = getattr(user_obj, col)
-    #         print(row_d)
-
-    def get_airline_by_username(self, username: str) -> list:
+    def get_airline_by_username(self, username: str) -> object:
         """ search Airline by username from the Users and returns the airline"""
 
         # Check for Airline username in Users table and return an object
         result = self.session.query(AirlineCompany).\
             filter(AirlineCompany.user_id == User._id).\
             filter(User.username == username).first()
+        self.session.close()
+
         # Check if result not None
         if result:
             log.info(f"Found {result.name} airline with the username:{username}")
@@ -252,6 +263,7 @@ class Repository:
         result = self.session.query(Customer). \
             filter(Customer.user_id == User._id). \
             filter(User.username == username).first()
+        self.session.close()
         # Check if result not None
         if result:
             log.info(f"Found {result.first_name} customer with the username:{username}")
@@ -266,6 +278,7 @@ class Repository:
         # Check for Customer username in Users table and return an object
         result = self.session.query(User). \
             filter(User.username == username).first()
+        self.session.close()
 
         # Check if result not None
         if result:
@@ -283,6 +296,7 @@ class Repository:
             filter(Flight.origin_country.ilike(f"%{origin_country}%")).\
             filter(Flight.destination_country.ilike(f"%{destination_country}%")).\
             filter(func.date(Flight.departure_time) == depart_day).all()
+        self.session.close()
 
         # Check if result list is None
         if result:
@@ -297,6 +311,7 @@ class Repository:
         # Check for flights with the given airline_company_id
         result = self.session.query(Flight). \
             filter(Flight.airline_company_id == airline_id).all()
+        self.session.close()
 
         # Check if result list is None
         if result:
@@ -307,47 +322,55 @@ class Repository:
             log.info(f"Failed there are no flights with airline_id: {airline_id} in the database")
 
     def get_tickets_by_customer(self, customer_id: int) -> list:
-        pass
+        """ search tickets table by customer id and return them"""
+        # Check for tickets with the given customer_id
+        result = self.session.query(Ticket). \
+            filter(Ticket.customer_id == customer_id).all()
+        self.session.close()
+
+        # Check if result list is None
+        if result:
+            log.info(f"Found {len(result)} tickets with customer_id: {customer_id}.")
+            return result
+        # Return None
+        else:
+            log.info(f"Failed there are no tickets with customer_id: {customer_id} in the database")
 
 
-if __name__ == '__main__':  ## TODO foreignkey in data base and uniqe constraint and on delete
+if __name__ == '__main__':
+    output = 'You should choose one of the funcs to uncomment'
     repo = Repository()
-    # print(repo.session)
-    # dat = datetime(year=2022, month=9, day=22)
-    # repo.get_airlines_by_country("United States")
-    y = repo.get_flights_by_origin_country('Portugal')
-    x = repo.get_arrival_flights('Portugal')
-    # repo.get_flights_by_destination_country('France')
 
-    # flight = repo.get_by_id('Flights', 12)
-    # customer = repo.get_by_id('Customers', 2)
-    # ticket1 = repo.get_by_id('Tickets', 2)
-    # repo.remove(repo.get_by_id('Flights', 22))
-    # ticket1 = Ticket(flight=flight, customer=customer)
-    # print(ticket1.flight_id)
-    # print(ticket1.customer_id)
-    # print(ticket1._id)
-    # print(ticket1.customer)
-    # print(ticket1.flight)
-    # ticket2 = Ticket(666, 321)
-    # ticket3 = Ticket(121, 545)
-    # ticket4 = Ticket(1, 3)
+    ##  CRUD procedures
 
-    # repo.get_airline_by_username("Digital_Equipment_Corporation")
-    # repo.get_customer_by_username("scosdatt56")
-    # x = repo.get_flights_by_parameters("Canada", "Lesotho", datetime(2022, 7, 21))
-    # x = repo.get_flights_by_airline_id(3)
-    print(y)
-    print(x)
-    # stmt_airlines = s_p.get_airline_by_username('Orbit_Atlantic_Airways')
-    # print(stmt_airlines)
-    # repo.executor(stmt_airlines)
+
+    # output = repo.get_all('Users')
+    # new_user = User('username221', '123456789', 'username266@mail.com', 'Administrator')
+    # repo.add(new_user)
+
+    # found_obj = repo.get_by_id('Users', 1)
+    # repo.update('email', found_obj, 'username4321@mail.com')
+
+    ## filter funcs
+    # output = repo.get_airlines_by_country("United States")
+    # output = repo.get_flights_by_origin_country('Portugal')
+    # output = repo.get_flights_by_destination_country('France')
+    # output = repo.get_flights_by_departure_date(datetime(2022, 7, 21))
+    # output = repo.get_flights_by_landing_date(datetime(2022, 7, 21))
+
+
+    ## these are the stored procedures
+    # output = repo.get_airline_by_username("Spanish_Air_Force")
+    # output = repo.get_customer_by_username("adam69")
+    # output = repo.get_user_by_username("james81")
+    # output = repo.get_flights_by_parameters("Maldives", "Spain", datetime(2022, 11, 28))
+    # output = repo.get_flights_by_airline_id(3)
+    # output = repo.get_tickets_by_customer(24)
+
+    print(f"Result = {output}")
 
 
 
-    # flt = repo.get_flights_by_departure_date(dat)
-    # flt = repo.get_flights_by_landing_date(dat)
 
-    # print(f"FLights: {str(flt[0].departure_time)[:4]}")
 
     pass

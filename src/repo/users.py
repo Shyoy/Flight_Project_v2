@@ -13,7 +13,7 @@ class User(base):
     user_role = Column(String, nullable=False)
     # children = relationship("Customer")
 
-    def __init__(self, username: str, password: str, email: str, user_role: int):
+    def __init__(self, username: str, password: str, email: str, user_role: str):
 
         self.username = username
         self.password = sha256(password.encode('utf-8')).hexdigest()
@@ -23,4 +23,5 @@ class User(base):
 
 if __name__ == '__main__':
     # print(Users.__name__)
-    base.metadata.create_all(engine)
+    # base.metadata.create_all(engine)
+    pass

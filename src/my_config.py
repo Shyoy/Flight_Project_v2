@@ -20,7 +20,7 @@ log.addHandler(handler)
 
 # Create engine and place it in the same folder
 database = 'sqlite:///DBFlight.db'
-engine = create_engine(database, echo=True)
+engine = create_engine(database, echo=False)
 base = declarative_base()
 
 

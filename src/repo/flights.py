@@ -29,6 +29,5 @@ class Flight(base):
 
 
 if __name__ == '__main__':
-    # print(Flight.__name__)
-    base.metadata.create_all(engine)
+    # base.metadata.create_all(engine)
     pass

@@ -36,3 +36,6 @@ def validate_db(tables: list):
 if __name__ == '__main__':
     # Run to create a database in src folder in not created yet
     create_db()
+    # restart_table(Ticket)
+    # restart_table(Flight)
+    pass

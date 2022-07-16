@@ -26,5 +26,5 @@ class Customer(base):
 
 
 if __name__ == '__main__':
-
-    base.metadata.create_all(engine)
+    # base.metadata.create_all(engine)
+    pass

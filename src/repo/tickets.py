@@ -17,5 +17,5 @@ class Ticket(base):
 
 
 if __name__ == '__main__':
-    # log.debug("hey")
-    base.metadata.create_all(engine)
+    # base.metadata.create_all(engine)
+    pass
