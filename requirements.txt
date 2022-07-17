@@ -1,0 +1,6 @@
+Faker==13.15.0
+greenlet==1.1.2
+python-dateutil==2.8.2
+six==1.16.0
+SQLAlchemy==1.4.39
+SQLAlchemy-Utils==0.38.3
