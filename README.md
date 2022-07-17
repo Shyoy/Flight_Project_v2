@@ -17,6 +17,11 @@ log configuration that right now is set to log in console,
 and a little tip if you want to watch SQLAlchemy background work on console change
 <b style="color:orange">echo_switch = True</b>
 
+If you want to create a new database first delete the old one\
+then you can use <b style="color:purple">'src.repo.create_db.py'</b> to create one with all the wanted tables,\
+and use <b style="color:purple">'src.insert.py'</b> to insert random data to the database
+
+
 
 <br>
 <br>
