@@ -42,9 +42,6 @@ and a little tip if you want to watch SQLAlchemy background work on console chan
 [<img align="left" alt="MySQL" width="26px" src="https://dl2.macupdate.com/images/icons256/63142.png?time=1618334949" style="padding-right:10px;" />][sqlite]
 [<img align="left" alt="Git" width="26px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" style="padding-right:10px;" />][github]
 
-<br>
----
-
 
 
 [main_lang]: https://www.python.org/
@@ -59,3 +56,5 @@ and a little tip if you want to watch SQLAlchemy background work on console chan
 
 [sqlalchemy]: https://docs.sqlalchemy.org/en/14/
 
+<br>
+---
