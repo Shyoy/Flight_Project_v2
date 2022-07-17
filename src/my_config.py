@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from hashlib import sha256
 import os
 
-# log format for the project ## TODO create a log file for info and debug
+# log format for the project
 file_name = "repo\\repo.log"
 formatter = logging.Formatter(datefmt='%d-%b-%y %H:%M:%S',
                               fmt=' - %(asctime)s - \n%(levelname)s: %(module)s.%(funcName)s -> %(message)s \n')
@@ -20,11 +20,10 @@ log.addHandler(handler)
 
 
 # Create engine and place it in the same folder
-# database = 'sqlite:///DBFlight.db'
-# database = 'sqlite:///C:\\src\\repo\\DBFlight.db'
 dir_b = os.path.dirname(os.path.realpath(__file__))
 connection_string = 'sqlite:///' + os.path.join(dir_b, 'DBFlight.db')
-engine = create_engine(connection_string, echo=False)
+echo_switch = False
+engine = create_engine(connection_string, echo=echo_switch)
 base = declarative_base()
 
 
