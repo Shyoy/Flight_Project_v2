@@ -4,6 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 # from sqlalchemy_utils import database_exists
 from sqlalchemy.orm import sessionmaker
 from hashlib import sha256
+import os
 
 # log format for the project ## TODO create a log file for info and debug
 file_name = "repo\\repo.log"
@@ -19,8 +20,11 @@ log.addHandler(handler)
 
 
 # Create engine and place it in the same folder
-database = 'sqlite:///DBFlight.db'
-engine = create_engine(database, echo=False)
+# database = 'sqlite:///DBFlight.db'
+# database = 'sqlite:///C:\\src\\repo\\DBFlight.db'
+dir_b = os.path.dirname(os.path.realpath(__file__))
+connection_string = 'sqlite:///' + os.path.join(dir_b, 'DBFlight.db')
+engine = create_engine(connection_string, echo=False)
 base = declarative_base()
 
 
@@ -29,7 +33,7 @@ Session = sessionmaker(bind=engine)
 
 if __name__ == '__main__':
     # print(base.metadata.tables.keys())
-    print()
+    print(connection_string)
     # print(database_exists(database))
     # Inspector.get_table_names()
     pass

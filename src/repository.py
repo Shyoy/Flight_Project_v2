@@ -1,10 +1,10 @@
-from src.create_db import (User, Administrator, Customer,
-                           Flight, Ticket, AirlineCompany, Country)
-from src.my_config import log, engine, Session, func, inspect, database
-from create_db import validate_db
+from src.repo.create_db import (User, Administrator, Customer,
+                                Flight, Ticket, AirlineCompany, Country)
+from src.my_config import log, Session
+from src.repo.create_db import validate_db
 # from random import randint as rnd
-from datetime import datetime, timedelta
-from sqlalchemy import select, join, func
+from datetime import datetime
+from sqlalchemy import func
 
 
 class Repository:
@@ -81,6 +81,7 @@ class Repository:
             # try to commit the object, can fail because of database constrains
 
             try:
+                self.session = Session()
                 self.session.add(obj)
                 self.session.commit()
                 log.info(f"Added a {obj}")
@@ -89,8 +90,7 @@ class Repository:
             except Exception as e:
                 log.info(f"failed to add: {obj}")
                 log.error(f"{e}")
-            finally:
-                self.session.close()
+                pass
         # When obj is not a table object
         else:
             log.info(f"Failed 'obj' Must be a table object ")

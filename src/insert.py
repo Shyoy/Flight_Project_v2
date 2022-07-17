@@ -5,6 +5,12 @@ import json
 from random import choice, randint, shuffle
 from datetime import datetime, timedelta
 
+"""
+This file represents the facade part of the project
+so right now its only basic funcs to add random data 
+into the database
+"""
+
 
 def add_administrators(amount: int):
     rep = Repository()
@@ -86,7 +92,7 @@ def add_tickets(amount: int):
     flight = None
     for i in range(amount):
         rep = Repository()
-        flight = rep.get_by_id('Flights', randint(1, 6))
+        flight = rep.get_by_id('Flights', randint(1, 100))
         customer = rep.get_by_id('Customers', randint(1, 50))
         ticket = Ticket(flight._id, customer._id)
         if flight.remaining_tickets > 0:
@@ -131,12 +137,12 @@ def delete_row(table_name: str, rows_id: list):
 
 if __name__ == '__main__':
     # # When you opened a new database, and you want to fill it use them all
-    # fill_country_table()
-    # add_administrators(5)
-    # add_customers(100)
-    # add_airlines(20)
-    # add_flights(10, list(range(1, 21)))
-    # add_tickets(200)
+    fill_country_table()
+    add_administrators(5)
+    add_customers(50)
+    add_airlines(20)
+    add_flights(5, list(range(1, 21)))
+    add_tickets(200)
 
 
 
