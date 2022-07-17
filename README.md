@@ -8,7 +8,15 @@ This is part 1 of 3,\
 Which focuses the Database portion.
 
 ### Database:
-The database is SQLite type, built using SQLAlchemy
+The database is an SQLite type, built using SQLAlchemy.\
+Each table as a class in <b style="color:purple">'src.repo'</b> with it's defined constraints.\
+The database is managed by using <b style="color:purple">'src.repository.py'</b> and all it's added functions.
+
+The file <b style="color:purple">'src.my_config' </b> contain useful data like database connection_string,
+log configuration that right now is set to log in console,
+and a little tip if you want to watch SQLAlchemy background work on console change
+<b style="color:orange">echo_switch = True</b>
+
 
 <br>
 <br>
@@ -17,7 +25,7 @@ The database is SQLite type, built using SQLAlchemy
 
  * To view the sqlite database file, you can visit this page:
    https://inloop.github.io/sqlite-viewer/
-
+   
 
  * For a full description of SQLAlchemy package, visit this page:
    https://docs.sqlalchemy.org/en/14/
