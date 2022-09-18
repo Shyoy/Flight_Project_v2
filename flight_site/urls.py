@@ -20,3 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('flights.urls')),
 ]
+
+handler404 = 'flights.views.error_404_view' 
