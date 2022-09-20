@@ -32,6 +32,10 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'flights.apps.FlightsConfig',
+    'accounts.apps.AccountsConfig',
+    # 'administrator.apps.AdministratorConfig',
+    # 'airline.apps.AirlineConfig',
+    # 'customer.apps.CustomerConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -80,7 +84,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+# User
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
