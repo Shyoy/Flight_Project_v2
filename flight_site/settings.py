@@ -33,15 +33,14 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'flights.apps.FlightsConfig',
     'accounts.apps.AccountsConfig',
-    # 'administrator.apps.AdministratorConfig',
-    # 'airline.apps.AirlineConfig',
-    # 'customer.apps.CustomerConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    "crispy_bootstrap5",
 ]
 
 MIDDLEWARE = [
@@ -128,4 +127,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_REDIRECT_URL = 'homepage'
+
+LOGOUT_REDIRECT_URL = 'homepage'
+
+LOGIN_URL = 'login'
 

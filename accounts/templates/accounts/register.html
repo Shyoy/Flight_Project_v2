@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+    {% block content %}
+    <section class="py-5">
+        <div class="d-flex justify-content-center">
+            <div class="col-lg-6 mb-5">
+                <div class="card h-100 shadow border-0 " style='width: 55%;'>
+                    <div class="card-header fs-5 text-white bg-dark mb-3">
+                        SingUp
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="post">
+                            {%csrf_token%}
+                            {%for inp in form %}
+                                <p class="mb-0">{{inp|as_crispy_field}}</p>
+                                
+                            {%endfor%}
+                            <button type="submit" class="btn btn-dark" style="float:right;"> Submit </button>
+                        </form>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-muted small"> Already have an account ?
+                        <a href="{%url 'login'%}" class="btn-blue ">login</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    {% endblock content %}

@@ -19,6 +19,7 @@ from django.urls import path , include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('flights.urls')),
+    path('accounts/', include('accounts.urls')),
 ]
 
-handler404 = 'flights.views.error_404_view' 
+# handler404 = 'flights.views.error_404_view' 
