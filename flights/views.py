@@ -1,15 +1,32 @@
 from django.shortcuts import render, redirect
+from django.views.generic import TemplateView
 
 
-# Create your views here.
+
+# 
 
 def error_404_view(request, exception=None):
     # make a redirect to homepage
     return redirect('homepage') # or redirect('name-of-index-url')
 
 def home(request):
-    return render(request, 'flights/home.html')
+    return redirect('homepage')
 
-def login(request):
-    return render(request, 'flights/login.html')
-    
+def homepage(request):
+    return render(request, 'flights/homepage.html')
+
+
+# TODO: Customer views
+class CustomerProfile(TemplateView):
+    template_name="customer/profile.html"
+    def get(self, request, *args, **kwargs):
+        context = self.request.user.customer.__dict__
+        return self.render_to_response(context)
+
+    pass
+
+
+
+
+# TODO: AirLine views
+# TODO: Administrator views

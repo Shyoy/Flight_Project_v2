@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
-from accounts.models import Airline, Customer
 
 # Create your models here.
 
@@ -15,13 +14,13 @@ class Country(models.Model):
 
 
 class Flight(models.Model):
-    airline = models.ForeignKey(Airline, related_name='flights', on_delete=models.CASCADE)
+    airline = models.ForeignKey('accounts.Airline', related_name='flights', on_delete=models.CASCADE)
     departure_time = models.DateTimeField(default=timezone.now)
     landing_time = models.DateTimeField(default=timezone.now)
     tickets = models.IntegerField(default=150)
     origin_country =models.ForeignKey(Country,related_name='departing_flights', on_delete=models.DO_NOTHING)
     destination_country =models.ForeignKey(Country,related_name='landing_flights', on_delete=models.DO_NOTHING)
-    passengers = models.ManyToManyField(Customer, blank=True, null=True, related_name='flights')
+    passengers = models.ManyToManyField('accounts.Customer', blank=True, related_name='flights')
 
 
     @property

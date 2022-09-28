@@ -25,7 +25,7 @@
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li class="nav-item"><a class="nav-link" href="{%url 'homepage'%}">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                            {% comment %} <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
                             <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
                             <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
                             <li class="nav-item dropdown">
@@ -34,7 +34,7 @@
                                     <li><a class="dropdown-item" href="blog-home.html">Blog Home</a></li>
                                     <li><a class="dropdown-item" href="blog-post.html">Blog Post</a></li>
                                 </ul>
-                            </li>
+                            </li> {% endcomment %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle me-5" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Portfolio</a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
@@ -43,7 +43,7 @@
                                 </ul>
                             </li>
                             {%if user.is_authenticated%}
-                            <li class="nav-item"><a class="nav-link " href="#">Profile</a></li>
+                            <li class="nav-item"><a class="nav-link " href="#">{{user.username}}</a></li>
                             <li class="nav-item"><a class="nav-link" href="{%url 'logout'%}">Logout</a></li>
                             {%else%}
                             <li class="nav-item"><a class="nav-link " href="{%url 'login'%}">Login</a></li>
