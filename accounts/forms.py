@@ -1,3 +1,4 @@
+from dataclasses import field
 from django import forms
 from django.contrib.auth.models import User
 from . import models
@@ -20,3 +21,14 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = models.CustomUser
         fields = ['username', 'email','password1', 'password2']
+
+
+class CustomerProfileForm(forms.ModelForm):
+    class Meta:
+        model = models.Customer
+        exclude  = ('user',)
+    # def __init__(self, *args, **kwargs):
+    #     super(CustomerProfileForm, self).__init__(*args, **kwargs)
+    #     for key in self.fields.keys(): 
+    #         self.fields[key].required = True
+    #         print(f'{key}')

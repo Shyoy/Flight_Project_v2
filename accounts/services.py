@@ -42,4 +42,3 @@ def _m2m_user_groups_receiver(action , instance,**kwargs):
             # creates a user administrator
             acc_models.Administrator.objects.create(user=instance)
             print(instance.administrator)
-    
