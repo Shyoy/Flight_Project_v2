@@ -12,7 +12,14 @@
                      <div class="card-header fs-2 text-white bg-dark mb-3">
                         Profile
                     </div> 
-                    {% comment %} <div class="card-body p-4">
+                    <div class="card-body p-4 fs-4">
+                        {%if user.customer.valid_customer%} 
+                            <p>First Name: <il class="me-5" style="float:right;">{{customer.first_name}}</il></p>
+                            <p>Last Name:<il class="me-5" style="float:right;">{{customer.last_name}}</il></p>
+                            <p>Phone Number: <il class="me-5" style="float:right;">{{customer.phone_number}}</il></p>
+                            
+
+                        {% else %}
                         <form method="post">
                             {%csrf_token%}
                             {%for inp in form %}
@@ -21,8 +28,9 @@
                             {%endfor%}
                             <button type="submit" class="btn btn-dark" style="float:right;"> Submit </button>
                         </form>
+                        {% endif %}
                     </div>
-                    <div class="ml-4">
+                    {% comment %} <div class="ml-4">
                         <p class="text-muted small"> Already have an account ?
                         <a href="{%url 'login'%}" class="btn-blue ">login</a></p>
                     </div> {% endcomment %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 #Res
 from django.contrib.auth.models import AbstractUser
@@ -22,15 +23,18 @@ class Customer(models.Model):
 
     @property
     def valid_customer(self):
-        if all([self.first_name,self.last_name,self.phone_number]):
-            return True
-        return False
+        return all([self.first_name,self.last_name,self.phone_number])
+
 
     def __str__(self):
         if not self.valid_customer:
             return self.user.email
         return self.first_name + " " + self.last_name
 
+    # def clean(self):
+    #     if self.id and not self.valid_customer:
+    #         ValidationError('customer is not valid')
+        
 
 class Airline(models.Model):
     user = models.OneToOneField(CustomUser, related_name='airline', on_delete=models.CASCADE)
