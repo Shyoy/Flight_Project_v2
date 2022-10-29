@@ -99,8 +99,3 @@ workspaces
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
-
-# TEMPLATES #
-startbootstrap-modern-business-gh-pages
-startbootstrap-sb-admin-2-gh-pages
-startbootstrap-small-business-gh-pages
