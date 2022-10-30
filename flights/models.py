@@ -27,6 +27,9 @@ class Flight(models.Model):
     def remaining_tickets(self):
         return self.tickets - self.passengers.count()
     
+    @property
+    def flight_duration(self):
+        return self.landing_time - self.departure_time
 
         
     def __str__(self):
