@@ -4,6 +4,8 @@ from django.views.generic import TemplateView , FormView, ListView
 from accounts.forms import CustomerProfileForm
 from flights.forms import SearchFlightsForm
 from django.urls import reverse_lazy
+from django.core.paginator import Paginator
+import urllib.parse
 from accounts import models as acc_models
 from flights.models import Flight
 
@@ -86,12 +88,20 @@ class SearchView(FormView):##TODO: implement
         context = super(SearchView, self).get_context_data(**kwargs)
         # context['customer'] = self.request.user.customer.__dict__
         # return context
-        q = self.request.GET
+        q = dict(self.request.GET)
         if not q:
             context['q']= True
             return context
+        self.paginator = Paginator(self.results,1)
+        page_number = q.pop('page', [1])[0]
+        get = '?' + urllib.parse.urlencode(q, doseq=True)
+        print(get)
+        print(page_number)
+        page_obj = self.paginator.get_page(page_number)
+        print(page_obj.object_list)
         # print(f'results: {self.results}')
-        context['results']= self.results
+        context['get'] = get
+        context['page_obj']= page_obj
         return context
 
 

@@ -21,13 +21,9 @@
                                 {% endfor %}
                             </div>
                             
-                            <button type="submit" class="btn btn-dark" style="float:right;"> Filter </button>
+                            <button type="submit" class="btn btn-dark p-2 fs-4" style="float:right;"> FILTER </button>
                           </form>
                     </div>
-                    {% comment %} <div class="ml-4">
-                        <p class="text-muted small"> Already have an account ?
-                        <a href="{%url 'login'%}" class="btn-blue ">login</a></p>
-                    </div> {% endcomment %}
                 </div>
             </div>
         </div>
@@ -37,18 +33,17 @@
                     <div class="card-header fs-3 text-white bg-dark mb-0 text-center">   
                         Flights
                     </div>
-                    {{from.data}}
                     {% if q %}
                         <div class="card h-100 shadow border-0 p-3 fs-1 ">
-                            <p class="center">Search for a flight</p> 
+                            <p class="text-center">Search for a flight</p> 
                         </div>
-                    {%elif results.count == 0 %}
+                    {%elif page_obj.paginator.count == 0 %}
                         <div class="card h-100 shadow border-0 p-3 fs-1 ">
-                            <p class="center">There are no avalible flights</p> 
+                            <p class="me-5 mb-0 small text-center">There are no avalible flights</p>
                         </div>
                     {% else %}
                     <div class="text-black bg-secondary p-1 text-end small">
-                        <p class="me-5 mb-0 small">Flights Found {{results.count}}</p>  
+                        <p class="me-5 mb-0 small">Flights Found {{page_obj.paginator.count}}</p>  
                     </div>
                     <table class="table table-success table-striped mb-0 table-hover">
                         <thead class="p-3 fs-5">
@@ -61,27 +56,97 @@
                           </tr>
                         </thead>
                         <tbody>
-                          
-                    {%for flight in results%}
-                    {% comment %} <div class="">
-                        <div class=" bg-success bg-gradient  p-3 fs-6">{{flight}}</div>
-                    </div> {% endcomment %}
-                        <tr onclick="window.location='#';">
-                            <th scope="row">{{flight.id}}</th>
-                            <td>{{flight.departure_time}}</td>
-                            <td>{{flight.landing_time}}</td>
-                            <td>{{flight.origin_country}}</td>
-                            <td>{{flight.destination_country}}</td>
-                            </tr>
-                        
-                        
-                    {% endfor %}
-                    </tbody>
-                  </table>
+                            {% for flight in page_obj.object_list %}
+                            {# Each "contact" is a Contact model object. #}
+                            
+                            {% comment %} <div class="">
+                                <div class=" bg-success bg-gradient  p-3 fs-6">{{flight}}</div>
+                            </div> {% endcomment %}
+                                <tr onclick="window.location='#';">
+                                    <th scope="row">{{flight.id}}</th>
+                                    <td>{{flight.departure_time}}</td>
+                                    <td>{{flight.landing_time}}</td>
+                                    <td>{{flight.origin_country}}</td>
+                                    <td>{{flight.destination_country}}</td>
+                                    </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="card-footer">
+                        <nav aria-label="...">
+                        <ul class="pagination text-center mb-0">
+                                {% if page_obj.has_previous and page_obj.has_next %}
+                                <li class="page-item col-md-1 mb-0 p-1">
+                                    <a class="page-link" href="{{get}}&page=1">&laquo; first</a>
+                                </li>
+
+                                <li class="page-item col-md-1 mb-0 p-1">
+                                    <a class="page-link" href="{{get}}&page={{ page_obj.previous_page_number }}">previous</a>
+                                </li>
+
+                                <span class="current col-md-8 mb-0 p-1">
+                                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                </span>
+                                
+                                <li class="page-item col-md-1 mb-0 p-1">
+                                    <a class="page-link" href="{{get}}&page={{ page_obj.next_page_number }}">next</a>
+                                </li>
+
+                                <li class="page-item col-md-1 mb-0 p-1">
+                                    <a class="page-link" href="{{get}}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                                </li>
+
+                                {% elif page_obj.has_previous %}
+                                <li class="page-item col-md-1 mb-0 p-1 ">
+                                    <a class="page-link" href="{{get}}&page=1">&laquo; first</a>
+                                </li>
+
+                                <li class="page-item col-md-1 mb-0 p-1 ">
+                                    <a class="page-link" href="{{get}}&page={{ page_obj.previous_page_number }}">previous</a>
+                                </li>
+                                
+                                <span class="current col-md-8 mb-0 p-1">
+                                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                </span>
+
+                                <li class="page-item disabled col-md-1 mb-0 p-1 ">
+                                    <a class="page-link" >next</a>
+                                </li>
+
+                                <li class="page-item disabled col-md-1 mb-0 p-1">
+                                    <a class="page-link" href="{{get}}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                                </li>
+                                
+                                {% elif page_obj.has_next %}
+                                <li class="page-item disabled col-md-1 mb-0 p-1">
+                                    <a class="page-link" href="{{get}}&page=1">&laquo; first</a>
+                                </li>
+                                
+                                <li class="page-item disabled col-md-1 mb-0 p-1">
+                                    <a class="page-link">previous</a>
+                                </li>
+
+                                <span class="current col-md-8 p-1">
+                                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                </span>
+                                
+                                <li class="page-item col-md-1 mb-0 p-1">
+                                    <a class="page-link" href="{{get}}&page={{ page_obj.next_page_number }}">next</a>
+                                </li>
+                                
+                                <li class="page-item col-md-1 mb-0 p-1">
+                                    <a class="page-link" href="{{get}}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                                </li>
+                                {% endif %}
+                                
+                        </ul>
+                    </nav>
+                    </div>
                     {% endif %}
                 </div>
             </div>
         </div>
+       
     </section>
     
     {% endblock content %}
