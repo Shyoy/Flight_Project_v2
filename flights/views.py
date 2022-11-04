@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.core.paginator import Paginator
 import urllib.parse
 from accounts import models as acc_models
-from flights.mixins import GroupTestMixin
+from accounts.mixins import AllowedGroupsTestMixin
 from flights.models import Flight
 
 # 
@@ -25,7 +25,8 @@ def homepage(request):
 
 # TODO: Customer views
 
-class CustomerProfile(FormView):
+class CustomerProfile(AllowedGroupsTestMixin, FormView):
+    allowed_groups = ['customers']
     template_name = 'customer/profile.html'
     form_class = CustomerProfileForm
     success_url = reverse_lazy('profile')
@@ -48,7 +49,8 @@ class CustomerProfile(FormView):
         return super(CustomerProfile, self).form_valid(form)
 
 
-class SearchView(GroupTestMixin, FormView):##TODO: implement
+class SearchView(AllowedGroupsTestMixin, FormView):##TODO: implement
+    allowed_groups = ['__all__']
     model = Flight
     template_name = "customer/search_flights.html"
     form_class = SearchFlightsForm
