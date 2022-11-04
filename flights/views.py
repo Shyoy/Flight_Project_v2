@@ -1,4 +1,4 @@
-
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView , FormView, ListView
 from accounts.forms import CustomerProfileForm
@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.core.paginator import Paginator
 import urllib.parse
 from accounts import models as acc_models
+from flights.mixins import GroupTestMixin
 from flights.models import Flight
 
 # 
@@ -47,11 +48,10 @@ class CustomerProfile(FormView):
         return super(CustomerProfile, self).form_valid(form)
 
 
-class SearchView(FormView):##TODO: implement
+class SearchView(GroupTestMixin, FormView):##TODO: implement
     model = Flight
     template_name = "customer/search_flights.html"
     form_class = SearchFlightsForm
-    # success_url = reverse_lazy('search_flights')
     paginate_by = 1
 
     def get(self, request, *args, **kwargs):
@@ -62,32 +62,15 @@ class SearchView(FormView):##TODO: implement
                                             departure_time__contains=q['departure_time']).order_by('-landing_time')
         return super().get(request, *args, **kwargs)
 
-    # def get_form(self):
-    #     """Returns form_class with user customer as instance"""
-    #     q = self.request.GET
-    #     print(q)
-    #     return self.form_class( **self.get_form_kwargs())
-    
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         q = self.request.GET
         kwargs['initial'] = q
         return kwargs
 
-    # def form_valid(self, form):
-    #     """This saves the form that creates new customer and returns success_url"""
-    #     q = self.request.GET
-    #     print(q)
-    #     # This method is called when valid form data has been POSTed.
-    #     # It should return an HttpResponse.
-    #     super(CustomerProfile, self).form_valid(form)
-    
-
     def get_context_data(self, **kwargs):
         """Add context to the template"""
         context = super(SearchView, self).get_context_data(**kwargs)
-        # context['customer'] = self.request.user.customer.__dict__
-        # return context
         q = dict(self.request.GET)
         if not q:
             context['q']= True
@@ -95,10 +78,7 @@ class SearchView(FormView):##TODO: implement
         self.paginator = Paginator(self.results,1)
         page_number = q.pop('page', [1])[0]
         get = '?' + urllib.parse.urlencode(q, doseq=True)
-        print(get)
-        print(page_number)
         page_obj = self.paginator.get_page(page_number)
-        print(page_obj.object_list)
         # print(f'results: {self.results}')
         context['get'] = get
         context['page_obj']= page_obj
