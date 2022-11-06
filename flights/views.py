@@ -50,42 +50,54 @@ class CustomerProfile(AllowedGroupsTestMixin, FormView):
 
 
 class SearchView(AllowedGroupsTestMixin, FormView):##TODO: implement
-    allowed_groups = ['__all__']
+    allowed_groups = '__all__'
     model = Flight
     template_name = "customer/search_flights.html"
     form_class = SearchFlightsForm
-    paginate_by = 1
+    paginate_by = 2
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):## TODO add get false request check
+        
+        # origin_country = request.GET.get('origin_country')
+        # destination_country = request.GET.get('destination_country')
+        # departure_time = request.GET.get('departure_time')
         q = request.GET
+        print('THis is get')
         if q:
             self.results = Flight.objects.filter(origin_country__name__icontains=q['origin_country'],
                                                 destination_country__name__icontains=q['destination_country'],
                                             departure_time__contains=q['departure_time']).order_by('-landing_time')
         return super().get(request, *args, **kwargs)
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        q = self.request.GET
-        kwargs['initial'] = q
-        return kwargs
+    # def get_form_kwargs(self):
+    #     kwargs = super().get_form_kwargs()
+    #     q = self.request.GET
+    #     kwargs['initial'] = q
+    #     return kwargs
+
+
 
     def get_context_data(self, **kwargs):
         """Add context to the template"""
+        print('THis is get_context_data')
         context = super(SearchView, self).get_context_data(**kwargs)
         q = dict(self.request.GET)
-        if not q:
-            context['q']= True
-            return context
-        self.paginator = Paginator(self.results,1)
-        page_number = q.pop('page', [1])[0]
+        
         get = '?' + urllib.parse.urlencode(q, doseq=True)
-        page_obj = self.paginator.get_page(page_number)
-        # print(f'results: {self.results}')
         context['get'] = get
-        context['page_obj']= page_obj
+        
+        if not get=='?':
+            self.paginator = Paginator(self.results,self.paginate_by)
+            page_number = q.pop('page', [1])[0]
+            page_obj = self.paginator.get_page(page_number)
+            # print(f'results: {self.results}')
+            context['page_obj']= page_obj
         return context
 
+    def get_initial(self):
+        """Return the initial data to use for forms on this view."""
+        print('get_initial')
+        return self.request.GET
 
 # TODO: AirLine views
 # TODO: Administrator views

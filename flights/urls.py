@@ -13,4 +13,7 @@ urlpatterns = [
     # Customer urlpatterns
     path('profile/',views.CustomerProfile.as_view(), name='profile'),
     path('search/',views.SearchView.as_view(), name='search_flights'),
+    
+
 ]
+

@@ -17,6 +17,7 @@ class RegisterForm(FormView):
     template_name = 'accounts/register.html'
     form_class = forms.UserRegisterForm
     success_url = reverse_lazy('homepage')
+    
     def form_valid(self, form): ##TODO: finish user save
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
@@ -29,5 +30,4 @@ class RegisterForm(FormView):
         login(self.request, user)
         print('user logged in successfully') 
        
-
         return super(RegisterForm, self).form_valid(form)
