@@ -26,8 +26,8 @@ from django.core.exceptions import ValidationError
 
 class SearchFlightsForm(forms.Form):
 
-    origin_country = forms.CharField(label='From:', widget=forms.TextInput(attrs={'placeholder': 'Country name'}),required = False)
-    destination_country = forms.CharField(label='To:', widget=forms.TextInput(attrs={'placeholder': 'Country name'}),required = False)
+    origin_country = forms.CharField(label='From:', widget=forms.TextInput(attrs={'placeholder': 'Country name','size':13}),required = False)
+    destination_country = forms.CharField(label='To:', widget=forms.TextInput(attrs={'placeholder': 'Country name' ,'size':13}),required = False)
     departure_time = forms.DateField(label='Date:', widget=forms.DateInput(attrs={'type':'date'}),required = False)
     # landing_time = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}),required = False)
 

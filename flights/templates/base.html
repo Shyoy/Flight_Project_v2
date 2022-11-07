@@ -15,12 +15,28 @@
         <link href="{%static 'css/styles.css' %}" rel="stylesheet" />
     </head>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cabin:ital@1&family=Karantina&family=Poppins:wght@300&display=swap');
+
+            html,
+            body,
+            #root {
+                
+                height: 100%;
+                
+                font-style: italic;
+                
+                font-family: 'Cabin', sans-serif;
+                font-family: 'Karantina', cursive;
+                font-family: 'Poppins', sans-serif;
+                
+            }
         .bg-pic {
                 background-image: url("https://d3d5bpai12ti8.cloudfront.net/wp-content/uploads/20200730112109/iStock-1142278364.jpg");
                 background-color: #cccccc;
                 {% comment %} background-repeat: no-repeat, repeat; {% endcomment %}
                 background-size: cover
            }
+           
     </style>  
     <body class=" d-flex flex-column h-100">
         <header class="flex-shrink-0">
