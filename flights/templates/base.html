@@ -14,8 +14,16 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{%static 'css/styles.css' %}" rel="stylesheet" />
     </head>
-    <body class="d-flex flex-column h-100">
-        <main class="flex-shrink-0">
+    <style>
+        .bg-pic {
+                background-image: url("https://d3d5bpai12ti8.cloudfront.net/wp-content/uploads/20200730112109/iStock-1142278364.jpg");
+                background-color: #cccccc;
+                {% comment %} background-repeat: no-repeat, repeat; {% endcomment %}
+                background-size: cover
+           }
+    </style>  
+    <body class=" d-flex flex-column h-100">
+        <header class="flex-shrink-0">
             <!-- Navigation-->
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container px-5">
@@ -53,12 +61,23 @@
                     </div>
                 </div>
             </nav>
+        </header>
+        <main class="bg-pic flex-shrink-0 flex-fill ">
+        {% for message in messages %}
+            <div class="container-fluid p-0 shadow-3" style='position: fixed; z-index: 2;'>
+                <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert" >
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <strong>{{ message }}</strong>
+                </div>
+            </div>
+        {% endfor %}
+        
         {%block content%}
            
         {%endblock content%}
         </main>
         <!-- Footer-->
-        <footer class="bg-dark py-4 mt-auto">
+        <footer class="bg-dark py-3 flex-shrink-0 mt-auto">
             <div class="container px-5">
                 <div class="row align-items-center justify-content-between flex-column flex-sm-row">
                     <div class="col-auto"><div class="small m-0 text-white">Copyright &copy; Your Website 2022</div></div>

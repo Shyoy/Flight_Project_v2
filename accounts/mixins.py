@@ -9,6 +9,6 @@ class AllowedGroupsTestMixin(LoginRequiredMixin,UserPassesTestMixin):
             return True
         user = self.request.user
         # in_groups = self.request.user.groups.first().name in self.allowed_groups
-        print(self.allowed_groups)
-        print(self.request.user.groups.all())
+        # print(self.allowed_groups)
+        # print(self.request.user.groups.all())
         return  user.is_superuser or user.groups.first().name in self.allowed_groups

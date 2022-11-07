@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class=" py-5">
+        <div class="d-flex justify-content-center">
+            <div class="col-lg-6 mb-5">
+                <div class="card h-100 shadow border-1 ">
+                    <div class="card-header fs-4 text-white bg-dark mb-1">
+                        <span>Flight Number: {{object.id}}</span>
+                    </div> 
+                    <div class="card-body p-3 fs-5">
+                        <form  class='form' method="POST" action"/">
+                            {% csrf_token %}
+                            
+                            <div class='d-flex flex-column'>
+                                <div class="py-3">
+                                    <span class="mx-4 shadow border-1 p-2 bg-success">AirLine: {{object.airline.name}}</span>
+                                </div>
+                                <div class="py-3">
+                                    <span class="mx-4 shadow border-1 p-2 bg-success">From: {{object.origin_country}}</span>
+                                    <span class="shadow border-1 p-2 bg-success">To: {{object.destination_country}}</span>
+                                </div>
+                                <div class="py-3">
+                                    <span class="mx-4 shadow border-1 p-2 bg-success">Depart At: {{object.departure_time|date:"d-M-y, H:i"}}</span>
+                                    <span class="shadow border-1 p-2 bg-success">Landing At: {{object.landing_time|date:"d-M-y, H:i"}}</span>
+                                </div>
+                                <div class="mt-auto mb-0  d-flex align-items-end flex-column ">
+                                    {% if object.ramaining_tickets != 0 %}
+                                    
+                                    <button type="submit" class="btn btn-dark fs-4" value='True' name='book'> Book </button>
+                                    
+                                    {%elif object.ramaining_tickets == 0 %}
+                                        <span class="shadow border-1"> There is no longer place in this flight</span>
+                                    {% endif %}
+                                </div>
+
+                                {% comment %} <span class="shadow border-1">AirLine: {{object.airline.name}}</span> {% endcomment %}
+                                {% comment %} {% for field in form %}
+                                    <div class='col-md-4 mb-2'>
+                                    {{field|as_crispy_field}}
+                                    </div>
+                                {% endfor %} {% endcomment %}
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock content %}
