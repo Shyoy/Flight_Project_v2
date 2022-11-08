@@ -16,6 +16,7 @@
     </head>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cabin:ital@1&family=Karantina&family=Poppins:wght@300&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
 
             html,
             body,
@@ -36,18 +37,22 @@
                 {% comment %} background-repeat: no-repeat, repeat; {% endcomment %}
                 background-size: cover
            }
+        #title {
+            font-family: 'Gloria Hallelujah', cursive;
+        }
+
            
     </style>  
     <body class=" d-flex flex-column h-100">
         <header class="flex-shrink-0">
             <!-- Navigation-->
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div class="container px-5">
-                    <a class="navbar-brand" href="{%url 'homepage'%}">Start Bootstrap</a>
+                <div class="container px-2 fs-5">
+                    <a class="navbar-brand fs-4" id="title" href="{%url 'homepage'%}">Sky Searcher</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                            <li class="nav-item"><a class="nav-link" href="{%url 'homepage'%}">Home</a></li>
+                        <ul class="navbar-nav ms-auto flex-fill px-3 mb-lg-0">
+                            <li class="nav-item"><a class="nav-link active" href="{%url 'homepage'%}">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
                             {% comment %} <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
                             <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
@@ -59,16 +64,26 @@
                                     <li><a class="dropdown-item" href="blog-post.html">Blog Post</a></li>
                                 </ul>
                             </li> {% endcomment %}
-                            <li class="nav-item dropdown">
+                            {% comment %} <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle me-5" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Portfolio</a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
                                     <li><a class="dropdown-item" href="portfolio-overview.html">Portfolio Overview</a></li>
                                     <li><a class="dropdown-item" href="portfolio-item.html">Portfolio Item</a></li>
                                 </ul>
-                            </li>
+                            </li> {% endcomment %}
+                        </ul>
+                        <ul class="navbar-nav ms-auto  mb-lg-0">
                             {%if user.is_authenticated%}
-                            <li class="nav-item"><a class="nav-link " href="{%url 'profile'%}">{{user.username}}</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{%url 'logout'%}">Logout</a></li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle px-4" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{user.username}}</a>
+                                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                    <li><a class="dropdown-item" href="{%url 'profile'%}">Profile</a></li>
+                                    <li><a class="dropdown-item" href="{%url 'logout'%}">Logout</a></li>
+                                </ul>
+                            </li>
+                            {% comment %} <li class="nav-item"><a class="nav-link " href="{%url 'profile'%}">{{user.username}}</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{%url 'logout'%}">Logout</a></li> {% endcomment %}
                             {%else%}
                             <li class="nav-item"><a class="nav-link " href="{%url 'login'%}">Login</a></li>
                             <li class="nav-item"><a class="nav-link" href="{%url 'register'%}">Register</a></li>

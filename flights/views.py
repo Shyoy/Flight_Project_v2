@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.contrib.auth.mixins import PermissionRequiredMixin ,AccessMixin
 from django.shortcuts import render, redirect, HttpResponse
 from django.views.generic import TemplateView , FormView, ListView, DetailView
@@ -35,8 +36,15 @@ class CustomerProfile(AllowedGroupsTestMixin, FormView):
 
     def get_context_data(self, **kwargs):
         """Adds customer details to the context"""
+        print('this is context')
         context = super(CustomerProfile, self).get_context_data(**kwargs)
         context['customer'] = self.request.user.customer.__dict__
+
+
+        context['flight_history'] = self.request.user.customer.flights.filter(departure_time__lte = timezone.now()).order_by('-departure_time')
+        context['current_flights'] = self.request.user.customer.flights.filter(departure_time__gt = timezone.now()).order_by('-departure_time')
+        print(context['flight_history'])
+        print(context['current_flights'])
         return context
 
     def get_form(self):
@@ -45,6 +53,7 @@ class CustomerProfile(AllowedGroupsTestMixin, FormView):
     
     def form_valid(self, form):
         """This saves the form that creates new customer and returns success_url"""
+        print('this is form_valid')
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
         form.save()
@@ -56,6 +65,7 @@ class CustomerProfile(AllowedGroupsTestMixin, FormView):
             path_next = self.request.path+'?next='+next
             return redirect(path_next)
         return super(CustomerProfile, self).form_valid(form)
+
 
 class SearchView(AllowedGroupsTestMixin, FormView):##TODO: implement
     allowed_groups = '__all__'

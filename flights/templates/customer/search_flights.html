@@ -64,8 +64,8 @@
                             </div> {% endcomment %}
                                 <tr onclick="window.location='{%url 'flight_detail' flight.id %}';">
                                     <th scope="row">{{flight.id}}</th>
-                                    <td>{{flight.departure_time}}</td>
-                                    <td>{{flight.landing_time}}</td>
+                                    <td>{{flight.departure_time|date:"d-m-y, H:i"}}</td>
+                                    <td>{{flight.landing_time|date:"d-m-y, H:i"}}</td>
                                     <td>{{flight.origin_country}}</td>
                                     <td>{{flight.destination_country}}</td>
                                     </tr>

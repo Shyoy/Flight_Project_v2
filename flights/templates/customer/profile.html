@@ -23,7 +23,8 @@
             overflow: auto;
             }
         .table-wrapper-scroll-y {
-        display: block;
+            background-color: #d1e7dd;
+            display: block;
         }
         
     </style>
@@ -77,19 +78,19 @@
         {% comment %} Card 2 {% endcomment %}
         <div class="p-2">
             <div class="card h-100 shadow border-0 ">
-                <div class="card-header fs-2 text-white bg-dark mb-0">
-                    Current Flights
+                <div class="text-center card-header fs-2 text-white bg-dark mb-0">
+                    Current Flights 
                 </div> 
                 <div class="card-header py-0 px-0">
                     <table class="table table-bordered table-success mb-0">
                         <thead>
                             <tr>
-                                <th width="100px" scope="col">No.</th>
-                                <th width="150px" scope="col">Departure Time</th>
-                                <th width="150px" scope="col">Landing Time</th>
-                                <th width="150px" scope="col">Origin Country</th>
-                                <th scope="col">Destination Country</th>
-
+                                <th width="80px" scope="col">No.</th>
+                                <th width="160px" scope="col">Departure Time</th>
+                                <th width="160px" scope="col">Departing From</th>
+                                <th width="160px" scope="col">Landing Time</th>
+                                <th width="160px" scope="col">Landing at</th>
+                                <th scope="col">Airline</th>
                             </tr>
                         </thead>
                     </table>
@@ -97,13 +98,22 @@
                 <div class="card-body py-0 px-0 table-wrapper-scroll-y my-custom-scrollbar">
                     <table class="table table-bordered table-striped table-success mb-0">
                         <tbody>
-                        {% for i in '0123456789'|make_list  %}
+                        {% if not current_flights %}
+                            <div class="text-center fs-2 py-1 px-0">
+                                No Flights yet
+                                <a class="small" href="{%url 'search_flights' %}"><div class="card-body text-end fs-5 small mt-5 px-5">
+                                    Book A New Flight
+                                </div></a>
+                            </div>
+                        {% endif %}
+                        {% for flight in current_flights  %}
                             <tr>
-                                <th width="100px" scope="row">{{i}}</th>
-                                <td width="150px">10/02/22 17:20</td>
-                                <td width="150px">10/02/22 22:20</td>
-                                <td width="150px">Israel</td>
-                                <td >Spain</td>
+                                <th width="80px" scope="row">{{flight.id}}</th>
+                                <td width="160px">{{flight.departure_time|date:"d-m-y, H:i"}}</td>
+                                <td width="160px">{{flight.origin_country}}</td>
+                                <td width="160px">{{flight.landing_time|date:"d-m-y, H:i"}}</td>
+                                <td width="160px">{{flight.destination_country}}</td>
+                                <td >{{flight.airline.name| capfirst}}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -131,19 +141,19 @@
         {% comment %} Card 4 {% endcomment %}
         <div class="p-2">
             <div class="card h-100 shadow border-0 ">
-                <div class="card-header fs-2 text-white bg-dark mb-0">
+                <div class="text-center card-header fs-2 text-white bg-dark mb-0">
                     Flight History
                 </div> 
                 <div class="card-header py-0 px-0">
                     <table class="table table-bordered table-success mb-0">
                         <thead>
                             <tr>
-                                <th width="100px" scope="col">No.</th>
-                                <th width="150px" scope="col">Departure Time</th>
-                                <th width="150px" scope="col">Landing Time</th>
-                                <th width="150px" scope="col">Origin Country</th>
-                                <th scope="col">Destination Country</th>
-
+                                <th width="80px" scope="col">No.</th>
+                                <th width="160px" scope="col">Departure Time</th>
+                                <th width="160px" scope="col">Departing From</th>
+                                <th width="160px" scope="col">Landing Time</th>
+                                <th width="160px" scope="col">Landing at</th>
+                                <th scope="col">Airline</th>
                             </tr>
                         </thead>
                     </table>
@@ -151,13 +161,14 @@
                 <div class="card-body py-0 px-0 table-wrapper-scroll-y my-custom-scrollbar">
                     <table class="table table-bordered table-striped table-success mb-0">
                         <tbody>
-                        {% for i in '0123456789'|make_list  %}
+                        {% for flight in flight_history  %}
                             <tr>
-                                <th width="100px" scope="row">{{i}}</th>
-                                <td width="150px">10/02/22 17:20</td>
-                                <td width="150px">10/02/22 22:20</td>
-                                <td width="150px">Israel</td>
-                                <td >Spain</td>
+                                <th width="80px" scope="row">{{flight.id}}</th>
+                                <td width="160px">{{flight.departure_time|date:"d-m-y, H:i"}}</td>
+                                <td width="160px">{{flight.origin_country}}</td>
+                                <td width="160px">{{flight.landing_time|date:"d-m-y, H:i"}}</td>
+                                <td width="160px">{{flight.destination_country}}</td>
+                                <td >{{flight.airline.name| capfirst}}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
