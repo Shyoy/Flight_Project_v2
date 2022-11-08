@@ -49,8 +49,8 @@ class CustomerProfile(AllowedGroupsTestMixin, FormView):
         # It should return an HttpResponse.
         form.save()
         next = self.request.GET.get('next')
-        url , page_id = next.split('/')[1:]
         if next:
+            url , page_id = next.split('/')[1:]
             if self.request.user.customer.valid_customer:
                 return redirect(url, pk=page_id)
             path_next = self.request.path+'?next='+next
@@ -102,7 +102,7 @@ class SearchView(AllowedGroupsTestMixin, FormView):##TODO: implement
         return self.request.GET
 
 
-class FlightView(AllowedGroupsTestMixin, AccessMixin, DetailView):
+class FlightView(AllowedGroupsTestMixin, DetailView):
     allowed_groups = ['customers']
     template_name = 'customer/flight_detail.html'
     model = Flight

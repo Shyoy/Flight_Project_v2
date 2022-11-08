@@ -27,8 +27,12 @@ class CustomerProfileForm(forms.ModelForm):
     class Meta:
         model = models.Customer
         exclude  = ('user',)
-    # def __init__(self, *args, **kwargs):
-    #     super(CustomerProfileForm, self).__init__(*args, **kwargs)
-    #     for key in self.fields.keys(): 
-    #         self.fields[key].required = True
-    #         print(f'{key}')
+    def __init__(self, *args, **kwargs):
+        super(CustomerProfileForm, self).__init__(*args, **kwargs)
+        for fieldname in self.fields.keys(): 
+            self.fields[fieldname].widget.attrs["class"] = f'input-sm'
+            self.fields[fieldname].widget.attrs["size"] = 12
+
+        self.fields['first_name'].widget.attrs["placeholder"] = 'Barack'
+        self.fields['last_name'].widget.attrs["placeholder"] = 'Obama'
+        self.fields['phone_number'].widget.attrs["placeholder"] = '0549998888'

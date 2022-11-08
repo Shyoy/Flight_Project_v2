@@ -3,31 +3,48 @@
 
 {% load crispy_forms_tags %}
 
-    {% block content %}
-    <section class="py-5">
-        <div class="d-flex justify-content-center">
+{% block content %}
+    <style>
+        .Layout {
+            height: 100%;
+            box-sizing: border-box; /* Real with and height */
+            display: grid;
+            grid-template-rows: 38% 1fr;
+            grid-template-columns: repeat(2, 1fr); /* fr = Fraction = יחידת מידה אחת */
+            
+        }
+        #profile {
+            grid-row: span 2;
+            overflow: auto;
+        }
+        .my-custom-scrollbar {
+            position: relative;
+            height: 200px;
+            overflow: auto;
+            }
+        .table-wrapper-scroll-y {
+        display: block;
+        }
+        
+    </style>
+{%if not user.customer.valid_customer%} 
+    <section class="py-5 mx-3 h-100 w-75">
+        {% comment %} Card 1 {% endcomment %}
+        <div class="d-flex justify-content-center w-75"> 
             <div class="col-lg-6 mb-5">
-                <div class="card h-100 shadow border-0 " style='width: 55%;'>
-                     <div class="card-header fs-2 text-white bg-dark mb-3">
+                <div class="card h-100 shadow border-0 ">
+                    <div class="card-header fs-2 text-white bg-dark mb-3">
                         Profile
                     </div> 
                     <div class="card-body p-4 fs-4">
-                        {%if user.customer.valid_customer%} 
-                            <p>First Name: <il class="me-5" style="float:right;">{{customer.first_name}}</il></p>
-                            <p>Last Name:<il class="me-5" style="float:right;">{{customer.last_name}}</il></p>
-                            <p>Phone Number: <il class="me-5" style="float:right;">{{customer.phone_number}}</il></p>
-
-                            
-                        {% else %}
                         <form method="post">
                             {%csrf_token%}
                             {%for inp in form %}
-                                <p class="mb-0">{{inp|as_crispy_field}}</p>
+                                <p class="mb-0 mx-4">{{inp|as_crispy_field}}</p>
                                 
                             {%endfor%}
                             <button type="submit" class="btn btn-dark" style="float:right;"> Submit </button>
                         </form>
-                        {% endif %}
                     </div>
                     {% comment %} <div class="ml-4">
                         <p class="text-muted small"> Already have an account ?
@@ -37,5 +54,119 @@
             </div>
         </div>
     </section>
-    
-    {% endblock content %}
+
+{% else %}
+
+    <section class="py-3 px-5 h-100  Layout">
+        {% comment %} Card 1 {% endcomment %}
+        <div class="p-2"> 
+            <div class="col-lg-6 mb-5">
+                <div class="card h-100 shadow border-0 ">
+                     <div class="card-header fs-2 text-white bg-dark mb-3">
+                        Profile
+                    </div> 
+                    <div class="card-body p-4 fs-4">
+                        <p>First Name: <il class="me-5" style="float:right;">{{customer.first_name}}</il></p>
+                        <p>Last Name:<il class="me-5" style="float:right;">{{customer.last_name}}</il></p>
+                        <p>Phone Number: <il class="me-5" style="float:right;">{{customer.phone_number}}</il></p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% comment %} Card 2 {% endcomment %}
+        <div class="p-2">
+            <div class="card h-100 shadow border-0 ">
+                <div class="card-header fs-2 text-white bg-dark mb-0">
+                    Current Flights
+                </div> 
+                <div class="card-header py-0 px-0">
+                    <table class="table table-bordered table-success mb-0">
+                        <thead>
+                            <tr>
+                                <th width="100px" scope="col">No.</th>
+                                <th width="150px" scope="col">Departure Time</th>
+                                <th width="150px" scope="col">Landing Time</th>
+                                <th width="150px" scope="col">Origin Country</th>
+                                <th scope="col">Destination Country</th>
+
+                            </tr>
+                        </thead>
+                    </table>
+                </div> 
+                <div class="card-body py-0 px-0 table-wrapper-scroll-y my-custom-scrollbar">
+                    <table class="table table-bordered table-striped table-success mb-0">
+                        <tbody>
+                        {% for i in '0123456789'|make_list  %}
+                            <tr>
+                                <th width="100px" scope="row">{{i}}</th>
+                                <td width="150px">10/02/22 17:20</td>
+                                <td width="150px">10/02/22 22:20</td>
+                                <td width="150px">Israel</td>
+                                <td >Spain</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {% comment %} Card 3 {% endcomment %}
+        <div class="p-2">
+            <div class="col-lg-6 mb-5">
+                <div class="card h-100 shadow border-0 ">
+                     <div class="card-header fs-2 text-white bg-dark mb-3">
+                        Current Flights
+                    </div> 
+                    <div class="card-body p-4 fs-4">
+                            <p>First Name: <il class="me-5 " style="float:right;">{{customer.first_name}}</il></p>
+                            <p>Last Name:<il class="me-5" style="float:right;">{{customer.last_name}}</il></p>
+                            <p>Phone Number: <il class="me-5" style="float:right;">{{customer.phone_number}}</il></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% comment %} Card 4 {% endcomment %}
+        <div class="p-2">
+            <div class="card h-100 shadow border-0 ">
+                <div class="card-header fs-2 text-white bg-dark mb-0">
+                    Flight History
+                </div> 
+                <div class="card-header py-0 px-0">
+                    <table class="table table-bordered table-success mb-0">
+                        <thead>
+                            <tr>
+                                <th width="100px" scope="col">No.</th>
+                                <th width="150px" scope="col">Departure Time</th>
+                                <th width="150px" scope="col">Landing Time</th>
+                                <th width="150px" scope="col">Origin Country</th>
+                                <th scope="col">Destination Country</th>
+
+                            </tr>
+                        </thead>
+                    </table>
+                </div> 
+                <div class="card-body py-0 px-0 table-wrapper-scroll-y my-custom-scrollbar">
+                    <table class="table table-bordered table-striped table-success mb-0">
+                        <tbody>
+                        {% for i in '0123456789'|make_list  %}
+                            <tr>
+                                <th width="100px" scope="row">{{i}}</th>
+                                <td width="150px">10/02/22 17:20</td>
+                                <td width="150px">10/02/22 22:20</td>
+                                <td width="150px">Israel</td>
+                                <td >Spain</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endif %}
+
+{% endblock content %}
