@@ -40,11 +40,8 @@ class CustomerProfile(AllowedGroupsTestMixin, FormView):
         context = super(CustomerProfile, self).get_context_data(**kwargs)
         context['customer'] = self.request.user.customer.__dict__
 
-
         context['flight_history'] = self.request.user.customer.flights.filter(departure_time__lte = timezone.now()).order_by('-departure_time')
         context['current_flights'] = self.request.user.customer.flights.filter(departure_time__gt = timezone.now()).order_by('-departure_time')
-        print(context['flight_history'])
-        print(context['current_flights'])
         return context
 
     def get_form(self):
