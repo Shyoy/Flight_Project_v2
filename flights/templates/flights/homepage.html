@@ -9,10 +9,10 @@
             <div class="col-lg-8 col-xl-7 col-xxl-6">
                 <div class="my-5 text-center text-xl-start ">
                     <h1 class="display-5 fw-bolder text-dark mb-2">We make travel accessible for everyone</h1>
-                    <p class="lead fw-normal text-black-50 mb-4">We believe everyone should be free to experience the world. For us, there’s no greater freedom than choosing where you want to be and how you want to get there.</p>
-                    <p class="lead fw-normal text-black-50 mb-4">That’s why we’re breaking down the barriers to low-cost travel, making the world open and accessible for all.</p>
+                    <p class="lead fw-normal text-black-70 mb-4">We believe everyone should be free to experience the world. For us, there’s no greater freedom than choosing where you want to be and how you want to get there.</p>
+                    <p class="lead fw-normal text-black-70 mb-4">That’s why we’re breaking down the barriers to low-cost travel, making the world open and accessible for all.</p>
                     <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
-                        <a class="btn btn-secondary  btn-lg px-4" href="#!">Sing-Up</a>
+                        <a class="btn btn-secondary  btn-lg px-4" href="{%url 'register'%}">Sing-Up</a>
                         <a class="btn btn-primary btn-lg px-4 me-sm-3" href="{%url 'search_flights' %}">Get Started</a>
                     </div>
                 </div>
@@ -79,28 +79,25 @@
         <div class="row gx-5 justify-content-center">
             <div class="col-lg-8 col-xl-6">
                 <div class="text-center">
-                    <h2 class="fw-bolder">From our blog</h2>
-                    <p class="lead fw-normal text-muted mb-5">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque fugit ratione dicta mollitia. Officiis ad.</p>
+                    <h2 class="fw-bolder">Travel inspiration</h2>
+                    <p class="lead fw-normal  mb-5">Our latest travel tips, expert hacks and industry insights to help make your journey one to remember</p>
                 </div>
             </div>
         </div>
         <div class="row gx-5">
             <div class="col-lg-4 mb-5">
                 <div class="card h-100 shadow border-0">
-                    <img class="card-img-top" src="https://dummyimage.com/600x350/ced4da/6c757d" alt="..." />
+                    <img class="card-img-top" width="300" height="219px" src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/26/b3/47/36/3fc388de-ea6e-448c.jpg?w=400&h=300&s=1" alt="https://dummyimage.com/600x350/6c757d/343a40" />
                     <div class="card-body p-4">
                         <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
-                        <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">Blog post title</h5></a>
-                        <p class="card-text mb-0">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a class="text-decoration-none link-dark stretched-link" href="https://www.tripadvisor.com/Articles-lUykacvYbwCY-Best_places_to_travel_november_usa.html"><h5 class="card-title mb-3">The 6 best places to travel in November 2022 in the US</h5></a>
+                        <p class="card-text text-black-70 mb-0">From food festivals to a Thanksgiving you won’t soon forget</iframe></p>
                     </div>
                     <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
                         <div class="d-flex align-items-end justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />
-                                <div class="small">
-                                    <div class="fw-bold">Kelly Rowan</div>
-                                    <div class="text-muted">March 12, 2022 &middot; 6 min read</div>
-                                </div>
+                            <div class="d-flex">
+                                {% comment %} <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." /> {% endcomment %}
+                                <img  height=30px src="https://static.tacdn.com/img2/brand_refresh/Tripadvisor_lockup_horizontal_secondary_registered.svg" alt=""> 
                             </div>
                         </div>
                     </div>
@@ -108,20 +105,16 @@
             </div>
             <div class="col-lg-4 mb-5">
                 <div class="card h-100 shadow border-0">
-                    <img class="card-img-top" src="https://dummyimage.com/600x350/adb5bd/495057" alt="..." />
+                    <img class="card-img-top"  width="300" height="219px" src="https://www.thetravelmagazine.net/wp-content/uploads/Stone-road-1-585x390.jpg" alt="https://dummyimage.com/600x350/6c757d/343a40" />
                     <div class="card-body p-4">
                         <div class="badge bg-primary bg-gradient rounded-pill mb-2">Media</div>
-                        <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">Another blog post title</h5></a>
-                        <p class="card-text mb-0">This text is a bit longer to illustrate the adaptive height of each card. Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a class="text-decoration-none link-dark stretched-link" href="https://www.thetravelmagazine.net/stone-road-of-turkey/"><h5 class="card-title mb-3">Road trip over Tas Yolu – Stone Road in Erzincan, Turkey</h5></a>
+                        <p class="card-text mb-0">Hairpin bends, sharp cliffs and mountain tunnels of the Stone Road await to test your driving spirit.</p>
                     </div>
                     <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
                         <div class="d-flex align-items-end justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />
-                                <div class="small">
-                                    <div class="fw-bold">Josiah Barclay</div>
-                                    <div class="text-muted">March 23, 2022 &middot; 4 min read</div>
-                                </div>
+                            <div class="d-flex">
+                                <img width=150px height=30px src="https://www.thetravelmagazine.net/wp-content/uploads/TTM_logo_background_alt-300x100.png" alt=""> 
                             </div>
                         </div>
                     </div>
@@ -129,20 +122,16 @@
             </div>
             <div class="col-lg-4 mb-5">
                 <div class="card h-100 shadow border-0">
-                    <img class="card-img-top" src="https://dummyimage.com/600x350/6c757d/343a40" alt="..." />
+                    <img class="card-img-top" width="300" height="219px" src="https://lp-cms-production.imgix.net/2022-10/GettyImages-1287374343.jpg?auto=format&q=40&w=400&h=300&fit=crop" alt="https://dummyimage.com/600x350/6c757d/343a40" />
                     <div class="card-body p-4">
                         <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
-                        <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">The last blog post title is a little bit longer than the others</h5></a>
-                        <p class="card-text mb-0">Some more quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a class="text-decoration-none link-dark stretched-link" href="https://www.lonelyplanet.com/articles/europes-best-budget-ski-resorts"><h5 class="card-title mb-3">8 of Europe's most affordable ski resorts for this winter </h5></a>
+                        <p class="card-text mb-0">Europe's looming energy crisis this winter will affect your ski trip: stay in budget at these top European ski resorts.</p>
                     </div>
                     <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
                         <div class="d-flex align-items-end justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />
-                                <div class="small">
-                                    <div class="fw-bold">Evelyn Martinez</div>
-                                    <div class="text-muted">April 2, 2022 &middot; 10 min read</div>
-                                </div>
+                            <div class="d-flex">
+                                    <img height=30px  src="https://upload.wikimedia.org/wikipedia/en/thumb/c/cb/Lonely_Planet.svg/2560px-Lonely_Planet.svg.png" alt="">
                             </div>
                         </div>
                     </div>

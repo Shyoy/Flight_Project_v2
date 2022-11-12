@@ -39,7 +39,7 @@ class Customer(models.Model):
 class Airline(models.Model):
     user = models.OneToOneField(CustomUser, related_name='airline', on_delete=models.CASCADE)
     name = models.CharField(max_length=100, unique=True)
-    country = models.ForeignKey('flights.Country', related_name='airlines',blank=True, null=True ,on_delete=models.DO_NOTHING)
+    country = models.ForeignKey('flights.Country', related_name='airlines',on_delete=models.DO_NOTHING)
     
     @property
     def valid_airline(self):

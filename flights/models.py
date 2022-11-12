@@ -5,8 +5,8 @@ from datetime import timedelta
 # Create your models here.
 
 class Country(models.Model):
-    name = models.CharField(max_length=200)
-    pic = models.URLField(blank=True)
+    name = models.CharField(max_length=200 , unique=True)
+    pic = models.URLField(blank=True,null=True)
     # departing_flights =models.ForeignKey(Flight,related_name='origin_country', on_delete=models.DO_NOTHING)
     # landing_flights =models.ForeignKey(Flight,related_name='destination_country', on_delete=models.DO_NOTHING)
     def __str__(self):

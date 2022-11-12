@@ -73,8 +73,17 @@
                             </li> {% endcomment %}
                         </ul>
                         <ul class="navbar-nav ms-auto  mb-lg-0">
-                            {%if user.is_authenticated%}
-
+                            {%if user.is_superuser%}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle px-4" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{user.username}}</a>
+                                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                    
+                                    <li><a class="dropdown-item" href="/admin">Admin Page</a></li>
+                                    <li><a class="dropdown-item" href="{%url 'logout'%}">Logout</a></li>
+                                </ul>
+                            </li>
+                            
+                            {%elif user.is_authenticated%}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle px-4" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{user.username}}</a>
                                 <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
@@ -88,6 +97,7 @@
                             <li class="nav-item"><a class="nav-link " href="{%url 'login'%}">Login</a></li>
                             <li class="nav-item"><a class="nav-link" href="{%url 'register'%}">Register</a></li>
                             {%endif%}
+                            <li class="nav-item"><a class="nav-link " href="">Time: {% now "H:i" %}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -111,7 +121,7 @@
         <footer class="bg-dark py-3 flex-shrink-0 mt-auto">
             <div class="container px-5">
                 <div class="row align-items-center justify-content-between flex-column flex-sm-row">
-                    <div class="col-auto"><div class="small m-0 text-white">Copyright &copy; Your Website 2022</div></div>
+                    <div class="col-auto"><div class="small m-0 text-white">&copy; SkySearcher 2022</div></div>
                     <div class="col-auto">
                         <a class="link-light small" href="#!">Privacy</a>
                         <span class="text-white mx-1">&middot;</span>
