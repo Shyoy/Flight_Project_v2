@@ -4,6 +4,15 @@ from datetime import timedelta
 
 # Create your models here.
 
+# # New FIELD
+# class NameField(models.CharField):
+#     def __init__(self, *args, **kwargs):
+#         super(NameField, self).__init__(*args, **kwargs)
+
+#     def get_prep_value(self, value):
+#         return str(value).lower()
+
+
 class Country(models.Model):
     name = models.CharField(max_length=200 , unique=True)
     pic = models.URLField(blank=True,null=True)

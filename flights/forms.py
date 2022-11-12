@@ -37,4 +37,16 @@ class SearchFlightsForm(forms.Form):
             raise ValidationError(f'you can only look for future flights dates')
 
 
+# class AddAirline(forms.ModelForm):
+#     class Meta:
+#         model = models.Customer
+#         exclude  = ('user',)
+#     origin_country = forms.CharField(label='From:', widget=forms.TextInput(attrs={'placeholder': 'Country name','size':13}),required = False)
+#     destination_country = forms.CharField(label='To:', widget=forms.TextInput(attrs={'placeholder': 'Country name' ,'size':13}),required = False)
+#     departure_time = forms.DateField(label='Date:', widget=forms.DateInput(attrs={'type':'date'}),required = False)
+#     # landing_time = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}),required = False)
 
+#     def clean(self):
+#         super().clean()
+#         if self.departure_time < timezone.now().date() and self.departure_time:
+#             raise ValidationError(f'you can only look for future flights dates')

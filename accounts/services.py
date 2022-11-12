@@ -33,10 +33,10 @@ def _m2m_user_groups_receiver(action , instance,**kwargs):
             acc_models.Customer.objects.create(user=instance)
             print(instance.customer)
 
-        elif instance.groups.first().name == 'airlines':
-            # creates a user airline
-            acc_models.Airline.objects.create(user=instance , name=instance.username)
-            print(instance.airline)
+        # elif instance.groups.first().name == 'airlines':
+        #     # creates a user airline
+        #     acc_models.Airline.objects.create(user=instance , name=instance.username)
+        #     print(instance.airline)
 
         elif instance.groups.first().name == 'administrators':
             # creates a user administrator
