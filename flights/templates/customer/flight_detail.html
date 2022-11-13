@@ -64,12 +64,18 @@
                                     <span class="shadow border-1 p-2 text-white bg-dark " style="float:right;">Landing At:&ensp; {{object.landing_time|date:"d-M-y, H:i"}}</span>
                                 </div>
                                 <div class="mt-auto mb-0  d-flex align-items-end flex-column">
-                                    {% if object.ramaining_tickets != 0 %}
-                                    
-                                    <button type="submit" class="btn btn-dark fs-4 above" value='True' name='book'> Book </button>
-                                    
-                                    {%elif object.ramaining_tickets == 0 %}
+
+
+                                    {%if object.ramaining_tickets == 0 %}
                                         <span class="shadow border-1 p-2 text-white bg-dark"> There is no longer place in this flight</span>
+                                    
+                                    {% elif needs_confirm %}
+                                    
+                                    <button type="submit" class="btn btn-dark fs-4 above" value='True' name='book' onclick="return confirm('This flight will leave in less then 12 hours are you sure you want to book this flight ?')" > Book </button>
+                                    {%else%}
+                                    
+                                    <button type="submit" class="btn btn-dark fs-4 above" value='True' name='book' > Book </button>
+                                    
                                     {% endif %}
                                 </div>
 

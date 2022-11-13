@@ -1,6 +1,6 @@
 from django.forms import inlineformset_factory
 from django.forms.models import modelformset_factory
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import redirect, render, HttpResponse
 from django.contrib.auth import authenticate, login
 from django.urls import reverse_lazy
 from django.contrib.auth.models import Group
@@ -97,8 +97,8 @@ class AirlineRegister(AllowedGroupsTestMixin, TemplateView):
             country = airline_form.cleaned_data['country']
             models.Airline.objects.create(user=user , name=user.username, country = country )
             messages.add_message(self.request, messages.SUCCESS,
-                                 'airline account Created Successfully you can login now.')
-            return super().get(request, *args, **kwargs)
+                                 f'{user.username} Airline Created Successfully you can login now.')
+            return redirect(self.success_url)
         
         else:
             print('not valid')
@@ -106,22 +106,3 @@ class AirlineRegister(AllowedGroupsTestMixin, TemplateView):
                                  'Airline account creation failed !')
             context={'user_form':user_form,'airline_form':airline_form}
             return self.render_to_response(context=context)
-
-    # def form_invalid(self, form):
-    #     """If the form is invalid, render the invalid form."""
-    #     print('')
-    #     return self.render_to_response(self.get_context_data(form=form))
-
-    # def form_valid(self, form): ##TODO: finish user save
-    #     # This method is called when valid form data has been POSTed.
-    #     # It should return an HttpResponse.
-        
-    #     print('form is valid') 
-    #     # user= form.save()
-    #     print('user saved successfully') 
-    #     # group = Group.objects.get(name='airlines')
-    #     # user.groups.add(group)
-    #     # login(self.request, user)
-    #     messages.add_message(self.request, messages.SUCCESS,
-    #                              'Administrator account Created Successfully you can login now.')
-    #     return super(AirlineRegister, self).form_valid(form)

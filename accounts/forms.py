@@ -12,7 +12,7 @@ class UserRegisterForm(UserCreationForm):
         for fieldname in ['username', 'password1', 'password2']:
             self.fields[fieldname].widget.attrs["placeholder"] = f'  {self.fields[fieldname].label}'
             self.fields[fieldname].widget.attrs['class'] = 'form-control'
-            self.fields[fieldname].widget.attrs['style'] = 'max-width:50%; text-transform:lowercase;'
+            self.fields[fieldname].widget.attrs['style'] = 'max-width:50%;'
             self.fields[fieldname].label = ''
     
     email = forms.EmailField(label='',

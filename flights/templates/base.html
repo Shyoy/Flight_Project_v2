@@ -74,8 +74,9 @@
                         </ul>
                         <ul class="navbar-nav ms-auto  mb-lg-0">
                             {%if user.is_superuser%}
+                                <li class="nav-item"><a class="nav-link" href="/admin">SuperUser </a></li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle px-4" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{user.username}}</a>
+                                    <a class="nav-link dropdown-toggle px-3" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{user.username}}</a>
                                     <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
                                         
                                         <li><a class="dropdown-item" href="{%url 'admin_register'%}">Add admin</a></li>
@@ -84,7 +85,7 @@
                                     </ul>
                                 </li>
                             {% comment %} {%elif user.is_authenticated%} {% endcomment %}
-                            {%elif user.is_authenticated and user.groups.first.name == 'administrators'%}
+                            {%elif user.groups.first.name == 'administrators'%}
                                 <li class="nav-item"><a class="nav-link" href="{%url 'admin_homepage'%}">Admin Place</a></li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle px-4" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{user.username}}</a>
@@ -95,13 +96,14 @@
                                     </ul>
                                 </li>
 
-                            {%elif user.is_authenticated and user.groups.first.name == 'airlines'%}
+                            {%elif user.groups.first.name == 'airlines'%}
 
-                            {%elif user.is_authenticated and user.groups.first.name == 'customers'%}
+                            {%elif user.groups.first.name == 'customers'%}
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle px-4" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{user.username}}</a>
                                     <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
                                         <li><a class="dropdown-item" href="{%url 'profile'%}">Profile</a></li>
+                                        <li><a class="dropdown-item" href="{%url 'search_flights'%}">Book Flight</a></li>
                                         <li><a class="dropdown-item" href="{%url 'logout'%}">Logout</a></li>
                                     </ul>
                                 </li>

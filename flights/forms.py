@@ -1,5 +1,6 @@
 from django import forms
 from . import models
+from accounts import models as acc_models
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
 
@@ -36,6 +37,20 @@ class SearchFlightsForm(forms.Form):
         if self.departure_time < timezone.now().date() and self.departure_time:
             raise ValidationError(f'you can only look for future flights dates')
 
+
+
+class SearchAirlineForm(forms.ModelForm):
+    
+    class Meta:
+        model = acc_models.Airline
+        fields  = ('name','country',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class':'form-control','placeholder': 'Country name','size':13})
+        self.fields['name'].required = False
+        self.fields['country'].widget.attrs.update({'class':'form-control','style':'position: absolute; z-index: 2; max-width:400px;'})
+        self.fields['country'].required = False
 
 # class AddAirline(forms.ModelForm):
 #     class Meta:

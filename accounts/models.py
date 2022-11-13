@@ -49,7 +49,8 @@ class Airline(models.Model):
 
     def __str__(self):
         return self.name
-
+    class Meta:
+        ordering = ['-id']
 
 class Administrator(models.Model):
     user = models.OneToOneField(CustomUser, related_name='administrator', on_delete=models.CASCADE)

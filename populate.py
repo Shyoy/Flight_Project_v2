@@ -37,11 +37,12 @@ def fill_country_table():
     with open("old_vr/src/data/countries_flag.json") as f:
         countries_flags = json.load(f)
     for country in countries_flags:
-        new_country = fly_models.Country.objects.create(
-            name=country["country"],
-            pic=country["flag_base64"]
-            )
-        print(new_country.name)
+        if country["flag_base64"]:
+            new_country = fly_models.Country.objects.create(
+                name=country["country"],
+                pic=country["flag_base64"]
+                )
+            print(new_country.name)
 
 
 def add_flights(flights_per_airline: int, airlines_id: list):
@@ -84,4 +85,4 @@ if __name__ == '__main__':
     print("Populating database")
     
     # fill_country_table()
-    add_flights(300,[3])
+    add_flights(100,[9,10])
