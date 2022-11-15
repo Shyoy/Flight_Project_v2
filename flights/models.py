@@ -44,6 +44,8 @@ class Flight(models.Model):
     def __str__(self):
         return f'Flight number: {self.id} - Date: {self.departure_time.date()} - Remaining Tickets: {self.remaining_tickets}'
 
+    class Meta:
+        ordering = ['departure_time']
 
 
 # class User_role(models.Model):

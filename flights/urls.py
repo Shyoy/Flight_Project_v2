@@ -15,9 +15,14 @@ urlpatterns = [
     path('search/',views.SearchView.as_view(), name='search_flights'),
     path('flight_detail/<pk>',views.FlightView.as_view(), name='flight_detail'),
 
+    #Airline urlpatterns
+    path('airline/homepage/', views.AirlineHome.as_view(), name='airline_homepage'),
+    path('airline/flights_manager/', views.AirlineFlightsManage.as_view(), name='flights_manager'),
+    path('airline/add_flight/', views.AddFlight.as_view(), name='add_flight'),
+
 
     # Admin urlpatterns
     path('administrator/homepage/', views.AdminHome.as_view(), name='admin_homepage'),
-    path('administrator/airlines_manage/', views.AdminAirlinesManage.as_view(), name='airlines_manage'),
+    path('administrator/airlines_manager/', views.AdminAirlinesManage.as_view(), name='airlines_manager'),
 ]
 

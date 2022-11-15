@@ -17,4 +17,5 @@ urlpatterns = [
     # Admin urlpatterns
     path('administrator/register/', views.AdminRegister.as_view(), name='admin_register'),
     path('administrator/airline_register', views.AirlineRegister.as_view(), name='airline_register'),
+    path('administrator/airline_update/<pk>', views.AirlineDetailUpdate.as_view(), name='airline_update'),
 ]

@@ -7,19 +7,18 @@
             <div class="col-lg-6 mb-5">
                 <div class="card h-100 shadow border-0 " style='width: 60%;'>
                     <div class="card-header fs-5 text-white bg-dark mb-0">
-                         Airline SingUp
+                         {{title}}
                     </div>
                     <div class="card-body p-4 py-0 px-0">
-                        <h1>{{yolo}}</h1>
                         <form method="post">
                             {%csrf_token%}
                             {%for inp in user_form %}
-                            <div class="card-header">
+                            <div class="card-header form-group">
                                 <p class="mb-2">{{inp|as_crispy_field}}</p>
                             </div>
                             {%endfor%}
                             {%for inp in airline_form %}
-                            <div class="card-header">
+                            <div class="card-header form-group">
                                 <p class="mb-2">{{inp|as_crispy_field}}</p>
                             </div>
                             {%endfor%}

@@ -18,19 +18,19 @@
         @import url('https://fonts.googleapis.com/css2?family=Cabin:ital@1&family=Karantina&family=Poppins:wght@300&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
 
-            html,
-            body,
-            #root {
-                
-                height: 100%;
-                
-                font-style: italic;
-                
-                font-family: 'Cabin', sans-serif;
-                font-family: 'Karantina', cursive;
-                font-family: 'Poppins', sans-serif;
-                
-            }
+        html,
+        body,
+        #root {
+            
+            height: 100%;
+            
+            font-style: italic;
+            
+            font-family: 'Cabin', sans-serif;
+            font-family: 'Karantina', cursive;
+            font-family: 'Poppins', sans-serif;
+            
+        }
         .bg-pic {
                 background-image: url("https://d3d5bpai12ti8.cloudfront.net/wp-content/uploads/20200730112109/iStock-1142278364.jpg");
                 background-color: #cccccc;
@@ -40,7 +40,7 @@
         #title {
             font-family: 'Gloria Hallelujah', cursive;
         }
-
+        
            
     </style>  
     <body class=" d-flex flex-column h-100">
@@ -90,13 +90,22 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle px-4" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{user.username}}</a>
                                     <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                                        <li><a class="dropdown-item" href="{%url 'airlines_manage'%}">Manage Airlines</a></li>
+                                        <li><a class="dropdown-item" href="{%url 'airlines_manager'%}">Manage Airlines</a></li>
                                         <li><a class="dropdown-item" href="{%url 'airline_register'%}">add Airline</a></li>
                                         <li><a class="dropdown-item" href="{%url 'logout'%}">Logout</a></li>
                                     </ul>
                                 </li>
 
                             {%elif user.groups.first.name == 'airlines'%}
+                                <li class="nav-item"><a class="nav-link" href="{%url 'airline_homepage'%}">Airline Place</a></li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle px-4" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{user.username}}</a>
+                                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                        <li><a class="dropdown-item" href="{%url 'flights_manager'%}">Manage Flights</a></li>
+                                        <li><a class="dropdown-item" href="{%url 'add_flight'%}">add flight</a></li>
+                                        <li><a class="dropdown-item" href="{%url 'logout'%}">Logout</a></li>
+                                    </ul>
+                                </li>
 
                             {%elif user.groups.first.name == 'customers'%}
                                 <li class="nav-item dropdown">
@@ -113,7 +122,7 @@
                                 <li class="nav-item"><a class="nav-link " href="{%url 'login'%}">Login</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{%url 'register'%}">Register</a></li>
                             {%endif%}
-                            <li class="nav-item"><a class="nav-link " href="">Time: {% now "H:i" %}</a></li>
+                            <li class="nav-item"><a class="nav-link" href=""> {% now "H:i" %} </a></li>
                         </ul>
                     </div>
                 </div>

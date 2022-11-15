@@ -50,7 +50,7 @@ class AdminRegister(AllowedGroupsTestMixin, FormView):
     form_class = forms.UserRegisterForm
     success_url = reverse_lazy('admin_register')
     
-    def form_valid(self, form): ##TODO: finish user save
+    def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
         print('form is valid') 
@@ -73,7 +73,7 @@ class AirlineRegister(AllowedGroupsTestMixin, TemplateView):
     allowed_groups =['administrators']
     template_name = 'airline/airline_register.html'
     # form_class = forms.AddAirline
-    success_url = reverse_lazy('airlines_manage')
+    success_url = reverse_lazy('airlines_manager')
     
 
     def get_context_data(self, **kwargs):
@@ -81,7 +81,7 @@ class AirlineRegister(AllowedGroupsTestMixin, TemplateView):
 
         user_form = forms.UserRegisterForm()
         airline_form = forms.AddAirline()
-
+        context['title'] = 'Airline SingUp'
         context['user_form'] = user_form
         context['airline_form'] = airline_form
         return context
@@ -105,4 +105,51 @@ class AirlineRegister(AllowedGroupsTestMixin, TemplateView):
             messages.add_message(self.request, messages.WARNING,
                                  'Airline account creation failed !')
             context={'user_form':user_form,'airline_form':airline_form}
+            context['title'] = 'Airline SingUp'
+            return self.render_to_response(context=context)
+
+
+class AirlineDetailUpdate(AllowedGroupsTestMixin, DetailView):##TODO implement Update for Airline account by airline
+    allowed_groups =['administrators']
+    template_name = 'airline/airline_register.html'
+    model = models.Airline
+    success_url = reverse_lazy('airlines_manager')
+    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # print(self.request)
+        # print(self.context_object_name)
+        # print(self.queryset)
+        # print(self.get_object().id)
+        # print(self.queryset)
+
+        user_form = forms.UserRegisterForm(instance=self.get_object().user)
+        airline_form = forms.AddAirline(instance=self.get_object())
+
+
+        context['title'] = 'Airline Update'
+        context['user_form'] = user_form
+        context['airline_form'] = airline_form
+        return context
+
+    def post(self,request, *args, **kwargs):
+        print('this is POST')
+        user_form = forms.UserRegisterForm(request.POST)
+        airline_form = forms.AddAirline(request.POST)
+        if all([user_form.is_valid() ,airline_form.is_valid()]):
+            print(user_form.cleaned_data)
+            username = user_form.cleaned_data['username']
+            country = airline_form.cleaned_data['country']
+            
+            messages.add_message(self.request, messages.SUCCESS,
+                                 f'{username} Airline Created Successfully you can login now.')
+            return redirect(self.success_url)
+        
+        else:
+            print('not valid')
+            messages.add_message(self.request, messages.WARNING,
+                                 'Airline account creation failed !')
+            context={'user_form':user_form,'airline_form':airline_form}
+            context['title'] = 'Airline Update'
             return self.render_to_response(context=context)

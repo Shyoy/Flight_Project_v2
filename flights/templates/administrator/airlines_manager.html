@@ -11,8 +11,8 @@
                         Search
                     </div> 
                     <div class="card-body p-3 fs-5">
-                        <form  class='form' method="GET" action=".">
-                            
+                        <form  class='form' method="POST">
+                            {% csrf_token %}
                             <div class='row'>
                                 {% for field in form %}
                                     <div class='col-md-4 mb-2'>
@@ -37,26 +37,23 @@
                         </button>
                     </div>
 
-                    {% if get %}
-                        <div class="card h-100 shadow border-0 p-3 fs-1 ">
-                            <p class="text-center">Search for a flight</p> 
-                        </div>
-                    {%elif page_obj.paginator.count == 0 %}
+                    {%if page_obj.paginator.count == 0 %}
                         <div class="card h-100 shadow border-0 p-3 fs-1 ">
                             <p class="me-5 mb-0 small text-center">There are no avalible flights</p>
                         </div>
                     {% else %}
                     <div class="text-black bg-secondary p-1 text-end small">
-                        <p class="me-5 mb-0 small">Flights Found {{page_obj.paginator.count}}</p>  
+                        <p class="me-5 mb-0 small">Airline Found {{page_obj.paginator.count}}</p>  
                     </div>
-                    <table class="table table-success table-striped mb-0 table-hover">
+                    <table class="table table-success table-striped mb-0 text-center table-hover">
                         <thead class="p-3 fs-5">
                           <tr>
-                            <th scope="col"></th>
-                            <th scope="col">name</th>
-                            <th scope="col">country</th>
-                            <th scope="col">flights Amount</th>
-                            <th scope="col"></th>
+                            <th scope="col"class="col-md-1"></th>
+                            <th scope="col"class="col-md-3">name</th>
+                            <th scope="col"class="col-md-3">country</th>
+                            <th scope="col"class="col-md-3">flights Amount</th>
+                            <th scope="col" class=""></th>
+                            <th scope="col"class=""></th>
                             
                           </tr>
                         </thead>
@@ -73,18 +70,28 @@
                                     <td>{{airline.country}} </td>
                                     <td>{{airline.flights.count}} </td>
 
-                                    <form method="POST">
+                                    <td>  
+                                    <button type="submit" onclick="window.location='{%url 'airline_update' airline.id%}';" class="btn btn-info px-3" style="float:right;">
+                                    Update</button> 
+                                    </td>
+                                    <td>
+                                        <form method="POST">
                                         {% csrf_token %}
-                                        <td><button type="submit" name="delete" value={{airline.id}} class="btn btn-danger px-3" style="float:right;">
-                                            Delete
-                                        </button>
-                                        </td>
-                                    </form>
+                                        {% if airline.flights.all %}
+                                        <button type="submit" name="delete" value={{airline.id}} class="btn btn-danger px-3 text-black-50 " style="float:right;" disabled>
+                                            Delete</button> 
+                                        {%else%}
+                                            <button type="submit" name="delete" value={{airline.id}} class="btn btn-danger px-3 text-black " style="float:right;">
+                                            Delete</button> 
+                                        {% endif %}
+                                        </form>
+                                    </td>
                                    
                                     </tr>
                             {% endfor %}
                         </tbody>
                     </table>
+                    {%if page_obj.has_previous or page_obj.has_next%}
                     <div class="card-footer">
                         <nav aria-label="...">
                         <ul class="pagination text-center mb-0">
@@ -155,6 +162,7 @@
                         </ul>
                     </nav>
                     </div>
+                    {% endif %}
                     {% endif %}
                 </div>
             </div>

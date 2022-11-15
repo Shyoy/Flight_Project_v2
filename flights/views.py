@@ -1,11 +1,12 @@
 
-import datetime 
+from datetime import timedelta
 from django.utils import timezone
 from django.contrib.auth.mixins import PermissionRequiredMixin, AccessMixin
 from django.shortcuts import render, redirect, HttpResponse
 from django.views.generic import TemplateView, FormView, ListView, DetailView
-from accounts import forms
-from accounts.forms import AddAirline, CustomerProfileForm
+from django import forms as dj_forms
+
+from accounts.forms import AddAirline, CustomerProfileForm, UserRegisterForm
 from flights.forms import SearchFlightsForm, SearchAirlineForm
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
@@ -36,7 +37,7 @@ def home(request):
             return redirect('admin_homepage')
 
         elif request.user.groups.first().name == 'airlines':
-            return redirect('airline-homepage')
+            return redirect('airline_homepage')
     
     return redirect('homepage')
 
@@ -140,9 +141,14 @@ class FlightView(AllowedGroupsTestMixin, DetailView):  # TODO: Email Booking Con
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        hours_till_flight = (self.object.departure_time - timezone.now()).seconds/60/60
-        SAFETY_HOURS = 12
+        SAFETY_HOURS = timedelta(hours=12)
+        # only check the hour not by the date    .seconds/60/60                                                
+        hours_till_flight = (self.object.departure_time - timezone.now())
+        
+        print('self.object.departure_time: ' ,self.object.departure_time)
+        print('timezone.now: ',timezone.now())
+        print(hours_till_flight)
+        print(SAFETY_HOURS)
         context['needs_confirm'] =  hours_till_flight < SAFETY_HOURS
 
         return context
@@ -177,6 +183,102 @@ class FlightView(AllowedGroupsTestMixin, DetailView):  # TODO: Email Booking Con
 
 # TODO: AirLine views
 
+class AirlineHome(AllowedGroupsTestMixin, TemplateView):##TODO implement Home
+    allowed_groups = ['airlines']
+    template_name = 'airline/airline_homepage.html'
+    
+
+class AirlineFlightsManage(AllowedGroupsTestMixin,ListView):##TODO Update in or out ?
+    class Form(dj_forms.ModelForm):
+        class Meta:
+            model = Flight
+            fields  = ('departure_time','origin_country','destination_country',)
+        departure_time = dj_forms.DateField(label='Departure Time', widget=dj_forms.DateInput(attrs={'type':'date'}),required = False)
+        def __init__(self, *args, **kwargs):
+            super(AirlineFlightsManage.Form, self).__init__(*args, **kwargs)
+            # self.fields['departure_time'].widget =dj_forms.DateInput(attrs={'type':'date'})
+            for fieldname in self.fields.keys(): 
+                self.fields[fieldname].widget.attrs.update({'class':'form-control','style':'position: absolute; z-index: 2; max-width:180px;'})
+                self.fields[fieldname].required = False
+                self.fields[fieldname].label += ":"
+            # self.fields['departure_time'].widget = dj_forms.DateInput(format='%d-%m-%Y')
+
+    allowed_groups = ['airlines']
+    model = Flight
+    template_name = 'airline/flights_manager.html'
+    form_class = Form
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        self.object_list = self.get_queryset() 
+        self.object_list = self.object_list.filter(airline=self.request.user.airline)
+        context = super().get_context_data(object_list= self.object_list,**kwargs)
+        # print(self.request.user.airline )
+        # print(Flight.objects.filter(airline=self.request.user.airline))
+        print('This is get_context_data')
+        print(context)
+        form = self.form_class()
+        context['form'] = form
+        return context
+
+    def post(self,request, *args, **kwargs):
+        print('this is POST')
+        # self.object_list = self.get_queryset()
+        # context = self.get_context_data(object_list=self.object_list)
+        # # for Delete form
+        # delete_id = request.POST.get('delete', None)
+        # if delete_id:
+        #     airline = acc_models.Airline.objects.get(id=delete_id)
+        #     if airline.flights.all():
+        #         messages.add_message(
+        #         request, messages.WARNING, f'{airline.name} You can\'t delete airline with working flights')
+        #         return redirect('airlines_manager')
+
+            
+        #     print(airline , "Deleted")
+        #     messages.add_message(
+        #         request, messages.WARNING, f'{airline.name} Airline deleted successfully')
+        #     return redirect('airlines_manager')
+
+            
+        # for SearchFlight form
+        form= self.form_class(self.request.POST)
+        
+        departure_time = form.data['departure_time']
+        origin_country = form.data['origin_country']
+        destination_country = form.data['destination_country']
+
+        print(departure_time, origin_country, destination_country)
+        q = self.model.objects.filter(departure_time__icontains=departure_time)
+
+        q = q.filter(departure_time__icontains=departure_time) if departure_time else q
+        q = q.filter(origin_country__id=origin_country) if origin_country else q
+        q = q.filter(destination_country__id=destination_country) if destination_country else q
+        # print(context)
+        # self.object_list
+        # self.object_list = self.get_context_data()
+        
+        
+        self.queryset  = q
+        
+        return super().get(request, *args, **kwargs)
+
+
+
+
+
+
+class AddFlight(AllowedGroupsTestMixin, FormView):
+                
+    allowed_groups =['airlines']
+    template_name = 'airline/add_flight.html'
+    form_class = UserRegisterForm
+    success_url = reverse_lazy('admin_register')
+
+    
+
+
+
 
 
 # TODO: Administrator views
@@ -187,36 +289,47 @@ class AdminHome(AllowedGroupsTestMixin, TemplateView):##TODO implement Home
 
 
 
-class AdminAirlinesManage(AllowedGroupsTestMixin,ListView):##TODO implement Manage structure
+class AdminAirlinesManage(AllowedGroupsTestMixin,ListView):##TODO Update in or out ?
     allowed_groups = ['administrators']
     model = acc_models.Airline
-    template_name = "administrator/airlines_manage.html"
+    template_name = "administrator/airlines_manager.html"
+    form_class = SearchAirlineForm
     paginate_by = 2
 
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        form = SearchAirlineForm()
+        print('This is get_context_data')
+        form = self.form_class()
         context['form'] = form
         return context
 
     def post(self,request, *args, **kwargs):
         print('this is POST')
+        # for Delete form
         delete_id = request.POST.get('delete', None)
         if delete_id:
             airline = acc_models.Airline.objects.get(id=delete_id)
+            if airline.flights.all():
+                messages.add_message(
+                request, messages.WARNING, f'{airline.name} You can\'t delete airline with working flights')
+                return redirect('airlines_manager')
             airline.user.delete()
             print(airline , "Deleted")
             messages.add_message(
                 request, messages.WARNING, f'{airline.name} Airline deleted successfully')
-            return redirect('airlines_manage')
+            return redirect('airlines_manager')
+
+        # for SearchAirline form
+        form= self.form_class(self.request.POST)
         
-        form = SearchAirlineForm
-        self.results = acc_models.Airline.objects.filter(origin_country__name__icontains=origin_country,
-                                                 destination_country__name__icontains=destination_country,
-                                                 departure_time__contains=departure_time,
-                                                 departure_time__gt= timezone.now()).order_by('departure_time')
-        # print(request.POST)
+        name = form.data['name']
+        country_id = form.data['country']
+        print('name:' ,name)
+        print('country:', country_id)
+        q = acc_models.Airline.objects.filter(name__icontains=name)
+        self.queryset = q.filter(country__id=country_id) if country_id else q
+        
         return super().get(request, *args, **kwargs)
 
 
