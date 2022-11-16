@@ -1,5 +1,6 @@
 
 from datetime import timedelta
+from django.http import HttpResponseRedirect
 from django.utils import timezone
 from django.contrib.auth.mixins import PermissionRequiredMixin, AccessMixin
 from django.shortcuts import render, redirect, HttpResponse
@@ -8,7 +9,7 @@ from django import forms as dj_forms
 
 from accounts.forms import AddAirline, CustomerProfileForm, UserRegisterForm
 from flights.forms import SearchFlightsForm, SearchAirlineForm
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.core.paginator import Paginator
 from django.contrib import messages
 
@@ -212,56 +213,49 @@ class AirlineFlightsManage(AllowedGroupsTestMixin,ListView):##TODO Update in or 
     def get_context_data(self, **kwargs):
         self.object_list = self.get_queryset() 
         self.object_list = self.object_list.filter(airline=self.request.user.airline)
+        form = self.form_class(self.request.session.get('flights_manager_POST') or None)
+        if self.request.session.get('flights_manager_POST'):
+                form = self.form_class(self.request.session.get('flights_manager_POST'))
+                departure_time = form.data['departure_time']
+                origin_country = form.data['origin_country']
+                destination_country = form.data['destination_country']
+
+                print(departure_time, origin_country, destination_country)
+                q = self.object_list
+                q = q.filter(departure_time__icontains=departure_time) if departure_time else q
+                q = q.filter(origin_country__id=origin_country) if origin_country else q
+                q = q.filter(destination_country__id=destination_country) if destination_country else q
+                self.object_list = q
+       
         context = super().get_context_data(object_list= self.object_list,**kwargs)
-        # print(self.request.user.airline )
-        # print(Flight.objects.filter(airline=self.request.user.airline))
-        print('This is get_context_data')
-        print(context)
-        form = self.form_class()
-        context['form'] = form
+         
+        context['form'] = form    
         return context
 
     def post(self,request, *args, **kwargs):
         print('this is POST')
         # self.object_list = self.get_queryset()
         # context = self.get_context_data(object_list=self.object_list)
-        # # for Delete form
-        # delete_id = request.POST.get('delete', None)
-        # if delete_id:
-        #     airline = acc_models.Airline.objects.get(id=delete_id)
-        #     if airline.flights.all():
-        #         messages.add_message(
-        #         request, messages.WARNING, f'{airline.name} You can\'t delete airline with working flights')
-        #         return redirect('airlines_manager')
+        # for Delete form
+        delete_id = request.POST.get('delete', None)
+        if delete_id:
+            flight = self.model.objects.get(id=delete_id)
+            # if flight.passengers.all():
+            #     messages.add_message(
+            #     request, messages.WARNING, f'{airline.name} You can\'t delete airline with working flights')
+            #     return redirect('airlines_manager')
 
             
-        #     print(airline , "Deleted")
-        #     messages.add_message(
-        #         request, messages.WARNING, f'{airline.name} Airline deleted successfully')
-        #     return redirect('airlines_manager')
+            print(flight , "Deleted")
+            messages.add_message(
+                request, messages.WARNING, f'{flight.id} Flight deleted successfully')
+            return redirect('flights_manager')
 
             
-        # for SearchFlight form
-        form= self.form_class(self.request.POST)
         
-        departure_time = form.data['departure_time']
-        origin_country = form.data['origin_country']
-        destination_country = form.data['destination_country']
-
-        print(departure_time, origin_country, destination_country)
-        q = self.model.objects.filter(departure_time__icontains=departure_time)
-
-        q = q.filter(departure_time__icontains=departure_time) if departure_time else q
-        q = q.filter(origin_country__id=origin_country) if origin_country else q
-        q = q.filter(destination_country__id=destination_country) if destination_country else q
-        # print(context)
-        # self.object_list
-        # self.object_list = self.get_context_data()
-        
-        
-        self.queryset  = q
-        
-        return super().get(request, *args, **kwargs)
+        request.session['flights_manager_POST'] = request.POST
+        return redirect('flights_manager')
+        # return super().get(request, *args, **kwargs)
 
 
 
@@ -298,9 +292,17 @@ class AdminAirlinesManage(AllowedGroupsTestMixin,ListView):##TODO Update in or o
 
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        self.object_list = self.get_queryset() 
+        form = self.form_class(self.request.session.get('airlines_manager_POST') or None)
+        if self.request.session.get('airlines_manager_POST'):
+                name = form.data['name']
+                country_id = form.data['country']
+                q = self.object_list.filter(name__icontains=name) if name else self.object_list
+                self.object_list = q.filter(country__id=country_id) if country_id else q
+
+        context = super().get_context_data(object_list= self.object_list,**kwargs)
         print('This is get_context_data')
-        form = self.form_class()
+
         context['form'] = form
         return context
 
@@ -320,16 +322,9 @@ class AdminAirlinesManage(AllowedGroupsTestMixin,ListView):##TODO Update in or o
                 request, messages.WARNING, f'{airline.name} Airline deleted successfully')
             return redirect('airlines_manager')
 
-        # for SearchAirline form
-        form= self.form_class(self.request.POST)
         
-        name = form.data['name']
-        country_id = form.data['country']
-        print('name:' ,name)
-        print('country:', country_id)
-        q = acc_models.Airline.objects.filter(name__icontains=name)
-        self.queryset = q.filter(country__id=country_id) if country_id else q
-        
-        return super().get(request, *args, **kwargs)
+        request.session['airlines_manager_POST'] = request.POST
+        return redirect('airlines_manager')
+        # return super().get(request, *args, **kwargs)
 
 

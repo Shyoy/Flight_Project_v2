@@ -1,9 +1,11 @@
 from datetime import timedelta
 import datetime
 import os
+import time
 import django
 from faker import Faker
 import json
+
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'flight_site.settings')
 django.setup()
@@ -83,6 +85,8 @@ def add_flights(flights_per_airline: int, airlines_id: list):
 
 if __name__ == '__main__':
     print("Populating database")
-    
+    start = time.perf_counter()
     # fill_country_table()
     add_flights(100,[9,10])
+    finish = time.perf_counter()
+    print(f"Normal  finished in {round(finish-start,2)} seconds")

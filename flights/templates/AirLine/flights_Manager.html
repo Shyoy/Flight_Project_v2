@@ -65,7 +65,7 @@
                             <th scope="col"class="col-md-2">Origin Country</th>
                             <th scope="col"class="col-md-2">Destination Country</th>
                             <th scope="col"class="col-md-1 text-center">Flight Size</th>
-                            <th scope="col"class="col-md-1 text-center">Free Tickets</th>
+                            <th scope="col"class="col-md-2 text-center">Tickets Bought</th>
                             <th scope="col" class=""></th>
                             <th scope="col"class=""></th>
                             
@@ -86,7 +86,7 @@
                                     <td><img  width='30px' src={{flight.origin_country.pic}}>{{flight.origin_country}} </td>
                                     <td><img  width='30px' src={{flight.destination_country.pic}}> {{flight.destination_country}} </td>
                                     <td class="col-md-1 text-center">{{flight.tickets}} </td>
-                                    <td class="col-md-1 text-center">{{flight.remaining_tickets}} </td>
+                                    <td class="col-md-1 text-center">{{flight.passengers.count}} </td>
 
                                     <td>  
                                     <button type="submit" onclick="window.location='{%url 'airline_update' flight.id%}';" class="btn btn-info px-3" style="float:right;">
@@ -95,7 +95,7 @@
                                     <td>
                                         <form method="POST">
                                         {% csrf_token %}
-                                        {% if flight.flights.all %}
+                                        {% if flight.passengers.all %}
                                         <button type="submit" name="delete" value={{flight.id}} class="btn btn-danger px-3 text-black-50 " style="float:right;" disabled>
                                             Delete</button> 
                                         {%else%}
