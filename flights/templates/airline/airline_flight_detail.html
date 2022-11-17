@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+{% comment %} TODO: a table of the flight with all the Customers {% endcomment %}
+
+{% block content %}
+    <style>
+        .svg-img{
+            position: absolute;
+            max-height: 85%;
+            opacity: 0.7;
+            {% comment %} right: 200px; {% endcomment %}
+            left: 0px;
+            top: 54px;
+        }   
+        .svg-img2{
+            position: absolute;
+            max-height: 85%;
+            {% comment %} max-width: 100%; {% endcomment %}
+            opacity: 0.8;
+            {% comment %} right: 200px; {% endcomment %}
+            right: 0px;
+            top: 54px;
+        }   
+        
+        .above{
+            z-index: 3;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 48
+        }
+        .my-custom-scrollbar {
+            position: relative;
+            height: 360px;
+            overflow: auto;
+            }
+        .table-wrapper-scroll-y {
+            background-color: #d1e7dd;
+            display: block;
+        }
+
+
+    </style>
+    <section class=" py-5">
+        <div class="d-flex justify-content-center">
+            <div class="col-lg-6 mb-5 ">
+                <div class="card h-100 shadow border-1 ">
+                    <div class="card-header text-center fs-4 text-white bg-dark mb-1">
+                        <span class="text-center">Flight Number: &nbsp; {{object.id}} &emsp;</span>
+                        <span class="mx-5 shadow border-1 text-center " >&emsp;AirLine:&nbsp; {{object.airline.name}}</span>
+                    </div> 
+                    <div class="card-header p-3 fs-5">
+                        <form  class='form py-0 px-0' method="POST" action"/">
+                            {% csrf_token %}
+                            <img  src="{{object.origin_country.pic}}" class="svg-img" alt="">
+                            <img  src="{{object.destination_country.pic}}" class=" svg-img2" alt="">
+                            
+                            <div class='d-flex flex-column card-body'>
+                                
+                                <div class="py-3 above mb-0">
+                                    <span class="mx-4 shadow border-1 p-2 text-white bg-dark ">From: &ensp;<img  width='30px' src={{object.origin_country.pic}}>&nbsp;{{object.origin_country}}</span>
+                                    
+                                    <span class="shadow border-1 p-2 text-white bg-dark" style="float:right;">To: &ensp;<img  width='30px' src={{object.destination_country.pic}}>&nbsp;{{object.destination_country}}</span>
+                                    
+                                </div>
+                                <div class="py-3 above mb-0">
+                                    <span class="mx-4 shadow border-1 p-2 text-white bg-dark">Depart At:&ensp; {{object.departure_time|date:"d-M-y, H:i"}}</span>
+                                    <span class="shadow border-1 p-2 text-white bg-dark " style="float:right;">Landing At:&ensp; {{object.landing_time|date:"d-M-y, H:i"}}</span>
+                                </div>
+                                <div class="mt-auto mb-0  d-flex align-items-end flex-column">
+
+
+                                    {%if object.ramaining_tickets == 0 %}
+                                        <span class="shadow border-1 p-2 text-white bg-dark"> There is no longer place in this flight</span>
+                                    
+                                    {% elif needs_confirm %}
+                                    
+                                    <button type="submit" class="btn btn-dark fs-4 above" value='True' name='book' onclick="return confirm('This flight will leave in less then 12 hours are you sure you want to book this flight ?')" > Book </button>
+                                    {%else%}
+                                    
+                                    {% comment %} <button type="submit" class="btn btn-dark fs-4 above" value='True' name='book' > Book </button> {% endcomment %}
+                                    
+                                    {% endif %}
+                                </div>
+
+                                {% comment %} <span class="shadow border-1">AirLine: {{object.airline.name}}</span> {% endcomment %}
+                                {% comment %} {% for field in form %}
+                                    <div class='col-md-4 mb-2'>
+                                    {{field|as_crispy_field}}
+                                    </div>
+                                {% endfor %} {% endcomment %}
+                                
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="col-lg-10 mb-0">
+                <div class="card h-100 shadow border-2 mb-0">
+                    <div class="card-header fs-3 text-white bg-dark mb-0 text-center">   
+                        <span>Flights Customers</span> 
+                        {% comment %} <button type="submit" class="btn btn-success p-1 px-2 fs-5" onclick="window.location='{%url 'add_flight'%}';" style="float:right;">
+                             Add
+                        </button> {% endcomment %}
+                    </div>
+                    {%if object_list.count == 0 %}
+                    <div class="card h-100 shadow border-0 p-3 fs-1 ">
+                        <p class="me-5 mb-0 small text-center">No one Booked this flight yet</p>
+                    </div>
+                    {% else %}
+                    <div class="text-dark bg-secondary p-1 d-flex small">
+                        <span class="col-md-2 px-5 ">Tickets Amount: {{object.tickets}}</span>  
+                        <span class="col-md-8  ">Tickets Left: {{object.remaining_tickets}}</span>  
+                        <span class="col-md-8 ">Booked Customers {{object_list.count}}</span>  
+                        
+
+                    </div>
+                    <table class="table table-success shadow table-striped mb-0  table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col"class="col-md-2 text-center">First Name</th>
+                                <th scope="col"class="col-md-2 text-center">Last Name</th>
+                                <th scope="col"class="col-md-2 text-center">Email Address</th>
+                                <th scope="col"class="col-md-2 text-center">Phone Number</th>
+                                <th scope="col"class="col-md-1 text-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="py-0" >
+                            <th class="py-0" scope="row" height="0px" ></th>
+                        </tbody>
+                    </table>
+                    <div class="card-body py-0 px-0 table-wrapper-scroll-y my-custom-scrollbar">
+                        <table class="table table-success shadow table-striped mb-0  table-hover">
+                            {% comment %} <thead class="p-0 fs-0">
+                            <tr>
+                                <th scope="col"class="col-md-2 text-center">First Name</th>
+                                <th scope="col"class="col-md-2 text-center">Last Name</th>
+                                <th scope="col"class="col-md-2 text-center">Email Address</th>
+                                <th scope="col"class="col-md-2 text-center">Phone Number</th>
+                                <th scope="col"class="col-md-1 text-center"></th>
+                            </tr>
+                            </thead> {% endcomment %}
+                            <tbody>
+                                {% for customer in object_list %}
+                                    <tr>
+                                        <td scope="row" class="col-md-2 text-center">{{customer.first_name| capfirst}}</td>
+                                        <td class="col-md-2 text-center">{{customer.last_name| capfirst}} </td>
+                                        <td class="col-md-2 text-center">{{customer.user.email}} </td>
+                                        <td class="col-md-2 text-center">{{customer.phone_number}} </td>
+                                        <td class="col-md-1 text-center px-4"> 
+                                            <form method="POST">
+                                            {% csrf_token %}
+                                            <button type="submit" name="remove" value={{customer.id}} class="btn btn-danger px-3 text-black " style="float:right;">
+                                                Remove</button> 
+                                            </form>
+                                        </td> 
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock content %}

@@ -19,6 +19,7 @@ urlpatterns = [
     path('airline/homepage/', views.AirlineHome.as_view(), name='airline_homepage'),
     path('airline/flights_manager/', views.AirlineFlightsManage.as_view(), name='flights_manager'),
     path('airline/add_flight/', views.AddFlight.as_view(), name='add_flight'),
+    path('airline/airline_flight_detail/<pk>', views.AirlineFlightDetail.as_view(), name='airline_flight_detail'),
 
 
     # Admin urlpatterns

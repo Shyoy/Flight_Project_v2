@@ -79,9 +79,9 @@
                             {% comment %} <div class="">
                                 <div class=" bg-success bg-gradient  p-3 fs-6">{{flight}}</div>
                             </div> {% endcomment %}
-                                <tr onclick="window.location='{%url 'flight_detail' flight.id %}';">
+                                <tr onclick="window.location='{%url 'airline_flight_detail' flight.id %}';">
                                     <th scope="row">{{flight.id}}</th>
-                                    <th >{{flight.departure_time|date:"d-M-y, H:i"}}</th>
+                                    <td >{{flight.departure_time|date:"d-M-y, H:i"}}</td>
                                     <td>{{flight.landing_time|date:"d-M-y, H:i"}} </td>
                                     <td><img  width='30px' src={{flight.origin_country.pic}}>{{flight.origin_country}} </td>
                                     <td><img  width='30px' src={{flight.destination_country.pic}}> {{flight.destination_country}} </td>

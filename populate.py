@@ -1,5 +1,5 @@
 from datetime import timedelta
-import datetime
+
 import os
 import time
 import django
@@ -35,26 +35,36 @@ from django.utils import timezone
 
 def fill_country_table():
     print('Inserting to country table')
-    
+    counter = 0
     with open("old_vr/src/data/countries_flag.json") as f:
         countries_flags = json.load(f)
     for country in countries_flags:
-        if country["flag_base64"]:
-            new_country = fly_models.Country.objects.create(
-                name=country["country"],
-                pic=country["flag_base64"]
-                )
-            print(new_country.name)
+        
+        try:
+            if not country["flag_base64"]:
+                print(country["country"])
+
+            else:
+                new_country = fly_models.Country.objects.create(
+                    name=country["country"],
+                    pic=country["flag_base64"]
+                    )
+                counter += 1
+            
+        except Exception as e:
+            print('already got this country')
+
+    return "Amount of countries added: ",counter
 
 
 def add_flights(flights_per_airline: int, airlines_id: list):
     fake = Faker()
-
+    all_countries = fly_models.Country.objects.all()
     for airline_id in airlines_id:
         airline_obj = acc_models.Airline.objects.get(id = airline_id)
 
         for _ in range(flights_per_airline):
-            country_a = fly_models.Country.objects.get(id = randint(1, 245))
+            country_a = choice(all_countries)
             countries = [airline_obj.country, country_a]
             shuffle(countries)
 
@@ -86,7 +96,7 @@ def add_flights(flights_per_airline: int, airlines_id: list):
 if __name__ == '__main__':
     print("Populating database")
     start = time.perf_counter()
-    # fill_country_table()
-    add_flights(100,[9,10])
+    # print(fill_country_table())
+    add_flights(100,[9,10,13])
     finish = time.perf_counter()
     print(f"Normal  finished in {round(finish-start,2)} seconds")

@@ -19,8 +19,17 @@ from django.contrib import messages
 class RegisterForm(FormView):
     template_name = 'accounts/register.html'
     form_class = forms.UserRegisterForm
-    success_url = reverse_lazy('homepage')
+    success_url = reverse_lazy('home')
     
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            username = request.user.username
+            messages.add_message(self.request, messages.WARNING,
+                                 f'{username} You are already logged in')
+            return redirect(self.success_url)
+        return super(RegisterForm, self).get(request, *args, **kwargs)
+
+
     def form_valid(self, form): 
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.

@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
-
+from django.core.exceptions import ValidationError
 # Create your models here.
 
 # # New FIELD
@@ -15,7 +15,7 @@ from datetime import timedelta
 
 class Country(models.Model):
     name = models.CharField(max_length=200 , unique=True)
-    pic = models.URLField(blank=True,null=True)
+    pic = models.URLField(default="https://www.supercoloring.com/sites/default/files/styles/coloring_medium/public/cif/2022/03/question-mark-flag-emoji-coloring-page.png")
     # departing_flights =models.ForeignKey(Flight,related_name='origin_country', on_delete=models.DO_NOTHING)
     # landing_flights =models.ForeignKey(Flight,related_name='destination_country', on_delete=models.DO_NOTHING)
     def __str__(self):
@@ -42,12 +42,22 @@ class Flight(models.Model):
 
         
     def __str__(self):
-        return f'Flight number: {self.id} - Date: {self.departure_time.date()} - Remaining Tickets: {self.remaining_tickets}'
+        return f'On: {self.departure_time.ctime()}--From: {self.origin_country}--To: {self.destination_country}'
+        # return f'Flight number: {self.id} - Date: {self.departure_time.date()} - Remaining Tickets: {self.remaining_tickets}'
 
     class Meta:
         ordering = ['departure_time']
 
-
+    def clean(self):
+        if self.origin_country == self.destination_country:
+            raise ValidationError(f'Origin Country and Destination Country can\'t be the same')
+        if self.tickets < 50:
+            raise ValidationError(f'Flight size must be greater than 50')
+        if self.departure_time > self.landing_time:
+            raise ValidationError(f'Landing time must be after departure time')
+            
+        if self.departure_time < timezone.now():
+            raise ValidationError(f'You can only add future flights dates')
 # class User_role(models.Model):
     
 #     Role_name = models.CharField(max_length=100)
