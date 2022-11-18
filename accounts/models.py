@@ -31,9 +31,13 @@ class Customer(models.Model):
             return self.user.email
         return self.first_name + " " + self.last_name
 
-    # def clean(self):
-    #     if self.id and not self.valid_customer:
-    #         ValidationError('customer is not valid')
+    def clean(self):
+        if self.phone_number and not self.phone_number.isdigit():
+            ValidationError('Phone Number must countian only digits !')
+        if self.first_name and self.first_name.isalpha():
+            ValidationError('First Name must countian only Letters !')
+        if self.last_name and self.first_name.isalpha():
+            ValidationError('Last Name must countian only Letters !')
         
 
 class Airline(models.Model):
@@ -52,7 +56,7 @@ class Airline(models.Model):
     class Meta:
         ordering = ['-id']
 
-class Administrator(models.Model):
+class Administrator(models.Model):##TODO: way to add Administrator potfile
     user = models.OneToOneField(CustomUser, related_name='administrator', on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100,blank=True, null=True)
     last_name = models.CharField(max_length=100,blank=True, null=True)

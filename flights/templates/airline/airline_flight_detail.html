@@ -15,6 +15,8 @@
             {% comment %} right: 200px; {% endcomment %}
             left: 15px;
             top: 54px;
+            object-fit: fill;
+            
         }   
         .svg-img2{
             position: absolute;
@@ -24,6 +26,7 @@
             {% comment %} right: 200px; {% endcomment %}
             right: 15px;
             top: 54px;
+            object-fit: fill;
         }   
         
         .above{
@@ -55,6 +58,9 @@
             <div class="col-lg-6 mb-5 ">
                 <div class="card h-100 shadow border-1 ">
                     <div class="card-header text-center fs-4 text-white bg-dark mb-1">
+                        <button type="submit" onclick="window.location='{%url 'flights_manager'%}';" class="btn btn-info p-1 px-3 " style='max-height: 40px ; float:left;'>
+                            Back
+                        </button> 
                         <span class="text-center">Flight Number: &nbsp; {{object.id}} &emsp;</span>
                         <span class="mx-5 shadow border-1 text-center " >&emsp;AirLine:&nbsp; {{object.airline.name}}</span>
                     </div> 

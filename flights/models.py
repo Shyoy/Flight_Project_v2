@@ -49,15 +49,15 @@ class Flight(models.Model):
         ordering = ['departure_time']
 
     def clean(self):
-        if self.origin_country == self.destination_country:
-            raise ValidationError(f'Origin Country and Destination Country can\'t be the same')
-        if self.tickets < 50:
-            raise ValidationError(f'Flight size must be greater than 50')
-        if self.departure_time > self.landing_time:
-            raise ValidationError(f'Landing time must be after departure time')
+        if (self.airline.country != self.destination_country) and (self.airline.country != self.origin_country):
+            raise ValidationError(f'This Flight Must depart from, or land at {self.airline.country} !')
             
-        if self.departure_time < timezone.now():
-            raise ValidationError(f'You can only add future flights dates')
-# class User_role(models.Model):
-    
-#     Role_name = models.CharField(max_length=100)
+        if self.origin_country == self.destination_country:
+            raise ValidationError(f'Origin Country and Destination Country can\'t be the same !')
+        if self.tickets < 50:
+            raise ValidationError(f'Flight size must be greater than 50 !')
+        if self.departure_time > self.landing_time:
+            raise ValidationError(f'Landing time must be after departure time !')
+            
+        # if self.departure_time < timezone.now():
+        #     raise ValidationError(f'You can only add future flights dates !')

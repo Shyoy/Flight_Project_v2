@@ -34,11 +34,13 @@
         {% comment %} Card 1 {% endcomment %}
         <div class="d-flex justify-content-center w-75"> 
             <div class="col-lg-6 mb-5">
-                <div class="card h-100 shadow border-0 ">
-                    <div class="card-header fs-2 text-white bg-dark mb-3">
-                        Admin Homepage
+                <div class=" h-100 shadow border-0 ">
+                    <div class="fs-2 text-white px-5 py-4 bg-dark mb-3">
+                        <h1>Admin Homepage</h1>
+                        <h1>Coming Soon</h1>
+                         
                     </div> 
-                    <div class="card-body p-4 fs-4">
+                    {% comment %} <div class="card-body p-4 fs-4">
                         <form method="post">
                             {%csrf_token%}
                             {%for inp in form %}
@@ -47,7 +49,7 @@
                             {%endfor%}
                             <button type="submit" class="btn btn-dark" style="float:right;"> Submit </button>
                         </form>
-                    </div>
+                    </div> {% endcomment %}
                     {% comment %} <div class="ml-4">
                         <p class="text-muted small"> Already have an account ?
                         <a href="{%url 'login'%}" class="btn-blue ">login</a></p>

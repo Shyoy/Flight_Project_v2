@@ -37,10 +37,10 @@ def error_404_view(request, exception=None):
 def home(request):
     if request.user.is_authenticated and not request.user.is_superuser:
         if request.user.groups.first().name == 'administrators':
-            return redirect('admin_homepage')
+            return redirect('airlines_manager')
 
         elif request.user.groups.first().name == 'airlines':
-            return redirect('airline_homepage')
+            return redirect('flights_manager')
 
     return redirect('homepage')
 
@@ -114,7 +114,6 @@ class SearchView(AllowedGroupsTestMixin, FormView):
 
     def get_context_data(self, **kwargs):
         """Add context to the template"""
-        print('THis is get_context_data')
         context = super(SearchView, self).get_context_data(**kwargs)
         q = dict(self.request.GET)
 
@@ -130,7 +129,6 @@ class SearchView(AllowedGroupsTestMixin, FormView):
 
     def get_initial(self):
         """Return the initial data to use for forms on this view."""
-        print('get_initial')
         return self.request.GET
 
 
@@ -142,23 +140,17 @@ class FlightView(AllowedGroupsTestMixin, DetailView):  # TODO: Email Booking Con
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Check Flights close
         SAFETY_HOURS = timedelta(hours=12)
-        # only check the hour not by the date    .seconds/60/60
         hours_till_flight = (self.object.departure_time - timezone.now())
-
-        print('self.object.departure_time: ', self.object.departure_time)
-        print('timezone.now: ', timezone.now())
-        print(hours_till_flight)
-        print(SAFETY_HOURS)
         context['needs_confirm'] = hours_till_flight < SAFETY_HOURS
 
         return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        context = self.get_context_data(object=self.object)
+        # context = self.get_context_data(object=self.object)
 
-        print('this is post')
         book = self.request.POST.get('book', False)
         if book:
             if request.user.customer.valid_customer:
@@ -182,8 +174,9 @@ class FlightView(AllowedGroupsTestMixin, DetailView):  # TODO: Email Booking Con
 # TODO: AirLine views
 
 class AirlineHome(AllowedGroupsTestMixin, TemplateView):  # TODO implement Home
-    allowed_groups = ['airlines']
+    allowed_groups = ['superuser']
     template_name = 'airline/airline_homepage.html'
+    # Coming Soon
 
 
 class AirlineFlightsManage(AllowedGroupsTestMixin, ListView):  # TODO Update in or out ?
@@ -221,6 +214,7 @@ class AirlineFlightsManage(AllowedGroupsTestMixin, ListView):  # TODO Update in 
 
     def post(self, request, *args, **kwargs):
         # for Delete form
+        print(request.POST)
         delete_id = request.POST.get('delete', None)
         if delete_id:
             flight = self.model.objects.get(id=delete_id)
@@ -236,7 +230,7 @@ class AirlineFlightsManage(AllowedGroupsTestMixin, ListView):  # TODO Update in 
 
         # For AirlineSearchFlightsForm
         form = self.form_class(request.POST)
-        if form.is_valid():
+        if all([field in form.data for field in form.fields.keys()]):
             request.session['flights_manager_POST'] = form.data
 
         return redirect('flights_manager')
@@ -249,37 +243,64 @@ class AddFlight(AllowedGroupsTestMixin, FormView):
     form_class = AddFlightForm
     success_url = reverse_lazy('flights_manager')
 
-
+    def get_initial(self):
+        return {'airline': self.request.user.airline}
 
     def form_valid(self, form):
         """This saves the form that creates new customer and returns success_url"""
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
-        flight = form.save(commit=False)
-        flight.airline = self.request.user.airline
-        new_flight = flight.save()
-        print('valid form')
-        print(form.cleaned_data)
-        print(new_flight)
+        flight = form.save()
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            f'Flight From: {flight.origin_country}, To: {flight.destination_country} At {flight.departure_time.ctime()},  has been added successfully.')
+        print(flight)
         print()
-       
+
         return super(AddFlight, self).form_valid(form)
 
     def form_invalid(self, form):
-
         print('invalid form !!!!')
         return self.render_to_response(self.get_context_data(form=form))
-    # def form_valid(self, request, form,*args, **kwargs):
-    #     print(form.cleaned_data)
-    #     return redirect('add_flight')
-
-    # def post(self, request, *args, **kwargs):
-        
-    #     print(request.POST)
-    #     return redirect('add_flight')
 
 
-class AirlineFlightDetail(AllowedGroupsTestMixin, DetailView, ListView):  # TODO: Email Booking Confirmed
+class UpdateFlight(AllowedGroupsTestMixin, FormView, DetailView):
+
+    allowed_groups = ['airlines']
+    template_name = 'airline/add_flight.html'
+    model = Flight
+    form_class = AddFlightForm
+    success_url = reverse_lazy('flights_manager')
+    # instance
+
+    def get_context_data(self, **kwargs):
+        self.object = self.get_object()
+        context = super().get_context_data(**kwargs)
+        # print(context)
+        return context
+
+    def get_form(self):
+        """Return an instance of the form to be used in this view."""
+        object = self.get_object()
+        return self.form_class(instance=object ,**self.get_form_kwargs())
+
+    def form_valid(self, form):
+        """This saves the form that creates new customer and returns success_url"""
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        flight = self.get_object()
+        flight = form.save()
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            f'Flight Updated To  depart From: {flight.origin_country}, To: {flight.destination_country} At {flight.departure_time.ctime()},  has been added successfully.')
+        return super(UpdateFlight, self).form_valid(form)
+
+    def form_invalid(self, form):
+        print('invalid form !!!!')
+        return self.render_to_response(self.get_context_data(form=form))
+
+
+class AirlineFlightDetail(AllowedGroupsTestMixin, DetailView, ListView):
     allowed_groups = ['airlines']
     template_name = 'airline/airline_flight_detail.html'
     model = Flight
@@ -303,7 +324,7 @@ class AirlineFlightDetail(AllowedGroupsTestMixin, DetailView, ListView):  # TODO
         #     q = q.filter(country__id=country_id) if country_id else q
         #     self.object_list = q
 
-        context = super(AirlineFlightDetail,self).get_context_data( **kwargs)
+        context = super(AirlineFlightDetail, self).get_context_data(**kwargs)
         # context['form'] = form
         return context
 
@@ -315,13 +336,14 @@ class AirlineFlightDetail(AllowedGroupsTestMixin, DetailView, ListView):  # TODO
             customer = flight.passengers.get(id=remove_id)
             flight.passengers.remove(customer)
             messages.add_message(
-                    request, messages.ERROR, f'{customer.first_name} {customer.last_name} was Removed from flight {flight.id}')
-            
+                request, messages.ERROR, f'{customer.first_name} {customer.last_name} was Removed from flight {flight.id}')
+
         add_email = request.POST.get('add', None)
         print([add_email])
         if add_email:
             add_email = add_email.strip()
-            customer = acc_models.Customer.objects.filter(user__email=add_email).first()
+            customer = acc_models.Customer.objects.filter(
+                user__email=add_email).first()
             if customer and customer not in flight.passengers.all():
                 flight.passengers.add(customer)
                 messages.add_message(
@@ -332,16 +354,17 @@ class AirlineFlightDetail(AllowedGroupsTestMixin, DetailView, ListView):  # TODO
             else:
                 messages.add_message(
                     request, messages.WARNING, f'No Customer Was Found With This Email: {add_email}')
-                
+
         return super(AirlineFlightDetail, self).get(request, *args, **kwargs)
 
 
 # TODO: Administrator views
 
 class AdminHome(AllowedGroupsTestMixin, TemplateView):  # TODO implement Home
-    allowed_groups = ['administrators']
+    allowed_groups = ['superuser']
     template_name = 'administrator/administrator_homepage.html'
-    
+    # Coming Soon
+
 
 class AdminAirlinesManage(AllowedGroupsTestMixin, ListView):  # TODO Update in or out ?
     allowed_groups = ['administrators']
@@ -382,7 +405,7 @@ class AdminAirlinesManage(AllowedGroupsTestMixin, ListView):  # TODO Update in o
             return redirect('airlines_manager')
         # For SearchAirlineForm
         form = self.form_class(request.POST)
-        if form.is_valid():
+        if all([field in form.data for field in form.fields.keys()]):
             request.session['airlines_manager_POST'] = form.data
 
         return redirect('airlines_manager')

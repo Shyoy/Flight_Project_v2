@@ -9,8 +9,8 @@
             height: 100%;
             box-sizing: border-box; /* Real with and height */
             display: grid;
-            grid-template-rows: 38% 1fr;
-            grid-template-columns: repeat(2, 1fr); /* fr = Fraction = יחידת מידה אחת */
+            grid-template-rows: 42% 1fr;
+            grid-template-columns: 50% 50%;
             
         }
         #profile {
@@ -60,16 +60,39 @@
 
     <section class="py-3 px-5 h-100  Layout">
         {% comment %} Card 1 {% endcomment %}
-        <div class="p-2"> 
-            <div class="col-lg-6 mb-5">
+        <div class="p-2 px-5"> 
+            <div class="col-lg-5 mb-5">
                 <div class="card h-100 shadow border-0 ">
                      <div class="card-header fs-2 text-white bg-dark mb-3">
                         Profile
                     </div> 
-                    <div class="card-body p-4 fs-4">
-                        <p>First Name: <il class="me-5" style="float:right;">{{customer.first_name}}</il></p>
-                        <p>Last Name:<il class="me-5" style="float:right;">{{customer.last_name}}</il></p>
-                        <p>Phone Number: <il class="me-5" style="float:right;">{{customer.phone_number}}</il></p>
+                    <div class="card-body mb-0 fs-4">
+                        <div class = "mb-4 px-4">
+                            <p class="mb-0 fw-bold">
+                                First Name: 
+                            </p>
+                            <span>
+                                <il class="px-5 mb-5 " >{{customer.first_name}}</il>
+                            </span>
+                        </div>
+                        <div class = "mb-4 px-4">
+                            <p class="mb-0 fw-bold">
+                                Last Name:
+                            </p>
+                            <span>
+                                <il class="px-5 mb-5  ">{{customer.last_name}}</il>
+                            </span>
+                        </div>
+                        <div class = "mb-4 px-4">
+                            <p class="mb-0 fw-bold">
+                                Phone Number:
+                            </p>
+                            <span>
+                                <il class="px-5 mb-5  ">{{customer.phone_number}}</il>
+                            </span>
+                        </div>
+                        {% comment %} <p>Last Name:<il class="me-5" style="float:right;">{{customer.last_name}}</il></p>
+                        <p>Phone Number: <il class="me-5" style="float:right;">{{customer.phone_number}}</il></p> {% endcomment %}
 
                     </div>
                 </div>
@@ -125,16 +148,7 @@
         {% comment %} Card 3 {% endcomment %}
         <div class="p-2">
             <div class="col-lg-6 mb-5">
-                <div class="card h-100 shadow border-0 ">
-                     <div class="card-header fs-2 text-white bg-dark mb-3">
-                        Current Flights
-                    </div> 
-                    <div class="card-body p-4 fs-4">
-                            <p>First Name: <il class="me-5 " style="float:right;">{{customer.first_name}}</il></p>
-                            <p>Last Name:<il class="me-5" style="float:right;">{{customer.last_name}}</il></p>
-                            <p>Phone Number: <il class="me-5" style="float:right;">{{customer.phone_number}}</il></p>
-                    </div>
-                </div>
+                
             </div>
         </div>
 
