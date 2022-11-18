@@ -1,14 +1,15 @@
 from django.test import TestCase ,RequestFactory
 from django.urls import reverse
+from .mixins import TestDataMixin
 
 # Create your tests here.
 
 
-class CustomerProfileTest(TestCase):
+class CustomerProfileTest(TestDataMixin, TestCase):
 
     @classmethod
     def setUpTestData(self):
-        pass
+        super(CustomerProfileTest, self).setUpTestData
 
     def setUp(self):
         pass
