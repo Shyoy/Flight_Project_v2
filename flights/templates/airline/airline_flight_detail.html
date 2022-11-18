@@ -3,26 +3,32 @@
 
 {% block content %}
     <style>
+        .scroll-down{
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
         .svg-img{
             position: absolute;
-            max-height: 85%;
+            max-height: 80%;
             opacity: 0.7;
             {% comment %} right: 200px; {% endcomment %}
-            left: 0px;
+            left: 15px;
             top: 54px;
         }   
         .svg-img2{
             position: absolute;
-            max-height: 85%;
+            max-height: 80%;
             {% comment %} max-width: 100%; {% endcomment %}
-            opacity: 0.8;
+            opacity: 0.7;
             {% comment %} right: 200px; {% endcomment %}
-            right: 0px;
+            right: 15px;
             top: 54px;
         }   
         
         .above{
             z-index: 3;
+            border-radius: 60px;
         }
 
         .material-symbols-outlined {
@@ -44,7 +50,7 @@
 
 
     </style>
-    <section class=" py-5">
+    <section class=" py-5 scroll-down">
         <div class="d-flex justify-content-center">
             <div class="col-lg-6 mb-5 ">
                 <div class="card h-100 shadow border-1 ">
@@ -61,28 +67,18 @@
                             <div class='d-flex flex-column card-body'>
                                 
                                 <div class="py-3 above mb-0">
-                                    <span class="mx-4 shadow border-1 p-2 text-white bg-dark ">From: &ensp;<img  width='30px' src={{object.origin_country.pic}}>&nbsp;{{object.origin_country}}</span>
+                                    <span class=" shadow border-1 p-2 above text-white bg-dark ">From: &ensp;<img  width='30px' src={{object.origin_country.pic}}>&nbsp;{{object.origin_country}}</span>
                                     
-                                    <span class="shadow border-1 p-2 text-white bg-dark" style="float:right;">To: &ensp;<img  width='30px' src={{object.destination_country.pic}}>&nbsp;{{object.destination_country}}</span>
+                                    <span class="shadow border-1 p-2 above text-white bg-dark" style="float:right;">To: &ensp;<img  width='30px' src={{object.destination_country.pic}}>&nbsp;{{object.destination_country}}</span>
                                     
                                 </div>
                                 <div class="py-3 above mb-0">
-                                    <span class="mx-4 shadow border-1 p-2 text-white bg-dark">Depart At:&ensp; {{object.departure_time|date:"d-M-y, H:i"}}</span>
-                                    <span class="shadow border-1 p-2 text-white bg-dark " style="float:right;">Landing At:&ensp; {{object.landing_time|date:"d-M-y, H:i"}}</span>
+                                    <span class=" shadow border-1 p-2  above text-white bg-dark">Depart At:&ensp; {{object.departure_time|date:"d-M-y, H:i"}}</span>
+                                    <span class="shadow border-1 p-2 above text-white bg-dark " style="float:right;">Landing At:&ensp; {{object.landing_time|date:"d-M-y, H:i"}}</span>
                                 </div>
                                 <div class="mt-auto mb-0  d-flex align-items-end flex-column">
-
-
                                     {%if object.ramaining_tickets == 0 %}
-                                        <span class="shadow border-1 p-2 text-white bg-dark"> There is no longer place in this flight</span>
-                                    
-                                    {% elif needs_confirm %}
-                                    
-                                    <button type="submit" class="btn btn-dark fs-4 above" value='True' name='book' onclick="return confirm('This flight will leave in less then 12 hours are you sure you want to book this flight ?')" > Book </button>
-                                    {%else%}
-                                    
-                                    {% comment %} <button type="submit" class="btn btn-dark fs-4 above" value='True' name='book' > Book </button> {% endcomment %}
-                                    
+                                        <span class="shadow border-1 p-2 above text-white bg-dark"> There is no longer place in this flight</span>
                                     {% endif %}
                                 </div>
 
@@ -103,11 +99,17 @@
         <div class="d-flex justify-content-center">
             <div class="col-lg-10 mb-0">
                 <div class="card h-100 shadow border-2 mb-0">
-                    <div class="card-header fs-3 text-white bg-dark mb-0 text-center">   
-                        <span>Flights Customers</span> 
-                        {% comment %} <button type="submit" class="btn btn-success p-1 px-2 fs-5" onclick="window.location='{%url 'add_flight'%}';" style="float:right;">
-                             Add
-                        </button> {% endcomment %}
+                    <div class="card-header fs-3 text-white bg-dark mb-0">   
+                        <p class="text-center mb-0">Flights Customers</p>
+                        <div class="small">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success p-1 px-3 " style='max-height: 40px ; float:right;'>
+                                    Add
+                                </button> 
+                                <input type="text" placeholder="Customer@Email.com" size='12' style='max-height: 30px ; float:right;' name="add" class='textInput textinput py-0 mx-2 p-1 px-2 fs-5' onclick="handler">
+                            </form>
+                        </div>
                     </div>
                     {%if object_list.count == 0 %}
                     <div class="card h-100 shadow border-0 p-3 fs-1 ">
@@ -156,7 +158,7 @@
                                         <td class="col-md-1 text-center px-4"> 
                                             <form method="POST">
                                             {% csrf_token %}
-                                            <button type="submit" name="remove" value={{customer.id}} class="btn btn-danger px-3 text-black " style="float:right;">
+                                            <button type="submit" onclick="return confirm('Are You Sure you want to remove This Customer From The Flight ?')" name="remove" value={{customer.id}} class="btn btn-danger px-3 text-black "  style="float:right;">
                                                 Remove</button> 
                                             </form>
                                         </td> 

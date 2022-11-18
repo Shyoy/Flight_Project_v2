@@ -289,8 +289,8 @@ class AirlineFlightDetail(AllowedGroupsTestMixin, DetailView, ListView):  # TODO
     def get_context_data(self, **kwargs):
         self.object = self.get_object()
         self.object_list = self.object.passengers.all().order_by('first_name', 'last_name')
-        print(self.object)
-        print(self.object_list)
+        # print(self.object)
+        # print(self.object_list)
         # print(self.object_list)
         # form = self.form_class(
         #     self.request.session.get('airlines_manager_POST'))
@@ -313,11 +313,26 @@ class AirlineFlightDetail(AllowedGroupsTestMixin, DetailView, ListView):  # TODO
         remove_id = request.POST.get('remove', None)
         if remove_id:
             customer = flight.passengers.get(id=remove_id)
-            # flight.passengers.remove(customer)
-            print(flight.passengers.all())
+            flight.passengers.remove(customer)
             messages.add_message(
-                    request, messages.WARNING, f'{customer.first_name} {customer.last_name} removed from flight {flight.id} successfully')
-            # return redirect('airlines_manager')
+                    request, messages.ERROR, f'{customer.first_name} {customer.last_name} was Removed from flight {flight.id}')
+            
+        add_email = request.POST.get('add', None)
+        print([add_email])
+        if add_email:
+            add_email = add_email.strip()
+            customer = acc_models.Customer.objects.filter(user__email=add_email).first()
+            if customer and customer not in flight.passengers.all():
+                flight.passengers.add(customer)
+                messages.add_message(
+                    request, messages.SUCCESS, f'Customer: {customer.first_name} {customer.last_name} Was Added Successfully')
+            elif customer:
+                messages.add_message(
+                    request, messages.WARNING, f'{customer.first_name} with email: {add_email} is already in flight {flight.id}')
+            else:
+                messages.add_message(
+                    request, messages.WARNING, f'No Customer Was Found With This Email: {add_email}')
+                
         return super(AirlineFlightDetail, self).get(request, *args, **kwargs)
 
 
