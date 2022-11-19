@@ -3,6 +3,7 @@ from flights.models import Country,Flight
 from accounts.models import Airline, CustomUser, Customer
 from datetime import timedelta
 from django.utils import timezone
+from django.contrib.auth.hashers import make_password
 
 
 class TestDataMixin(TestCase):

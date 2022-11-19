@@ -20,12 +20,7 @@ from .mixins import TestDataMixin
 
 
 class CustomerTest(TestDataMixin,TestCase):
-    def setUp(self):
-        full_customer = self.customer
-        full_customer.first_name = 'Joe'
-        full_customer.last_name = 'Bush'
-        full_customer.phone_number = '0509876485'
-        self.full_customer = full_customer
+
     def test_valid_customer(self):
         bad_customer =self.customer.valid_customer
         self.customer.first_name = 'Joe'
@@ -47,17 +42,16 @@ class CustomerTest(TestDataMixin,TestCase):
         self.assertEqual(good_customer.first_name + " " + good_customer.last_name ,'Joe Bush')
 
 
-    def test_if_phone_digits_only(self):
+    def test_if_phone_digits_only(self):##TODO: implement Here TEster
         # airline country not in bad_flight
-        print(self.full_customer.user.__dict__)
-        print()
-        print(self.customer.user.__dict__)
-        self.full_customer.phone_number = '+232512362'
+        bad_flight = self.flight
+        bad_flight.origin_country = self.country2
+        bad_flight.destination_country = self.country1
         
         with self.assertRaisesMessage(
                 expected_exception=ValidationError,
                 expected_message='Phone Number must countian only digits !'):
-            self.full_customer.clean()
+            bad_flight.clean()
 
     # def test_same_countries_flight(self):
     #     bad_flight = self.flight
