@@ -1,13 +1,16 @@
 asgiref==3.5.2
+autopep8==2.0.0
 coverage==6.5.0
 crispy-bootstrap5==0.6
-Django==4.0.6
+Django==4.1.3
 django-crispy-forms==1.14.0
 Faker==13.15.0
 greenlet==1.1.2
+pycodestyle==2.9.1
 python-dateutil==2.8.2
 six==1.16.0
 SQLAlchemy==1.4.39
 SQLAlchemy-Utils==0.38.3
 sqlparse==0.4.2
+tomli==2.0.1
 tzdata==2022.1

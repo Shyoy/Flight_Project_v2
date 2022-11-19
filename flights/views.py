@@ -51,7 +51,7 @@ def homepage(request):
 
 # TODO: Customer views
 
-class CustomerProfile(AllowedGroupsTestMixin, FormView):  # TODO Page not Fully done yet
+class CustomerProfile(AllowedGroupsTestMixin, FormView):  
     allowed_groups = ['customers']
     template_name = 'customer/profile.html'
     form_class = CustomerProfileForm
