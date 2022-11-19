@@ -1,7 +1,7 @@
 asgiref==3.5.2
 coverage==6.5.0
 crispy-bootstrap5==0.6
-Django==4.0.6
+Django==4.0.8
 django-crispy-forms==1.14.0
 Faker==13.15.0
 greenlet==1.1.2
