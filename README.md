@@ -7,7 +7,7 @@ as well as lets customers choose the flight that suits them best.
 This is part 2 of 3,\
 Which focuses building a functional application using Django Framework
 
-## Customer
+<!-- ## Customer -->
 Flight booking:
 <!-- ### Customer:
 A customer can login in the main.\
