@@ -7,6 +7,7 @@ as well as lets customers choose the flight that suits them best.
 This is part 2 of 3,\
 Which focuses building a functional application using Django Framework
 
+
 ### Database:
 The database is an SQLite type, built using SQLAlchemy.\
 Each table as a class in <b style="color:purple">'src.repo'</b> with it's defined constraints.\
@@ -16,6 +17,16 @@ The file <b style="color:purple">'src.my_config' </b> contain useful data like d
 log configuration that right now is set to log in console,
 and a little tip if you want to watch SQLAlchemy background work on console change
 <b style="color:orange">echo_switch = True</b>
+
+Inline-style: 
+![alt text](https://github.com/Shyoy/Flight_Project_v2/blob/main/media/gifs/book_flight.gif "Logo Title Text 1")
+
+
+
+[logo]: https://github.com/Shyoy/Flight_Project_v2/blob/main/media/gifs/book_flight.gif "Logo Title Text 2"
+
+Reference-style: 
+![alt text][logo]
 
 If you want to create a new database first delete the old one\
 then you can use <b style="color:purple">'src.repo.create_db.py'</b> to create one with all the wanted tables,\
