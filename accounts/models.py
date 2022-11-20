@@ -70,4 +70,8 @@ class Administrator(models.Model):##TODO: way to add Administrator potfile
     def __str__(self):
         return self.user.username
         
-
+    def clean(self):
+        if self.first_name and not self.first_name.isalpha():
+            raise ValidationError('First Name must countian only Letters !')
+        if self.last_name and not self.last_name.isalpha():
+            raise ValidationError('Last Name must countian only Letters !')

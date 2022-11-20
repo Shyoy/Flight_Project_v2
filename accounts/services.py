@@ -28,17 +28,16 @@ def _m2m_user_groups_receiver(action , instance,**kwargs):
 
     if action == 'post_add' and instance.groups.count()==1:
         if instance.groups.first().name == 'customers':
-            
             # creates a user customer
             acc_models.Customer.objects.create(user=instance)
             
-
+            
         # elif instance.groups.first().name == 'airlines':
         #     # creates a user airline
         #     acc_models.Airline.objects.create(user=instance , name=instance.username)
         #     
 
-        elif instance.groups.first().name == 'administrators':
-            # creates a user administrator
-            acc_models.Administrator.objects.create(user=instance)
+        # elif instance.groups.first().name == 'administrators':
+        #     # creates a user administrator
+        #     acc_models.Administrator.objects.create(user=instance)
             

@@ -53,7 +53,16 @@ class AdminRegister(AllowedGroupsTestMixin, FormView):
     allowed_groups =['superuser']
     template_name = 'administrator/admin_register.html'
     form_class = forms.UserRegisterForm
-    success_url = reverse_lazy('admin_register')
+    success_url = reverse_lazy('admin_profile')
+
+    def get(self, request, *args, **kwargs):
+        self.new_admin_user = self.request.session.get('new_admin_user')
+        if self.new_admin_user:
+            new_user = models.CustomUser.objects.get(id = self.new_admin_user)
+            messages.add_message(self.request, messages.WARNING,
+                                 f'Create a profile for User "{new_user}" !')
+            return redirect(self.success_url)
+        return super(AdminRegister, self).get(request, *args, **kwargs)
     
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
@@ -61,12 +70,55 @@ class AdminRegister(AllowedGroupsTestMixin, FormView):
         user= form.save()
         group = Group.objects.get(name='administrators')
         user.groups.add(group)
+        self.request.session['new_admin_user'] = user.id
         messages.add_message(self.request, messages.SUCCESS,
-                                 'Administrator account Created Successfully you can login now.')
+                                 f'Good now create a profile for User "{user}"')
         return super(AdminRegister, self).form_valid(form)
 
     def form_invalid(self, form):
         """If the form is invalid, render the invalid form."""
+        messages.add_message(self.request, messages.WARNING,
+                                 'Administrator account creation failed !')
+        return self.render_to_response(self.get_context_data(form=form))
+
+
+class AdminProfile(AllowedGroupsTestMixin, FormView):
+    allowed_groups =['superuser']
+    template_name = 'administrator/admin_register.html'
+    form_class = forms.AdminProfileForm
+    success_url = reverse_lazy('homepage')
+
+    def get(self, request, *args, **kwargs):
+        self.new_admin_user = self.request.session.get('new_admin_user')
+        if not self.new_admin_user:
+            return redirect('admin_register')
+        new_user = models.CustomUser.objects.get(id = self.new_admin_user)
+        messages.add_message(self.request, messages.WARNING,
+                                 f'Create a profile for User "{new_user}" !')
+        return super(AdminProfile, self).get(request, *args, **kwargs)
+    
+    def get_initial(self):
+        self.new_admin_user = self.request.session.get('new_admin_user')
+        new_user = models.CustomUser.objects.get(id = self.new_admin_user)
+        return {'user': new_user}
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        new_admin_user = self.request.session.get('new_admin_user')
+        new_user = models.CustomUser.objects.get(id = new_admin_user)
+        administrator= form.save(commit=False)
+        administrator.user = new_user
+        administrator.save()
+        print(administrator)
+        messages.add_message(self.request, messages.SUCCESS,
+                                 f'Administrator "{administrator}" Created Successfully you can login now.')
+        del self.request.session['new_admin_user']
+        return super(AdminProfile, self).form_valid(form)
+
+    def form_invalid(self, form):
+        """If the form is invalid, render the invalid form."""
+        print(form.data)
         messages.add_message(self.request, messages.WARNING,
                                  'Administrator account creation failed !')
         return self.render_to_response(self.get_context_data(form=form))
