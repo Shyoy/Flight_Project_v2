@@ -136,7 +136,7 @@ class AirlineRegister(AllowedGroupsTestMixin, TemplateView):
 
         user_form = forms.UserRegisterForm()
         airline_form = forms.AddAirline()
-        context['title'] = 'Airline SingUp'
+        context['title'] = 'Airline Signup'
         context['user_form'] = user_form
         context['airline_form'] = airline_form
         return context
@@ -158,7 +158,7 @@ class AirlineRegister(AllowedGroupsTestMixin, TemplateView):
             messages.add_message(self.request, messages.WARNING,
                                  'Airline account creation failed !')
             context={'user_form':user_form,'airline_form':airline_form}
-            context['title'] = 'Airline SingUp'
+            context['title'] = 'Airline SignUp'
             return self.render_to_response(context=context)
 
 
