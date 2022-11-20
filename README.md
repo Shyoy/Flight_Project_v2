@@ -18,15 +18,11 @@ log configuration that right now is set to log in console,
 and a little tip if you want to watch SQLAlchemy background work on console change
 <b style="color:orange">echo_switch = True</b>
 
-Inline-style: 
-![alt text](https://github.com/Shyoy/Flight_Project_v2/blob/main/media/gifs/book_flight.gif "Logo Title Text 1")
+![alt text](https://github.com/Shyoy/Flight_Project_v2/blob/main/media/gifs/book_flight.gif "Book flight")
 
 
 
-[logo]: https://github.com/Shyoy/Flight_Project_v2/blob/main/media/gifs/book_flight.gif "Logo Title Text 2"
 
-Reference-style: 
-![alt text][logo]
 
 If you want to create a new database first delete the old one\
 then you can use <b style="color:purple">'src.repo.create_db.py'</b> to create one with all the wanted tables,\
