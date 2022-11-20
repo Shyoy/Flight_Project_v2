@@ -16,7 +16,7 @@ urlpatterns = [
     path('flight_detail/<pk>',views.FlightView.as_view(), name='flight_detail'),
 
     #Airline urlpatterns
-    path('airline/homepage/', views.AirlineHome.as_view(), name='airline_homepage'),
+    # path('airline/homepage/', views.AirlineHome.as_view(), name='airline_homepage'),
     path('airline/flights_manager/', views.AirlineFlightsManage.as_view(), name='flights_manager'),
     path('airline/add_flight/', views.AddFlight.as_view(), name='add_flight'),
     path('airline/update_flight/<pk>', views.UpdateFlight.as_view(), name='update_flight'),
@@ -24,7 +24,7 @@ urlpatterns = [
 
 
     # Admin urlpatterns
-    path('administrator/homepage/', views.AdminHome.as_view(), name='admin_homepage'),
+    # path('administrator/homepage/', views.AdminHome.as_view(), name='admin_homepage'),
     path('administrator/airlines_manager/', views.AdminAirlinesManage.as_view(), name='airlines_manager'),
 ]
 

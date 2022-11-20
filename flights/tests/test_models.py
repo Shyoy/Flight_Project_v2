@@ -6,7 +6,7 @@ from flights.models import Country,Flight
 from accounts.models import Airline, CustomUser, Customer
 from datetime import timedelta
 from django.utils import timezone
-from .mixins import TestDataMixin
+from flights.tests.mixins import TestDataMixin
 
 # Create your tests here.
 

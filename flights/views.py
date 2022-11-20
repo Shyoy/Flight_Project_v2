@@ -51,7 +51,7 @@ def homepage(request):
 
 # TODO: Customer views
 
-class CustomerProfile(AllowedGroupsTestMixin, FormView):  
+class CustomerProfile(AllowedGroupsTestMixin, FormView):
     allowed_groups = ['customers']
     template_name = 'customer/profile.html'
     form_class = CustomerProfileForm
@@ -173,10 +173,10 @@ class FlightView(AllowedGroupsTestMixin, DetailView):  # TODO: Email Booking Con
 
 # TODO: AirLine views
 
-class AirlineHome(AllowedGroupsTestMixin, TemplateView):  # TODO implement Home
-    allowed_groups = ['superuser']
-    template_name = 'airline/airline_homepage.html'
-    # Coming Soon
+# class AirlineHome(AllowedGroupsTestMixin, TemplateView):  # TODO implement Home
+#     allowed_groups = ['superuser']
+#     template_name = 'airline/airline_homepage.html'
+#     # Coming Soon
 
 
 class AirlineFlightsManage(AllowedGroupsTestMixin, ListView):  # TODO Update in or out ?
@@ -360,10 +360,10 @@ class AirlineFlightDetail(AllowedGroupsTestMixin, DetailView, ListView):
 
 # TODO: Administrator views
 
-class AdminHome(AllowedGroupsTestMixin, TemplateView):  # TODO implement Home
-    allowed_groups = ['superuser']
-    template_name = 'administrator/administrator_homepage.html'
-    # Coming Soon
+# class AdminHome(AllowedGroupsTestMixin, TemplateView):  # TODO implement Home
+#     allowed_groups = ['superuser']
+#     template_name = 'administrator/administrator_homepage.html'
+#     # Coming Soon
 
 
 class AdminAirlinesManage(AllowedGroupsTestMixin, ListView):  # TODO Update in or out ?

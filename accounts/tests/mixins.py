@@ -1,6 +1,7 @@
 from django.test import TestCase
 from flights.models import Country,Flight
 from accounts.models import Airline, CustomUser, Customer
+from django.contrib.auth.models import Group
 from datetime import timedelta
 from django.utils import timezone
 
@@ -16,8 +17,14 @@ class TestDataMixin(TestCase):
         self.country1 = Country.objects.create(name='Spain', pic='https://dummyimage.com/600x400/000/fff')
         self.country2 = Country.objects.create(name='Brazil', pic='https://dummyimage.com/600x400/000/fff')
 
-        self.user_customer = CustomUser.objects.create(username='testuser1', password='testpassword1',email='testemail1')
-        self.customer = Customer.objects.create(user=self.user_customer)
+        self.customers_group = Group.objects.create(name='customers')
+        self.user_customer = CustomUser.objects.create(username='testuser1',email='testemail1')
+        self.user_customer.set_password('testpassword1')
+        self.user_customer.save()
+        new_user = CustomUser.objects.get(username='testuser1')
+        new_user.groups.add(self.customers_group)
+
+        self.customer = Customer.objects.get(user=new_user)
 
         self.user_airline = CustomUser.objects.create(username='testuser', password='testpassword',email='testemail')
         self.airline = Airline.objects.create(user=self.user_airline,name='airline',country=self.country)

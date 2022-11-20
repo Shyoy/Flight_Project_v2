@@ -1,12 +1,12 @@
 from unittest import result
 from django.forms import ValidationError
-from django.test import TestCase ,RequestFactory
+from django.test import TestCase, RequestFactory
 from django.urls import reverse
-from flights.models import Country,Flight
-from accounts.models import Airline, CustomUser, Customer
+from flights.models import Country, Flight
+from accounts.models import Airline, CustomUser, Customer, Administrator
 from datetime import timedelta
 from django.utils import timezone
-from .mixins import TestDataMixin
+from accounts.tests.mixins import TestDataMixin
 
 # Create your tests here.
 
@@ -19,62 +19,76 @@ from .mixins import TestDataMixin
 #         self.assertEqual(str(country), 'United States')
 
 
-class CustomerTest(TestDataMixin,TestCase):
+class CustomerTest(TestDataMixin, TestCase):
 
     def test_valid_customer(self):
-        bad_customer =self.customer.valid_customer
-        self.customer.first_name = 'Joe'
-        self.customer.last_name = 'Bush'
-        self.customer.phone_number = '0509876485'
-        good_customer = self.customer.valid_customer
-        
-        self.assertTrue(good_customer)
-        self.assertFalse(bad_customer)
+        bad_customer = self.customer
+        good_customer = Customer(user_id=1,
+                                 first_name='Joe',
+                                 last_name='Bush',
+                                 phone_number='0509876485')
 
-    
+        self.assertTrue(good_customer.valid_customer)
+        self.assertFalse(bad_customer.valid_customer)
+
     def test_model_str(self):
-        bad_customer =self.customer
-        self.assertEqual(bad_customer.user.email ,'testemail1' )
-        bad_customer.first_name = 'Joe'
-        bad_customer.last_name = 'Bush'
-        bad_customer.phone_number = '0509876485'
-        good_customer = bad_customer
-        self.assertEqual(good_customer.first_name + " " + good_customer.last_name ,'Joe Bush')
-
-
-    def test_if_phone_digits_only(self):##TODO: implement Here TEster
-        # airline country not in bad_flight
-        bad_flight = self.flight
-        bad_flight.origin_country = self.country2
-        bad_flight.destination_country = self.country1
+        bad_customer = self.customer
+        self.assertEqual(str(bad_customer), 'testemail1')
         
+        good_customer = Customer(user_id=1,
+                                 first_name='Joe',
+                                 last_name='Bush',
+                                 phone_number='0509876485')
+
+        self.assertEqual(str(good_customer), 'Joe Bush')
+
+    def test_if_phone_digits_only(self):
+        bad_customer = Customer(user_id=1,
+                                first_name='Joe',
+                                last_name='Bush',
+                                phone_number='+56521')
+
         with self.assertRaisesMessage(
-                expected_exception=ValidationError,
+                expected_exception=ValidationError, 
                 expected_message='Phone Number must countian only digits !'):
-            bad_flight.clean()
+            bad_customer.clean()
 
-    # def test_same_countries_flight(self):
-    #     bad_flight = self.flight
-    #     bad_flight.origin_country = self.country
-    #     bad_flight.destination_country = self.country
-    #     with self.assertRaisesMessage(
-    #             expected_exception=ValidationError,
-    #             expected_message=f'Origin Country and Destination Country can\'t be the same !'):
-    #         bad_flight.clean()
-       
-    # def test_flight_size(self):
-    #     bad_flight = self.flight
-    #     bad_flight.tickets = 45
-    #     with self.assertRaisesMessage(
-    #                 expected_exception=ValidationError,
-    #                 expected_message=f'Flight size must be greater than 50 !'):
-    #         bad_flight.clean()
+    def test_if_first_name_alpha_only(self):
+        bad_customer = Customer(user_id=1,
+                                first_name='Joe23',
+                                last_name='Bush',
+                                phone_number='0509876485')
 
-    # def test_landing_after_depart(self):
-    #     bad_flight = self.flight
-    #     bad_flight.landing_time = self.now
-    #     bad_flight.departure_time = self.later
-    #     with self.assertRaisesMessage(
-    #                 expected_exception=ValidationError,
-    #                 expected_message=f'Landing time must be after departure time !'):
-    #         bad_flight.clean()
+        with self.assertRaisesMessage(
+                expected_exception=ValidationError, 
+                expected_message='First Name must countian only Letters !'):
+            bad_customer.clean()
+   
+    def test_if_last_name_alpha_only(self):
+        bad_customer = Customer(user_id=1,
+                                first_name='Joe',
+                                last_name='Bush61',
+                                phone_number='0509876485')
+
+        with self.assertRaisesMessage(
+                expected_exception=ValidationError, 
+                expected_message='Last Name must countian only Letters !'):
+            bad_customer.clean()
+
+
+class AirlineTest(TestDataMixin, TestCase):
+
+    def test_model_str(self):
+        airline = Airline(user_id=1,
+                        name='wizz',
+                        country_id=1,)
+        self.assertEqual(str(airline) , 'wizz')
+
+
+class AdministratorTest(TestDataMixin, TestCase):
+
+    def test_model_str(self):
+        admin = Administrator(user_id=1,
+                        first_name='Joe',
+                        last_name='Bush',)
+        self.assertEqual(str(admin) , admin.user.username)

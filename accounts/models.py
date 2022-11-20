@@ -33,11 +33,11 @@ class Customer(models.Model):
 
     def clean(self):
         if self.phone_number and not self.phone_number.isdigit():
-            ValidationError('Phone Number must countian only digits !')
-        if self.first_name and self.first_name.isalpha():
-            ValidationError('First Name must countian only Letters !')
-        if self.last_name and self.first_name.isalpha():
-            ValidationError('Last Name must countian only Letters !')
+            raise ValidationError('Phone Number must countian only digits !')
+        if self.first_name and not self.first_name.isalpha():
+            raise ValidationError('First Name must countian only Letters !')
+        if self.last_name and not self.last_name.isalpha():
+            raise ValidationError('Last Name must countian only Letters !')
         
 
 class Airline(models.Model):
@@ -45,30 +45,29 @@ class Airline(models.Model):
     name = models.CharField(max_length=100, unique=True)
     country = models.ForeignKey('flights.Country', related_name='airlines',on_delete=models.DO_NOTHING)
     
-    @property
-    def valid_airline(self):
-        if self.country:
-            return True
-        return False
+    class Meta:
+        ordering = ['-id']
+
+    # @property
+    # def valid_airline(self):
+    #     return self.country
+     
 
     def __str__(self):
         return self.name
-    class Meta:
-        ordering = ['-id']
+
 
 class Administrator(models.Model):##TODO: way to add Administrator potfile
     user = models.OneToOneField(CustomUser, related_name='administrator', on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100,blank=True, null=True)
     last_name = models.CharField(max_length=100,blank=True, null=True)
 
-    @property
-    def valid_admin(self):
-        if all([self.first_name,self.last_name]):
-            return True
-        return False
+    # @property
+    # def valid_admin(self):
+    #     return all([self.first_name,self.last_name])
+        
 
     def __str__(self):
-        if not self.valid_admin:
-            return self.user.email
-        return self.first_name + " " + self.last_name
+        return self.user.username
+        
 
