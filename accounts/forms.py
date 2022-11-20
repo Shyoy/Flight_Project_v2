@@ -44,3 +44,9 @@ class AddAirline(forms.ModelForm):
     class Meta:
         model = models.Airline
         fields  = ('country',)
+
+
+class AdminProfileForm(forms.ModelForm):
+    class Meta:
+        model = models.Administrator
+        exclude  = ('user',)

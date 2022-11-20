@@ -97,6 +97,6 @@ if __name__ == '__main__':
     print("Populating database")
     start = time.perf_counter()
     # print(fill_country_table())
-    add_flights(100,[9,10,13])
+    add_flights(300,[9,10,13])
     finish = time.perf_counter()
     print(f"Normal  finished in {round(finish-start,2)} seconds")
