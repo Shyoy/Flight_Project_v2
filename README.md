@@ -19,7 +19,11 @@ log configuration that right now is set to log in console,
 and a little tip if you want to watch SQLAlchemy background work on console change
 <b style="color:orange">echo_switch = True</b> --> -->
 
-![alt text](https://github.com/Shyoy/Flight_Project_v2/blob/main/media/gifs/book_flight.gif "Book flight")
+<p align="center">
+  <img src='![alt text](https://github.com/Shyoy/Flight_Project_v2/blob/main/media/gifs/book_flight.gif "Book flight"')</img>
+</p>
+
+
 
 As a customer you can book and search for flight information
 
