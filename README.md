@@ -8,11 +8,7 @@ This is part 2 of 3,\
 Which focuses building a functional application using Django Framework
 
 ## Customer
-<p align="center">
-  Flight booking
-</p>
-
-
+<center> Flight booking</center>
 <!-- ### Customer:
 A customer can login in the main.\
 Each table as a class in <b style="color:purple">'src.repo'</b> with it's defined constraints.\
@@ -21,7 +17,7 @@ The database is managed by using <b style="color:purple">'src.repository.py'</b>
 <!-- The file <b style="color:purple">'src.my_config' </b> contain useful data like database connection_string,
 log configuration that right now is set to log in console,
 and a little tip if you want to watch SQLAlchemy background work on console change
-<b style="color:orange">echo_switch = True</b> --> -->
+<b style="color:orange">echo_switch = True</b> --> 
 
 
 ![alt text](https://github.com/Shyoy/Flight_Project_v2/blob/main/media/gifs/book_flight.gif "Book flight")
