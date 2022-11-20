@@ -18,7 +18,7 @@ log configuration that right now is set to log in console,
 and a little tip if you want to watch SQLAlchemy background work on console change
 <b style="color:orange">echo_switch = True</b>
 
-![alt text](https://github.com/Shyoy/Flight_Project_v2/blob/main/media/gifs/book_flight.gif "Book flight")
+<span style="position: absolute; right: 50%;"> </span> ![alt text](https://github.com/Shyoy/Flight_Project_v2/blob/main/media/gifs/book_flight.gif "Book flight")
 
 
 
