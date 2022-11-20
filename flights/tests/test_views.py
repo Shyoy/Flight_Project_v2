@@ -1,4 +1,4 @@
-from django.test import TestCase ,RequestFactory
+from django.test import TestCase ,RequestFactory, Client
 from django.urls import reverse
 from .mixins import TestDataMixin
 

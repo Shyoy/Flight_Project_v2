@@ -42,106 +42,108 @@
                             <p class="me-5 mb-0 small text-center">There are no avalible flights</p>
                         </div>
                     {% else %}
-                    <div class="text-black bg-secondary p-1 text-end small">
-                        <p class="me-5 mb-0 small">Flights Found {{page_obj.paginator.count}}</p>  
-                    </div>
-                    <table class="table table-success table-striped mb-0 table-hover">
-                        <thead class="p-3 fs-5">
-                          <tr>
-                            <th scope="col" class="col-md-1">No.</th>
-                            <th scope="col" class="col-md-2">Departure Time</th>
-                            <th scope="col" class="col-md-2">Landing Time</th>
-                            <th scope="col" class="col-md-2">Origin Country</th>
-                            <th scope="col" class="col-md-2">Destination Country</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            {% for flight in page_obj.object_list %}
-                            {# Each "contact" is a Contact model object. #}
-                            
-                            {% comment %} <div class="">
-                                <div class=" bg-success bg-gradient  p-3 fs-6">{{flight}}</div>
-                            </div> {% endcomment %}
-                                <tr onclick="window.location='{%url 'flight_detail' flight.id %}';">
-                                    <th scope="row">{{flight.id}}</th>
-                                    <td>{{flight.departure_time|date:"d-M-y, H:i"}}</td>
-                                    <td>{{flight.landing_time|date:"d-M-y, H:i"}}</td>
-                                    <td><img  width='30px' src={{flight.origin_country.pic}}>  {{flight.origin_country}} </td>
-                                    <td><img  width='30px' src={{flight.destination_country.pic}}> {{flight.destination_country}} </td>
-                                    </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    <div class="card-footer">
-                        <nav aria-label="...">
-                        <ul class="pagination text-center mb-0">
-                                {% if page_obj.has_previous and page_obj.has_next %}
-                                <li class="page-item col-md-1 mb-0 p-1">
-                                    <a class="page-link" href="{{get}}&page=1">&laquo; first</a>
-                                </li>
-
-                                <li class="page-item col-md-1 mb-0 p-1">
-                                    <a class="page-link" href="{{get}}&page={{ page_obj.previous_page_number }}">previous</a>
-                                </li>
-
-                                <span class="current col-md-8 mb-0 p-1">
-                                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                                </span>
+                        <div class="text-black bg-secondary p-1 text-end small">
+                            <p class="me-5 mb-0 small">Flights Found {{page_obj.paginator.count}}</p>  
+                        </div>
+                        <table class="table table-success table-striped mb-0 table-hover">
+                            <thead class="p-3 fs-5">
+                            <tr>
+                                <th scope="col" class="col-md-1">No.</th>
+                                <th scope="col" class="col-md-2">Departure Time</th>
+                                <th scope="col" class="col-md-2">Landing Time</th>
+                                <th scope="col" class="col-md-2">Origin Country</th>
+                                <th scope="col" class="col-md-2">Destination Country</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for flight in page_obj.object_list %}
+                                {# Each "contact" is a Contact model object. #}
                                 
-                                <li class="page-item col-md-1 mb-0 p-1">
-                                    <a class="page-link" href="{{get}}&page={{ page_obj.next_page_number }}">next</a>
-                                </li>
+                                {% comment %} <div class="">
+                                    <div class=" bg-success bg-gradient  p-3 fs-6">{{flight}}</div>
+                                </div> {% endcomment %}
+                                    <tr onclick="window.location='{%url 'flight_detail' flight.id %}';">
+                                        <th scope="row">{{flight.id}}</th>
+                                        <td>{{flight.departure_time|date:"d-M-y, H:i"}}</td>
+                                        <td>{{flight.landing_time|date:"d-M-y, H:i"}}</td>
+                                        <td><img  width='30px' src={{flight.origin_country.pic}}>  {{flight.origin_country}} </td>
+                                        <td><img  width='30px' src={{flight.destination_country.pic}}> {{flight.destination_country}} </td>
+                                        </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {%if page_obj.has_previous or page_obj.has_next%}
+                        <div class="card-footer">
+                            <nav aria-label="...">
+                            <ul class="pagination text-center mb-0">
+                                    {% if page_obj.has_previous and page_obj.has_next %}
+                                    <li class="page-item col-md-1 mb-0 p-1">
+                                        <a class="page-link" href="{{get}}&page=1">&laquo; first</a>
+                                    </li>
 
-                                <li class="page-item col-md-1 mb-0 p-1">
-                                    <a class="page-link" href="{{get}}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                                </li>
+                                    <li class="page-item col-md-1 mb-0 p-1">
+                                        <a class="page-link" href="{{get}}&page={{ page_obj.previous_page_number }}">previous</a>
+                                    </li>
 
-                                {% elif page_obj.has_previous %}
-                                <li class="page-item col-md-1 mb-0 p-1 ">
-                                    <a class="page-link" href="{{get}}&page=1">&laquo; first</a>
-                                </li>
+                                    <span class="current col-md-8 mb-0 p-1">
+                                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                    </span>
+                                    
+                                    <li class="page-item col-md-1 mb-0 p-1">
+                                        <a class="page-link" href="{{get}}&page={{ page_obj.next_page_number }}">next</a>
+                                    </li>
 
-                                <li class="page-item col-md-1 mb-0 p-1 ">
-                                    <a class="page-link" href="{{get}}&page={{ page_obj.previous_page_number }}">previous</a>
-                                </li>
-                                
-                                <span class="current col-md-8 mb-0 p-1">
-                                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                                </span>
+                                    <li class="page-item col-md-1 mb-0 p-1">
+                                        <a class="page-link" href="{{get}}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                                    </li>
 
-                                <li class="page-item disabled col-md-1 mb-0 p-1 ">
-                                    <a class="page-link" >next</a>
-                                </li>
+                                    {% elif page_obj.has_previous %}
+                                    <li class="page-item col-md-1 mb-0 p-1 ">
+                                        <a class="page-link" href="{{get}}&page=1">&laquo; first</a>
+                                    </li>
 
-                                <li class="page-item disabled col-md-1 mb-0 p-1">
-                                    <a class="page-link" href="{{get}}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                                </li>
-                                
-                                {% elif page_obj.has_next %}
-                                <li class="page-item disabled col-md-1 mb-0 p-1">
-                                    <a class="page-link" href="{{get}}&page=1">&laquo; first</a>
-                                </li>
-                                
-                                <li class="page-item disabled col-md-1 mb-0 p-1">
-                                    <a class="page-link">previous</a>
-                                </li>
+                                    <li class="page-item col-md-1 mb-0 p-1 ">
+                                        <a class="page-link" href="{{get}}&page={{ page_obj.previous_page_number }}">previous</a>
+                                    </li>
+                                    
+                                    <span class="current col-md-8 mb-0 p-1">
+                                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                    </span>
 
-                                <span class="current col-md-8 p-1">
-                                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                                </span>
-                                
-                                <li class="page-item col-md-1 mb-0 p-1">
-                                    <a class="page-link" href="{{get}}&page={{ page_obj.next_page_number }}">next</a>
-                                </li>
-                                
-                                <li class="page-item col-md-1 mb-0 p-1">
-                                    <a class="page-link" href="{{get}}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                                </li>
-                                {% endif %}
-                                
-                        </ul>
-                    </nav>
-                    </div>
+                                    <li class="page-item disabled col-md-1 mb-0 p-1 ">
+                                        <a class="page-link" >next</a>
+                                    </li>
+
+                                    <li class="page-item disabled col-md-1 mb-0 p-1">
+                                        <a class="page-link" href="{{get}}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                                    </li>
+                                    
+                                    {% elif page_obj.has_next %}
+                                    <li class="page-item disabled col-md-1 mb-0 p-1">
+                                        <a class="page-link" href="{{get}}&page=1">&laquo; first</a>
+                                    </li>
+                                    
+                                    <li class="page-item disabled col-md-1 mb-0 p-1">
+                                        <a class="page-link">previous</a>
+                                    </li>
+
+                                    <span class="current col-md-8 p-1">
+                                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                    </span>
+                                    
+                                    <li class="page-item col-md-1 mb-0 p-1">
+                                        <a class="page-link" href="{{get}}&page={{ page_obj.next_page_number }}">next</a>
+                                    </li>
+                                    
+                                    <li class="page-item col-md-1 mb-0 p-1">
+                                        <a class="page-link" href="{{get}}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                                    </li>
+                                    {% endif %}
+                                    
+                            </ul>
+                        </nav>
+                        </div>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>

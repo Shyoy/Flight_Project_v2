@@ -33,13 +33,10 @@ class RegisterForm(FormView):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
         # ? FIXME: should connect to receivers?
-        print('form is valid') 
         user= form.save()
-        print('user saved successfully') 
         group = Group.objects.get(name='customers')
         user.groups.add(group)
         login(self.request, user)
-        print('user logged in successfully') 
         messages.add_message(self.request, messages.SUCCESS,
                                  'User Created Successfully')
         return super(RegisterForm, self).form_valid(form)
@@ -61,9 +58,7 @@ class AdminRegister(AllowedGroupsTestMixin, FormView):
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
-        print('form is valid') 
         user= form.save()
-        print('user saved successfully') 
         group = Group.objects.get(name='administrators')
         user.groups.add(group)
         messages.add_message(self.request, messages.SUCCESS,
@@ -95,7 +90,6 @@ class AirlineRegister(AllowedGroupsTestMixin, TemplateView):
         return context
 
     def post(self,request, *args, **kwargs):
-        print('this is POST')
         user_form = forms.UserRegisterForm(request.POST)
         airline_form = forms.AddAirline(request.POST)
         if all([user_form.is_valid() ,airline_form.is_valid()]):
@@ -109,7 +103,6 @@ class AirlineRegister(AllowedGroupsTestMixin, TemplateView):
             return redirect(self.success_url)
         
         else:
-            print('not valid')
             messages.add_message(self.request, messages.WARNING,
                                  'Airline account creation failed !')
             context={'user_form':user_form,'airline_form':airline_form}
@@ -126,12 +119,6 @@ class AirlineDetailUpdate(AllowedGroupsTestMixin, DetailView):##TODO implement U
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # print(self.request)
-        # print(self.context_object_name)
-        # print(self.queryset)
-        # print(self.get_object().id)
-        # print(self.queryset)
-
         user_form = forms.UserRegisterForm(instance=self.get_object().user)
         airline_form = forms.AddAirline(instance=self.get_object())
 
@@ -142,11 +129,9 @@ class AirlineDetailUpdate(AllowedGroupsTestMixin, DetailView):##TODO implement U
         return context
 
     def post(self,request, *args, **kwargs):
-        print('this is POST')
         user_form = forms.UserRegisterForm(request.POST)
         airline_form = forms.AddAirline(request.POST)
         if all([user_form.is_valid() ,airline_form.is_valid()]):
-            print(user_form.cleaned_data)
             username = user_form.cleaned_data['username']
             country = airline_form.cleaned_data['country']
             
@@ -155,7 +140,6 @@ class AirlineDetailUpdate(AllowedGroupsTestMixin, DetailView):##TODO implement U
             return redirect(self.success_url)
         
         else:
-            print('not valid')
             messages.add_message(self.request, messages.WARNING,
                                  'Airline account creation failed !')
             context={'user_form':user_form,'airline_form':airline_form}
