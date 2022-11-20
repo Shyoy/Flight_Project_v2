@@ -8,7 +8,7 @@ This is part 2 of 3,\
 Which focuses building a functional application using Django Framework
 
 ## Customer
-Flight booking
+Flight booking:
 <!-- ### Customer:
 A customer can login in the main.\
 Each table as a class in <b style="color:purple">'src.repo'</b> with it's defined constraints.\
