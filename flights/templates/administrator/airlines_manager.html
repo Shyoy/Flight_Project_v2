@@ -42,127 +42,127 @@
                             <p class="me-5 mb-0 small text-center">Didn't find any airlines</p>
                         </div>
                     {% else %}
-                    <div class="text-black bg-secondary p-1 text-end small">
-                        <p class="me-5 mb-0 small">Airline Found {{page_obj.paginator.count}}</p>  
-                    </div>
-                    <table class="table table-success table-striped mb-0 text-center table-hover">
-                        <thead class="p-3 fs-5">
-                          <tr>
-                            <th scope="col"class="col-md-1"></th>
-                            <th scope="col"class="col-md-3">Name</th>
-                            <th scope="col"class="col-md-3">Country</th>
-                            <th scope="col"class="col-md-3">Flights Amount</th>
-                            <th scope="col" class=""></th>
-                            <th scope="col"class=""></th>
-                            
-                          </tr>
-                        </thead>
-                        <tbody>
-                            {% for airline in page_obj.object_list %}
-                            {# Each "contact" is a Contact model object. #}
-                            
-                            {% comment %} <div class="">
-                                <div class=" bg-success bg-gradient  p-3 fs-6">{{flight}}</div>
-                            </div> {% endcomment %}
-                                <tr >
-                                    <th scope="row"></th>
-                                    <th >{{airline.name}}</th>
-                                    <td><img  width='30px' src={{airline.country.pic}}> {{airline.country}} </td>
-                                    <td>{{airline.flights.count}} </td>
-
-                                    <td>  
-                                    {% comment %} <button type="submit" onclick="window.location='{%url 'airline_update' airline.id%}';" class="btn btn-info px-3" style="float:right;">
-                                    Update</button> 
-                                    </td> {% endcomment %}
-                                    <td>
-                                        <form method="POST">
-                                        {% csrf_token %}
-                                        {% if airline.flights.all %}
-                                        <button title="You can't Delete an airline with flights" class="btn btn-danger px-3 text-black-50 " style="float:right;">
-                                            Delete</button> 
-                                        {%else%}
-                                            <button type="submit" onclick="return confirm('Are You Sure you want to Delete {{airline.name}} Airline ?')" name="delete" value={{airline.id}} class="btn btn-danger px-3 text-black " style="float:right;">
-                                            Delete</button> 
-                                        {% endif %}
-                                        </form>
-                                    </td>
-                                   
-                                    </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    {%if page_obj.has_previous or page_obj.has_next%}
-                    <div class="card-footer">
-                        <nav aria-label="...">
-                        <ul class="pagination text-center mb-0">
-                                {% if page_obj.has_previous and page_obj.has_next %}
-                                <li class="page-item col-md-1 mb-0 p-1">
-                                    <a class="page-link" href="?page=1">&laquo; first</a>
-                                </li>
-
-                                <li class="page-item col-md-1 mb-0 p-1">
-                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a>
-                                </li>
-
-                                <span class="current col-md-8 mb-0 p-1">
-                                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                                </span>
+                        <div class="text-black bg-secondary p-1 text-end small">
+                            <p class="me-5 mb-0 small">Airline Found {{page_obj.paginator.count}}</p>  
+                        </div>
+                        <table class="table table-success table-striped mb-0 text-center table-hover">
+                            <thead class="p-3 fs-5">
+                            <tr>
+                                <th scope="col"class="col-md-1"></th>
+                                <th scope="col"class="col-md-3">Name</th>
+                                <th scope="col"class="col-md-3">Country</th>
+                                <th scope="col"class="col-md-3">Flights Amount</th>
+                                <th scope="col" class=""></th>
+                                <th scope="col"class=""></th>
                                 
-                                <li class="page-item col-md-1 mb-0 p-1">
-                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>
-                                </li>
-
-                                <li class="page-item col-md-1 mb-0 p-1">
-                                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                                </li>
-
-                                {% elif page_obj.has_previous %}
-                                <li class="page-item col-md-1 mb-0 p-1 ">
-                                    <a class="page-link" href="?page=1">&laquo; first</a>
-                                </li>
-
-                                <li class="page-item col-md-1 mb-0 p-1 ">
-                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a>
-                                </li>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for airline in page_obj.object_list %}
+                                {# Each "contact" is a Contact model object. #}
                                 
-                                <span class="current col-md-8 mb-0 p-1">
-                                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                                </span>
+                                {% comment %} <div class="">
+                                    <div class=" bg-success bg-gradient  p-3 fs-6">{{flight}}</div>
+                                </div> {% endcomment %}
+                                    <tr >
+                                        <th scope="row"></th>
+                                        <th >{{airline.name}}</th>
+                                        <td><img  width='30px' src={{airline.country.pic}}> {{airline.country}} </td>
+                                        <td>{{airline.flights.count}} </td>
 
-                                <li class="page-item disabled col-md-1 mb-0 p-1 ">
-                                    <a class="page-link" >next</a>
-                                </li>
+                                        <td>  
+                                        {% comment %} <button type="submit" onclick="window.location='{%url 'airline_update' airline.id%}';" class="btn btn-info px-3" style="float:right;">
+                                        Update</button> 
+                                        </td> {% endcomment %}
+                                        <td>
+                                            <form method="POST">
+                                            {% csrf_token %}
+                                            {% if airline.flights.all %}
+                                            <button title="You can't Delete an airline with flights" class="btn btn-danger px-3 text-black-50 " style="float:right;">
+                                                Delete</button> 
+                                            {%else%}
+                                                <button type="submit" onclick="return confirm('Are You Sure you want to Delete {{airline.name}} Airline ?')" name="delete" value={{airline.id}} class="btn btn-danger px-3 text-black " style="float:right;">
+                                                Delete</button> 
+                                            {% endif %}
+                                            </form>
+                                        </td>
+                                    
+                                        </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {%if page_obj.has_previous or page_obj.has_next%}
+                        <div class="card-footer">
+                            <nav aria-label="...">
+                            <ul class="pagination text-center mb-0">
+                                    {% if page_obj.has_previous and page_obj.has_next %}
+                                    <li class="page-item col-md-1 mb-0 p-1">
+                                        <a class="page-link" href="?page=1">&laquo; first</a>
+                                    </li>
 
-                                <li class="page-item disabled col-md-1 mb-0 p-1">
-                                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                                </li>
-                                
-                                {% elif page_obj.has_next %}
-                                <li class="page-item disabled col-md-1 mb-0 p-1">
-                                    <a class="page-link" href="?page=1">&laquo; first</a>
-                                </li>
-                                
-                                <li class="page-item disabled col-md-1 mb-0 p-1">
-                                    <a class="page-link">previous</a>
-                                </li>
+                                    <li class="page-item col-md-1 mb-0 p-1">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a>
+                                    </li>
 
-                                <span class="current col-md-8 p-1">
-                                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                                </span>
-                                
-                                <li class="page-item col-md-1 mb-0 p-1">
-                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>
-                                </li>
-                                
-                                <li class="page-item col-md-1 mb-0 p-1">
-                                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                                </li>
-                                {% endif %}
-                                
-                        </ul>
-                    </nav>
-                    </div>
-                    {% endif %}
+                                    <span class="current col-md-8 mb-0 p-1">
+                                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                    </span>
+                                    
+                                    <li class="page-item col-md-1 mb-0 p-1">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>
+                                    </li>
+
+                                    <li class="page-item col-md-1 mb-0 p-1">
+                                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                                    </li>
+
+                                    {% elif page_obj.has_previous %}
+                                    <li class="page-item col-md-1 mb-0 p-1 ">
+                                        <a class="page-link" href="?page=1">&laquo; first</a>
+                                    </li>
+
+                                    <li class="page-item col-md-1 mb-0 p-1 ">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a>
+                                    </li>
+                                    
+                                    <span class="current col-md-8 mb-0 p-1">
+                                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                    </span>
+
+                                    <li class="page-item disabled col-md-1 mb-0 p-1 ">
+                                        <a class="page-link" >next</a>
+                                    </li>
+
+                                    <li class="page-item disabled col-md-1 mb-0 p-1">
+                                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                                    </li>
+                                    
+                                    {% elif page_obj.has_next %}
+                                    <li class="page-item disabled col-md-1 mb-0 p-1">
+                                        <a class="page-link" href="?page=1">&laquo; first</a>
+                                    </li>
+                                    
+                                    <li class="page-item disabled col-md-1 mb-0 p-1">
+                                        <a class="page-link">previous</a>
+                                    </li>
+
+                                    <span class="current col-md-8 p-1">
+                                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                    </span>
+                                    
+                                    <li class="page-item col-md-1 mb-0 p-1">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>
+                                    </li>
+                                    
+                                    <li class="page-item col-md-1 mb-0 p-1">
+                                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                                    </li>
+                                    {% endif %}
+                                    
+                            </ul>
+                        </nav>
+                        </div>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>

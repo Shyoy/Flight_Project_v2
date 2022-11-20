@@ -58,6 +58,8 @@ class Flight(models.Model):
             raise ValidationError(f'Flight size must be greater than 50 !')
         if self.departure_time > self.landing_time:
             raise ValidationError(f'Landing time must be after departure time !')
+        if self.flight_duration < timedelta(hours=1):
+            raise ValidationError(f'Flight duration can\'t be less then 1 hour !')
             
         # if self.departure_time < timezone.now():
         #     raise ValidationError(f'You can only add future flights dates !')
