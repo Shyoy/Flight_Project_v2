@@ -31,21 +31,40 @@ then you can use <b style="color:purple">'src.repo.create_db.py'</b> to create o
 and use <b style="color:purple">'src.insert.py'</b> to insert random data to the database -->
 
 <br>
+
+
+### Initial Setup
+1. Create virtualenv in main project folder:
+```cmd
+python -m venv venv
+```
+
+2. Install all needed requirements:
+```cmd
+pip install -r requirements.txt
+```
+3. Run the server:
+```cmd
+python manage.py runserver
+```
+   
 <br>
 
-### you can test client experience by login to one of this already made accounts:
 
-* Administrator:\
-  username: admin13\
-  password: pokipoki
 
-* Airline:\
-username: airline1\
-password: pokipoki
+### **You can test client experience by login to one of this already made accounts:**
 
-* Customer:\
-username: toni2\
-password: pokipoki
+* ***Administrator:***\
+    *Username:* `admin13`\
+    *Password:* `pokipoki`
+
+* ***Airline:*** \
+    *Username:* `airline1`\
+    *Password:* `pokipoki`
+
+* **Customer:**\
+    *Username:* `toni2`\
+    *Password:* `pokipoki`
 
 <br>
 <br>
