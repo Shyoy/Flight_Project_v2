@@ -35,7 +35,7 @@ and use <b style="color:purple">'src.insert.py'</b> to insert random data to the
 
 
 ## Initial Setup
-------------
+
 
 1. **Create virtualenv in main project folder**:
     ```cmd
@@ -82,8 +82,8 @@ and use <b style="color:purple">'src.insert.py'</b> to insert random data to the
 
 <br>
 
-### Languages and Tools:
-------------
+## Languages and Tools:
+
 
 
 [<img align="left" alt="HTML5" width="26px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" style="padding-right:10px;" />][html]
