@@ -8,7 +8,8 @@ This is part 2 of 3,\
 Which focuses building a functional application using Django Framework
 
 <!-- ## Customer -->
-Flight booking:
+#### ***Flight booking:***
+
 <!-- ### Customer:
 A customer can login in the main.\
 Each table as a class in <b style="color:purple">'src.repo'</b> with it's defined constraints.\
@@ -33,26 +34,27 @@ and use <b style="color:purple">'src.insert.py'</b> to insert random data to the
 <br>
 
 
-### Initial Setup
-1. Create virtualenv in main project folder:
-```cmd
-python -m venv venv
-```
+## Initial Setup <hr>
 
-2. Install all needed requirements:
-```cmd
-pip install -r requirements.txt
-```
-3. Run the server:
-```cmd
-python manage.py runserver
-```
+1. **Create virtualenv in main project folder**:
+    ```cmd
+    python -m venv venv
+    ```
+
+2. **Install all needed requirements**:
+    ```cmd
+    pip install -r requirements.txt
+    ```
+3. **Run the server**:
+    ```cmd
+    python manage.py runserver
+    ```
    
 <br>
 
 
 
-### **You can test client experience by login to one of this already made accounts:**
+### ***You can test client experience by login to one of this already made accounts:***
 
 * ***Administrator:***\
     *Username:* `admin13`\
@@ -96,6 +98,7 @@ python manage.py runserver
 
 
 
+
 [main_lang]: https://www.python.org/
 
 [html]: https://www.w3schools.com/html/
@@ -114,4 +117,4 @@ python manage.py runserver
 
 [django]: https://www.djangoproject.com/
 <br>
----
+<hr>
