@@ -34,7 +34,8 @@ and use <b style="color:purple">'src.insert.py'</b> to insert random data to the
 <br>
 
 
-## Initial Setup <hr>
+## Initial Setup
+------------
 
 1. **Create virtualenv in main project folder**:
     ```cmd
@@ -69,10 +70,8 @@ and use <b style="color:purple">'src.insert.py'</b> to insert random data to the
     *Password:* `pokipoki`
 
 <br>
-<br>
+<hr>
 ---
-
-
 
 * To view the sqlite database file, you can visit this page:
   https://inloop.github.io/sqlite-viewer/
@@ -80,11 +79,12 @@ and use <b style="color:purple">'src.insert.py'</b> to insert random data to the
 
 * For a full description of SQLAlchemy package, visit this page:
   https://docs.sqlalchemy.org/en/14/
+
 <br>
-<br>
----
 
 ### Languages and Tools:
+------------
+
 
 [<img align="left" alt="HTML5" width="26px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" style="padding-right:10px;" />][html]
 [<img align="left" alt="Git" width="26px" src="https://cdn-icons-png.flaticon.com/512/732/732190.png" style="padding-right:10px;" />][css]
@@ -117,4 +117,4 @@ and use <b style="color:purple">'src.insert.py'</b> to insert random data to the
 
 [django]: https://www.djangoproject.com/
 <br>
-<hr>
+
