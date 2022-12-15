@@ -110,7 +110,6 @@ class AdminProfile(AllowedGroupsTestMixin, FormView):
         administrator= form.save(commit=False)
         administrator.user = new_user
         administrator.save()
-        print(administrator)
         messages.add_message(self.request, messages.SUCCESS,
                                  f'Administrator "{administrator}" Created Successfully you can login now.')
         del self.request.session['new_admin_user']
@@ -118,7 +117,6 @@ class AdminProfile(AllowedGroupsTestMixin, FormView):
 
     def form_invalid(self, form):
         """If the form is invalid, render the invalid form."""
-        print(form.data)
         messages.add_message(self.request, messages.WARNING,
                                  'Administrator account creation failed !')
         return self.render_to_response(self.get_context_data(form=form))

@@ -69,3 +69,12 @@ class FlightTest(TestDataMixin,TestCase):
                     expected_exception=ValidationError,
                     expected_message=f'Landing time must be after departure time !'):
             bad_flight.clean()
+
+    def test_flight_duration(self):
+        bad_flight = self.flight
+        bad_flight.departure_time = self.now 
+        bad_flight.landing_time = self.now + timedelta(minutes=59)
+        with self.assertRaisesMessage(
+                    expected_exception=ValidationError,
+                    expected_message=f'Flight duration can\'t be less then 1 hour !'):
+            bad_flight.clean()
