@@ -6,6 +6,7 @@ Django==4.1.3
 django-crispy-forms==1.14.0
 Faker==13.15.0
 greenlet==1.1.2
+gunicorn==20.1.0
 pycodestyle==2.9.1
 python-dateutil==2.8.2
 six==1.16.0
