@@ -6,6 +6,9 @@ __pycache__
 
 # db.sqlite3
 # media
+# static
+.staticfiles
+staticfiles/
 
 # Backup files # 
 *.bak 
@@ -107,3 +110,4 @@ startbootstrap-sb-admin-2-gh-pages.zip
 startbootstrap-small-business-gh-pages.zip
 *.pyc
 
+script.py
