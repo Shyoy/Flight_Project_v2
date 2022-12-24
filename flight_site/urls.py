@@ -25,7 +25,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
 ]
 
-# handler404 = 'flights.views.error_404_view' 
+handler404 = 'flights.views.error_404_view' 
 handler403 = 'flights.views.error_403_view' 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

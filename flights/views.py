@@ -23,15 +23,16 @@ from flights.models import Flight
 
 def error_403_view(request, exception=None):
     # make a redirect to homepage
-    # messages.add_message(request, messages.ERROR,
-    #                              'This is a 403 Forbidden')
+    messages.add_message(request, messages.ERROR,
+                                 f"You don't have authorization to view this page - HTTP Error 403")
 
     return redirect('home')  # or redirect('name-of-index-url')
 
 
 def error_404_view(request, exception=None):
-    # make a redirect to homepage
-    return redirect('home')  # or redirect('name-of-index-url')
+    # messages.add_message(request, messages.ERROR,
+    #                              '404 Page not found !')
+    return render(request, '404page.html')  # or redirect('name-of-index-url')
 
 
 def home(request):

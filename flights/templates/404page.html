@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+
+{%block content%}
+{% comment %} <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script> {% endcomment %}
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="error-template">
+                    <img src="https://cdn.dribbble.com/users/718859/screenshots/3267029/jisunpark_404-error.gif" alt="">
+                <div class="error-actions">
+                    <a href="{%url 'homepage'%}" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
+                        Take Me Home </a>
+                    {% comment %} <a href="http://www.jquery2dotnet.com" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-envelope"></span> Contact Support </a> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock content%}

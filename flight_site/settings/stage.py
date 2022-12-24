@@ -1,7 +1,14 @@
 from .base import *
-'''
-Will work only in production
-'''
+import environ
+
+
+env = environ.Env(
+    # set casting, default value
+    # DEBUG=(bool, False)
+)
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 ALLOWED_HOSTS = [
