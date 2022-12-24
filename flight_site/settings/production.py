@@ -7,7 +7,7 @@ DEBUG = False
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'https://theskysearcher.onrender.com',
+    '.theskysearcher.onrender.com',
     ]
 
 # SECURITY WARNING: keep the secret key used in production secret!
