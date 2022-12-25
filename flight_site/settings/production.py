@@ -3,7 +3,7 @@ import dj_database_url
 '''
 Will work only in production
 '''
-DEBUG = True
+DEBUG = False
 
 
 # https://docs.djangoproject.com/en/3.0/ref/settings/#allowed-hosts

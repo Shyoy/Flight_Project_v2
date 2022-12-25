@@ -187,7 +187,6 @@ class AirlineFlightsManage(AllowedGroupsTestMixin, ListView):  # TODO Update in 
     form_class = AirlineSearchFlightsForm
     paginate_by = 10
 
-    
     def get_context_data(self, **kwargs):
         self.object_list = self.object_list.filter(
             airline=self.request.user.airline)
