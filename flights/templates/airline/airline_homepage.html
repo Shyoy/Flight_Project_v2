@@ -1,0 +1,176 @@
+
+{% extends 'base.html' %}
+{% comment %} TODO: welcome page shot table with close flights nad some kind of statistic like purchased flights {% endcomment %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <style>
+        .Layout {
+            height: 100%;
+            box-sizing: border-box; /* Real with and height */
+            display: grid;
+            grid-template-rows: 38% 1fr;
+            grid-template-columns: repeat(2, 1fr); /* fr = Fraction = יחידת מידה אחת */
+            
+        }
+        #profile {
+            grid-row: span 2;
+            overflow: auto;
+        }
+        .my-custom-scrollbar {
+            position: relative;
+            height: 200px;
+            overflow: auto;
+            }
+        .table-wrapper-scroll-y {
+            background-color: #d1e7dd;
+            display: block;
+        }
+        
+    </style>
+{%if not user.customer.valid_customer%} 
+    <section class="py-5 mx-3 h-100 w-75">
+        {% comment %} Card 1 {% endcomment %}
+        <div class="d-flex justify-content-center w-75"> 
+            <div class="col-lg-6 mb-5">
+                <div class=" h-100 shadow border-0 ">
+                    <div class="fs-2 text-white px-5 py-4 bg-dark mb-3">
+                        <h1>Airline Homepage</h1>
+                        <h1>Coming Soon</h1>
+                         
+                    </div> 
+                    {% comment %} <div class="ml-4">
+                        <p class="text-muted small"> Already have an account ?
+                        <a href="{%url 'login'%}" class="btn-blue ">login</a></p>
+                    </div> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% else %}
+
+    <section class="py-3 px-5 h-100  Layout">
+        {% comment %} Card 1 {% endcomment %}
+        <div class="p-2"> 
+            <div class="col-lg-6 mb-5">
+                <div class="card h-100 shadow border-0 ">
+                     <div class="card-header fs-2 text-white bg-dark mb-3">
+                        Profile
+                    </div> 
+                    <div class="card-body p-4 fs-4">
+                        <p>First Name: <il class="me-5" style="float:right;">{{customer.first_name}}</il></p>
+                        <p>Last Name:<il class="me-5" style="float:right;">{{customer.last_name}}</il></p>
+                        <p>Phone Number: <il class="me-5" style="float:right;">{{customer.phone_number}}</il></p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% comment %} Card 2 {% endcomment %}
+        <div class="p-2">
+            <div class="card h-100 shadow border-0 ">
+                <div class="text-center card-header fs-2 text-white bg-dark mb-0">
+                    Current Flights 
+                </div> 
+                <div class="card-header py-0 px-0">
+                    <table class="table table-bordered table-success mb-0">
+                        <thead>
+                            <tr>
+                                <th width="80px" scope="col">No.</th>
+                                <th width="160px" scope="col">Departure Time</th>
+                                <th width="160px" scope="col">Departing From</th>
+                                <th width="160px" scope="col">Landing Time</th>
+                                <th width="160px" scope="col">Landing at</th>
+                                <th scope="col">Airline</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div> 
+                <div class="card-body py-0 px-0 table-wrapper-scroll-y my-custom-scrollbar">
+                    <table class="table table-bordered table-striped table-success mb-0">
+                        <tbody>
+                        {% if not current_flights %}
+                            <div class="text-center fs-2 py-1 px-0">
+                                No Flights yet
+                                <a class="small" href="{%url 'search_flights' %}"><div class="card-body text-end fs-5 small mt-5 px-5">
+                                    Book A New Flight
+                                </div></a>
+                            </div>
+                        {% endif %}
+                        {% for flight in current_flights  %}
+                            <tr>
+                                <th width="80px" scope="row">{{flight.id}}</th>
+                                <td width="160px">{{flight.departure_time|date:"d-m-y, H:i"}}</td>
+                                <td width="160px">{{flight.origin_country}}</td>
+                                <td width="160px">{{flight.landing_time|date:"d-m-y, H:i"}}</td>
+                                <td width="160px">{{flight.destination_country}}</td>
+                                <td >{{flight.airline.name| capfirst}}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {% comment %} Card 3 {% endcomment %}
+        <div class="p-2">
+            <div class="col-lg-6 mb-5">
+                <div class="card h-100 shadow border-0 ">
+                     <div class="card-header fs-2 text-white bg-dark mb-3">
+                        Current Flights
+                    </div> 
+                    <div class="card-body p-4 fs-4">
+                            <p>First Name: <il class="me-5 " style="float:right;">{{customer.first_name}}</il></p>
+                            <p>Last Name:<il class="me-5" style="float:right;">{{customer.last_name}}</il></p>
+                            <p>Phone Number: <il class="me-5" style="float:right;">{{customer.phone_number}}</il></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% comment %} Card 4 {% endcomment %}
+        <div class="p-2">
+            <div class="card h-100 shadow border-0 ">
+                <div class="text-center card-header fs-2 text-white bg-dark mb-0">
+                    Flight History
+                </div> 
+                <div class="card-header py-0 px-0">
+                    <table class="table table-bordered table-success mb-0">
+                        <thead>
+                            <tr>
+                                <th width="80px" scope="col">No.</th>
+                                <th width="160px" scope="col">Departure Time</th>
+                                <th width="160px" scope="col">Departing From</th>
+                                <th width="160px" scope="col">Landing Time</th>
+                                <th width="160px" scope="col">Landing at</th>
+                                <th scope="col">Airline</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div> 
+                <div class="card-body py-0 px-0 table-wrapper-scroll-y my-custom-scrollbar">
+                    <table class="table table-bordered table-striped table-success mb-0">
+                        <tbody>
+                        {% for flight in flight_history  %}
+                            <tr>
+                                <th width="80px" scope="row">{{flight.id}}</th>
+                                <td width="160px">{{flight.departure_time|date:"d-m-y, H:i"}}</td>
+                                <td width="160px">{{flight.origin_country}}</td>
+                                <td width="160px">{{flight.landing_time|date:"d-m-y, H:i"}}</td>
+                                <td width="160px">{{flight.destination_country}}</td>
+                                <td >{{flight.airline.name| capfirst}}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endif %}
+
+{% endblock content %}

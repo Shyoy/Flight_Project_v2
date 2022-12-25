@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% comment %} TODO: Form after click on add flight from flights_Manager to add a new flight for this airline {% endcomment %}
+{% load crispy_forms_tags %}
+
+    {% block content %}
+    <section class="py-5">
+        
+        <div class="d-flex justify-content-center">
+            
+            <div class="col-lg-6 mb-5">
+                <div class="card h-100 shadow border-0 container" style=''>
+                    <div class="card-header row fs-5 text-white bg-dark mb-0">
+                         Add Flight
+                    </div>
+                    <div class="card-body px-0 py-0">
+                        <form method="post">
+                            {%csrf_token%}
+                            <div class='row card-header px-4'>
+                                {%for inp in form %}
+                                <div class=" col-md-4 form-group">
+                                    <p class="">{{inp|as_crispy_field}} {{inp.errors}}</p>
+                                </div>
+                                {%endfor%}
+                                
+                            </div>
+                            <div class="card-header row ">
+                                <div class="mb-0 px-2 py-1 ">
+                                    <button type="submit" class="btn btn-dark fs-5 py-1 px-4" style="float:right;"> Add </button>
+                                </div>
+                                
+                               
+                                {% comment %} <div class="mb-0">
+                                    <p class="text-muted small px-4"> Already have an account ?
+                                    <a href="{%url 'login'%}" class="btn-blue ">login</a></p>
+                                </div> {% endcomment %}
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
+            {% if form.errors %}
+            <div class="col-lg-3 mb-5 small py-0 px-0 shadow border-4 bg-warning h-50  ">
+                {% for error in form.errors.values %}
+                    <p class="mb-4">{{error}}</p>
+                {% endfor %}
+            </div>
+            {%else%}
+            <div class="col-lg-3 mb-5 border-0  h-50 ">
+                
+            </div>
+            {% endif %}
+        </div>
+    </section>
+    
+    {% endblock content %}
