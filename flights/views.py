@@ -42,7 +42,6 @@ def home(request):
 
         elif request.user.groups.first().name == 'airlines':
             return redirect('flights_manager')
-
     return redirect('homepage')
 
 

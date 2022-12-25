@@ -6,9 +6,9 @@ if os.environ.get("ENV_NAME") == 'Production':
     print("os.environ:","Production")
     from .production import *
 
-elif os.environ.get("ENV_NAME") == 'Stage':
-    print("os.environ:","Stage")
-    from .stage import *
+elif os.environ.get("ENV_NAME") == 'Staging':
+    print("os.environ:","Staging")
+    from .staging import *
 
 else:
     print("os.environ:","Local")
