@@ -183,13 +183,11 @@ class AirlineFlightsManage(AllowedGroupsTestMixin, ListView):  # TODO Update in 
 
     allowed_groups = ['airlines']
     model = Flight
+    template_name = 'airline/flights_manager.html'
     form_class = AirlineSearchFlightsForm
     paginate_by = 10
 
-    def get_template_names(self):
-        return ['airline/flights_manager.html']
-
-
+    
     def get_context_data(self, **kwargs):
         self.object_list = self.object_list.filter(
             airline=self.request.user.airline)
