@@ -26,7 +26,7 @@ class FlightTest(TestDataMixin,TestCase):
         self.assertEqual(self.flight.remaining_tickets, 199)
 
     def test_model_str(self):
-        result = f'On: {timezone.now().ctime()}--From: {self.country}--To: {self.country1}'
+        result = f'On: {self.now.ctime()}--From: {self.country}--To: {self.country1}'
         self.assertEqual(str(self.flight), result)
 
     def test_flight_duration(self):

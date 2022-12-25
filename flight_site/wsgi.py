@@ -14,3 +14,6 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'flight_site.settings')
 
 application = get_wsgi_application()
+
+# env_name = os.environ.get("ENV_NAME")
+# print('Environment setting:', (env_name if env_name else "Local"))
