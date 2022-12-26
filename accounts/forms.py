@@ -12,11 +12,11 @@ class UserRegisterForm(UserCreationForm):
         for fieldname in ['username', 'password1', 'password2']:
             self.fields[fieldname].widget.attrs["placeholder"] = f'  {self.fields[fieldname].label}'
             self.fields[fieldname].widget.attrs['class'] = 'form-control'
-            self.fields[fieldname].widget.attrs['style'] = 'max-width:50%;'
+            self.fields[fieldname].widget.attrs['style'] = 'width: 250px'
             self.fields[fieldname].label = ''
     
     email = forms.EmailField(label='',
-    widget=forms.EmailInput(attrs={'class':'form-control','placeholder':'Email Address','style':'max-width:50%'}),
+    widget=forms.EmailInput(attrs={'class':'form-control','placeholder':'Email Address','style':'width: 250px'}),
         help_text="Must be a valid email address"
         )
     # email.widget.attrs["placeholder"] = f'Enter email Here'
